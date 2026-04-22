@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-crust-50 text-oven-800 font-body;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-crust-600 hover:bg-crust-700 text-cream font-body font-medium
+           px-5 py-2.5 rounded-xl transition-all duration-200
+           shadow-warm hover:shadow-warm-lg active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply bg-dough-100 hover:bg-dough-200 text-crust-700 font-body font-medium
+           px-5 py-2.5 rounded-xl transition-all duration-200 border border-dough-300;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-crust-100 text-crust-600 font-body font-medium
+           px-4 py-2 rounded-xl transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-warm border border-dough-200 p-5;
+  }
+
+  .input {
+    @apply w-full bg-dough-50 border border-dough-300 rounded-xl px-4 py-2.5
+           font-body text-oven-800 placeholder-crust-300
+           focus:outline-none focus:ring-2 focus:ring-crust-400 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl font-body font-medium
+           text-crust-600 hover:bg-crust-100 hover:text-crust-800
+           transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply bg-crust-600 text-cream shadow-warm;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.dough.300') transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: theme('colors.dough.300');
+    border-radius: 2px;
+  }
+}
+
+/* ── Thermal receipt print ── */
+@media print {
+  body > * { display: none !important; }
+  #print-receipt-portal { display: block !important; }
+  #print-receipt-portal {
+    position: fixed; top: 0; left: 0; width: 100%;
+    background: white; z-index: 9999;
+  }
+  .thermal-receipt {
+    width: 58mm; max-width: 80mm;
+    margin: 0 auto; padding: 4mm;
+    background: white; color: black;
+  }
+  .thermal-receipt * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  @page { size: 58mm auto; margin: 0; }
+}
