@@ -13,7 +13,8 @@
     "orders": "Orders",
     "reports": "Reports",
     "settings": "Settings",
-    "forecast": "Forecast"
+    "forecast": "Forecast",
+    "stockOpname": "Stock Opname"
   },
   "auth": {
     "login": "Sign In",
@@ -251,7 +252,9 @@
     "currentPassword": "Current Password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
-    "repeatSetup": "Repeat setup wizard"
+    "repeatSetup": "Repeat setup wizard",
+    "bank": "Bank & Account",
+    "qris": "QRIS"
   },
   "forecast": {
     "title": "Production Forecast",

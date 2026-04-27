@@ -15,7 +15,9 @@ interface PlanItemDraft {
 
 export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalProps) {
   const qc = useQueryClient()
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const today = new Date()
+  const [date, setDate] = useState(today.toISOString().split('T')[0])
+  const [time, setTime] = useState('06:00')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<PlanItemDraft[]>([{ productId: '', targetQty: '' }])
 
@@ -33,7 +35,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
   const mutation = useMutation({
     mutationFn: () =>
       productionApi.create({
-        date,
+        date: `${date}T${time}:00`,  // combine date + time
         notes: notes.trim() || undefined,
         items: items
           .filter((i) => i.productId && i.targetQty)
@@ -75,17 +77,26 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
               />
             </div>
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
-                Catatan (opsional)
-              </label>
+              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">Jam Mulai</label>
               <input
-                type="text"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Catatan shift, dll..."
-                className="input"
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="input font-mono"
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              Catatan (opsional)
+            </label>
+            <input
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Catatan shift pagi, shift sore, dll..."
+              className="input"
+            />
           </div>
 
           <div>

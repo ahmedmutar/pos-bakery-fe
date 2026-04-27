@@ -1,150 +1,90 @@
-import { useEffect, useState } from 'react'
-import { QrCode, CheckCircle, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { QrCode, AlertCircle, Check, FileText } from 'lucide-react'
 import { formatCurrency } from '../../lib/utils'
+import api from '../../lib/api'
 
 interface QRISDisplayProps {
   amount: number
-  orderId: string
-  onSuccess: () => void
-  onExpire: () => void
+  onConfirm: (proof: string) => void
 }
 
-// Simple QR-like pattern for simulation
-function SimulatedQR({ value }: { value: string }) {
-  // Generate deterministic pattern from value
-  const seed = value.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  const size = 21
-  const cells: boolean[][] = Array.from({ length: size }, (_, row) =>
-    Array.from({ length: size }, (_, col) => {
-      // Fixed finder patterns at corners
-      const inTopLeft = row < 7 && col < 7
-      const inTopRight = row < 7 && col > size - 8
-      const inBottomLeft = row > size - 8 && col < 7
-      if (inTopLeft || inTopRight || inBottomLeft) {
-        const r = row % 7
-        const c = col % 7
-        return (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4))
-      }
-      // Data area — pseudo-random from seed
-      return ((seed * (row + 1) * (col + 1) * 37) % 7) > 3
-    })
-  )
+export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
+  const [proof, setProof] = useState('')
+  const { data, isLoading } = useQuery({
+    queryKey: ['qris-info'],
+    queryFn: async () => (await api.get('/settings/qris')).data as { qrisImageUrl: string | null },
+  })
 
-  return (
-    <div
-      className="bg-white p-3 rounded-xl inline-block"
-      style={{ imageRendering: 'pixelated' }}
-    >
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${size}, 7px)`,
-          gap: '1px',
-        }}
-      >
-        {cells.flat().map((filled, i) => (
-          <div
-            key={i}
-            style={{
-              width: 7,
-              height: 7,
-              backgroundColor: filled ? '#2c1e15' : 'white',
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-export default function QRISDisplay({ amount, orderId, onSuccess, onExpire }: QRISDisplayProps) {
-  const [secondsLeft, setSecondsLeft] = useState(300) // 5 min
-  const [simStatus, setSimStatus] = useState<'waiting' | 'success'>('waiting')
-
-  // Countdown timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          clearInterval(timer)
-          onExpire()
-          return 0
-        }
-        return s - 1
-      })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [onExpire])
-
-  const minutes = Math.floor(secondsLeft / 60)
-  const seconds = secondsLeft % 60
-  const pct = (secondsLeft / 300) * 100
-
-  // Simulation: auto-success after 5 seconds
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setSimStatus('success')
-      setTimeout(onSuccess, 1500)
-    }, 5000)
-    return () => clearTimeout(t)
-  }, [onSuccess])
-
-  if (simStatus === 'success') {
-    return (
-      <div className="flex flex-col items-center gap-3 py-6">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle className="w-9 h-9 text-green-600" />
-        </div>
-        <p className="font-display text-lg font-semibold text-green-700">Pembayaran diterima</p>
-        <p className="font-body text-sm text-crust-400">{formatCurrency(amount)}</p>
-      </div>
-    )
+  if (isLoading) {
+    return <div className="py-8 text-center font-body text-sm text-crust-400">Memuat QR code...</div>
   }
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {/* QRIS Logo */}
-      <div className="flex items-center gap-2">
-        <QrCode className="w-5 h-5 text-crust-600" />
-        <span className="font-display text-base font-semibold text-oven-800">QRIS</span>
-      </div>
-
-      {/* QR Code */}
-      <SimulatedQR value={orderId} />
-
-      {/* Amount */}
-      <div className="text-center">
-        <p className="font-body text-xs text-crust-400">Total pembayaran</p>
-        <p className="font-display text-2xl font-semibold text-oven-800">{formatCurrency(amount)}</p>
-      </div>
-
-      {/* Timer */}
-      <div className="w-full">
-        <div className="flex justify-between font-body text-xs text-crust-400 mb-1.5">
-          <div className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            <span>Berlaku selama</span>
+    <div className="space-y-4">
+      {!data?.qrisImageUrl ? (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-body text-sm font-semibold text-amber-700">QR Code belum diatur</p>
+            <p className="font-body text-xs text-amber-600 mt-0.5">
+              Minta Owner upload QR Code QRIS di Pengaturan → QRIS.
+            </p>
           </div>
-          <span className={secondsLeft < 60 ? 'text-red-500 font-semibold' : ''}>
-            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-          </span>
         </div>
-        <div className="w-full h-1.5 bg-dough-100 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${
-              secondsLeft < 60 ? 'bg-red-400' : 'bg-crust-500'
-            }`}
-            style={{ width: `${pct}%` }}
-          />
+      ) : (
+        <div className="space-y-3">
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs font-body font-semibold text-crust-600 uppercase tracking-widest">
+              <QrCode className="w-3.5 h-3.5" />
+              Scan QR Code untuk Bayar
+            </div>
+            <div className="border-4 border-oven-800 rounded-2xl p-2 bg-white">
+              <img
+                src={data.qrisImageUrl}
+                alt="QR Code QRIS"
+                className="w-52 h-52 object-contain"
+              />
+            </div>
+            <div className="text-center">
+              <p className="font-body text-xs text-crust-400">Total yang harus dibayar</p>
+              <p className="font-display text-xl font-bold text-oven-800">{formatCurrency(amount)}</p>
+            </div>
+          </div>
+          <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-2.5 text-center">
+            <p className="font-body text-xs text-crust-500">
+              Arahkan kamera ke QR code · Nominal akan muncul otomatis
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Simulation badge */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 w-full text-center">
-        <p className="font-body text-xs text-amber-700">
-          Mode simulasi · Pembayaran otomatis dikonfirmasi dalam 5 detik
+      {/* Bukti pembayaran */}
+      <div>
+        <label className="block text-xs font-body font-medium text-crust-700 mb-1.5 flex items-center gap-1.5">
+          <FileText className="w-3.5 h-3.5" />
+          Nomor Referensi
+          <span className="text-crust-400 font-normal">(opsional)</span>
+        </label>
+        <input
+          type="text"
+          value={proof}
+          onChange={(e) => setProof(e.target.value)}
+          placeholder="Nomor referensi dari notifikasi QRIS"
+          className="input text-sm"
+        />
+        <p className="font-body text-xs text-crust-400 mt-1">
+          Isi jika ada, untuk rekonsiliasi pembayaran
         </p>
       </div>
+
+      <button
+        onClick={() => onConfirm(proof)}
+        className="w-full btn-primary flex items-center justify-center gap-2"
+      >
+        <Check className="w-4 h-4" />
+        Konfirmasi Pembayaran Diterima
+      </button>
     </div>
   )
 }

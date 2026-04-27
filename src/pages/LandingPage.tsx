@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import CheckoutModal from '../components/landing/CheckoutModal'
 import {
   ShoppingCart, BarChart3, Package, ChefHat,
   Wifi, Shield, Smartphone, CheckCircle,
@@ -140,6 +141,7 @@ const TESTIMONIALS = [
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const [checkoutPlan, setCheckoutPlan] = useState<'basic' | 'pro' | 'enterprise' | null>(null)
   const [billingAnnual, setBillingAnnual] = useState(false)
 
   const formatPrice = (price: number) => {
@@ -330,16 +332,35 @@ export default function LandingPage() {
                 ))}
               </ul>
 
-              <button
-                onClick={() => plan.key === 'enterprise' ? window.open('mailto:sales@rotipos.com') : navigate('/register')}
-                className={`w-full py-3 rounded-xl font-body font-semibold text-sm transition-all ${
-                  plan.badge
-                    ? 'bg-crust-600 text-cream hover:bg-crust-700 shadow-warm'
-                    : 'bg-dough-100 text-crust-700 hover:bg-dough-200 border border-dough-300'
-                }`}
-              >
-                {plan.cta}
-              </button>
+              <div className="space-y-2">
+                {plan.price > 0 && plan.key !== 'enterprise' && (
+                  <button
+                    onClick={() => setCheckoutPlan(plan.key as 'basic' | 'pro')}
+                    className={`w-full py-3 rounded-xl font-body font-semibold text-sm transition-all ${
+                      plan.badge
+                        ? 'bg-crust-600 text-cream hover:bg-crust-700 shadow-warm'
+                        : 'bg-dough-100 text-crust-700 hover:bg-dough-200 border border-dough-300'
+                    }`}
+                  >
+                    Beli Sekarang
+                  </button>
+                )}
+                {plan.key === 'enterprise' ? (
+                  <button
+                    onClick={() => window.open('https://wa.me/6285947566558?text=Halo, saya ingin info paket Enterprise Roti POS', '_blank')}
+                    className="w-full py-3 rounded-xl font-body font-semibold text-sm bg-dough-100 text-crust-700 hover:bg-dough-200 border border-dough-300 transition-all"
+                  >
+                    Hubungi Sales
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate('/register')}
+                    className="w-full py-2.5 rounded-xl font-body text-sm text-crust-500 hover:text-crust-700 transition-colors"
+                  >
+                    Coba Gratis 14 Hari →
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -407,8 +428,9 @@ export default function LandingPage() {
               <a href="mailto:hello@rotipos.com" className="hover:text-cream transition-colors">
                 hello@rotipos.com
               </a>
-              <a href="#" className="hover:text-cream transition-colors">Kebijakan Privasi</a>
-              <a href="#" className="hover:text-cream transition-colors">Syarat & Ketentuan</a>
+              <a href="/faq" className="hover:text-cream transition-colors">FAQ</a>
+              <a href="/privacy" className="hover:text-cream transition-colors">Kebijakan Privasi</a>
+              <a href="/terms" className="hover:text-cream transition-colors">Syarat & Ketentuan</a>
             </div>
             <p className="font-body text-xs text-crust-400">
               © {new Date().getFullYear()} Roti POS. All rights reserved.
@@ -416,6 +438,12 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+      {checkoutPlan && (
+        <CheckoutModal
+          plan={checkoutPlan}
+          onClose={() => setCheckoutPlan(null)}
+        />
+      )}
     </div>
   )
 }

@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Banknote, X } from 'lucide-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Banknote, X, Store } from 'lucide-react'
 import { transactionApi } from '../../services/transactionService'
+import { outletApi } from '../../services/outletService'
 import { useCartStore } from '../../stores/cartStore'
 import { formatCurrency, cn } from '../../lib/utils'
 import ShiftConflictModal from './ShiftConflictModal'
 
 interface OpenShiftModalProps {
-  outletId: string
+  outletId?: string  // optional — kalau tidak dikirim, user pilih sendiri
   onClose: () => void
 }
 
@@ -20,19 +21,26 @@ interface ConflictData {
 
 const QUICK_AMOUNTS = [100_000, 200_000, 500_000, 1_000_000]
 
-export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProps) {
+export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: OpenShiftModalProps) {
+  const { t } = useTranslation()
+  const qc = useQueryClient()
+  const setActiveShift = useCartStore((s) => s.setActiveShift)
+
+  const [selectedOutletId, setSelectedOutletId] = useState(defaultOutletId ?? '')
   const [openingCash, setOpeningCash] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [conflict, setConflict] = useState<ConflictData | null>(null)
-  const setActiveShift = useCartStore((s) => s.setActiveShift)
-  const { t } = useTranslation()
-  const qc = useQueryClient()
+
+  const { data: outlets = [] } = useQuery({
+    queryKey: ['outlets'],
+    queryFn: outletApi.list,
+  })
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: (forceClose?: boolean) =>
-      transactionApi.openShift(outletId, openingCash, forceClose),
+      transactionApi.openShift(selectedOutletId, openingCash, forceClose),
     onSuccess: (shift) => {
-      setActiveShift(shift.id, outletId)
+      setActiveShift(shift.id, selectedOutletId)
       qc.invalidateQueries({ queryKey: ['active-shift'] })
       onClose()
     },
@@ -54,7 +62,7 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
     return (
       <ShiftConflictModal
         existingShift={conflict}
-        pendingOpen={{ outletId, openingCash }}
+        pendingOpen={{ outletId: selectedOutletId, openingCash }}
         onClose={onClose}
       />
     )
@@ -63,6 +71,7 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
   return (
     <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-sm">
+        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
           <div className="flex items-center gap-2">
             <Banknote className="w-5 h-5 text-crust-600" />
@@ -74,14 +83,34 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
         </div>
 
         <div className="px-6 py-5 space-y-4">
-          <p className="font-body text-sm text-crust-500">
-            Masukkan jumlah uang tunai di laci kasir saat ini.
-          </p>
+          {/* Outlet selector — tampil kalau lebih dari 1 outlet */}
+          {outlets.length > 1 && (
+            <div>
+              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+                <Store className="inline w-3.5 h-3.5 mr-1" />
+                Pilih Outlet
+              </label>
+              <select
+                value={selectedOutletId}
+                onChange={(e) => setSelectedOutletId(e.target.value)}
+                className="input"
+              >
+                <option value="">-- Pilih outlet --</option>
+                {outlets.map((o) => (
+                  <option key={o.id} value={o.id}>{o.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
+          {/* Kas awal */}
           <div>
             <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
-              Kas Awal
+              {t('shift.openingCash')}
             </label>
+            <p className="font-body text-xs text-crust-400 mb-2">
+              Masukkan jumlah uang tunai di laci kasir saat ini.
+            </p>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">
                 Rp
@@ -92,7 +121,7 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
                 onChange={(e) => handleInput(e.target.value)}
                 placeholder="0"
                 className="input pl-9 font-mono text-lg"
-                autoFocus
+                autoFocus={outlets.length <= 1}
               />
             </div>
             {openingCash > 0 && (
@@ -102,14 +131,12 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
             )}
           </div>
 
+          {/* Quick amounts */}
           <div className="grid grid-cols-2 gap-2">
             {QUICK_AMOUNTS.map((amt) => (
               <button
                 key={amt}
-                onClick={() => {
-                  setOpeningCash(amt)
-                  setInputValue(String(amt))
-                }}
+                onClick={() => { setOpeningCash(amt); setInputValue(String(amt)) }}
                 className={cn(
                   'py-2 px-3 rounded-xl text-sm font-body font-medium border transition-all',
                   openingCash === amt
@@ -129,19 +156,20 @@ export default function OpenShiftModal({ outletId, onClose }: OpenShiftModalProp
           )}
         </div>
 
+        {/* Footer */}
         <div className="px-6 pb-5 flex gap-3">
           <button onClick={onClose} className="btn-secondary flex-1">
-            Batal
+            {t('common.cancel')}
           </button>
           <button
             onClick={() => mutate(undefined)}
-            disabled={isPending}
-            className="btn-primary flex-1 flex items-center justify-center gap-2"
+            disabled={isPending || !selectedOutletId}
+            className="btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isPending && (
               <span className="w-4 h-4 border-2 border-cream border-t-transparent rounded-full animate-spin" />
             )}
-            Buka Shift
+            {t('cashier.openShift')}
           </button>
         </div>
       </div>

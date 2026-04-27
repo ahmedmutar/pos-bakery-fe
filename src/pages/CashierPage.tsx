@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { LogOut, Loader2, AlertCircle, History } from 'lucide-react'
@@ -32,13 +32,18 @@ export default function CashierPage() {
   })
   const defaultOutletId = outlets[0]?.id ?? ''
 
-  const { isLoading: checkingShift } = useQuery({
+  const { data: activeShiftData, isLoading: checkingShift } = useQuery({
     queryKey: ['active-shift'],
     queryFn: transactionApi.activeShift,
-    onSuccess: (shift: { id: string; outletId: string } | null) => {
-      if (shift && !activeShiftId) setActiveShift(shift.id, shift.outletId)
-    },
-  } as Parameters<typeof useQuery>[0])
+    refetchOnMount: true,
+    staleTime: 0,
+  })
+
+  useEffect(() => {
+    if (activeShiftData && !activeShiftId) {
+      setActiveShift(activeShiftData.id, activeShiftData.outletId)
+    }
+  }, [activeShiftData, activeShiftId, setActiveShift])
 
   const { t } = useTranslation()
   const hasShift = !!activeShiftId
@@ -105,7 +110,7 @@ export default function CashierPage() {
           {!hasShift ? (
             <button
               onClick={() => setShowOpenShift(true)}
-              disabled={!defaultOutletId}
+              disabled={false}
               className="btn-primary text-sm py-1.5 px-4 disabled:opacity-50"
             >
               Buka Shift
@@ -158,8 +163,8 @@ export default function CashierPage() {
         </div>
       </div>
 
-      {showOpenShift && defaultOutletId && (
-        <OpenShiftModal outletId={defaultOutletId} onClose={() => setShowOpenShift(false)} />
+      {showOpenShift && (
+        <OpenShiftModal outletId={defaultOutletId || undefined} onClose={() => setShowOpenShift(false)} />
       )}
       {showCloseShift && activeShiftId && (
         <CloseShiftModal

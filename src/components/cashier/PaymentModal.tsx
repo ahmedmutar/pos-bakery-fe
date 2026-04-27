@@ -1,20 +1,18 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Banknote, QrCode, ArrowLeftRight, CreditCard, X, Check, Loader2 } from 'lucide-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Banknote, QrCode, ArrowLeftRight, X, Check, Loader2 } from 'lucide-react'
 import { transactionApi } from '../../services/transactionService'
 import { saveOfflineTransaction } from '../../lib/offlineDB'
 import { useOnlineStatus } from '../../hooks/useOfflineSync'
-import { paymentApi } from '../../services/paymentService'
 import { useCartStore } from '../../stores/cartStore'
 import { formatCurrency, cn } from '../../lib/utils'
 import QRISDisplay from '../payment/QRISDisplay'
 import TransferDisplay from '../payment/TransferDisplay'
-import CardDisplay from '../payment/CardDisplay'
 
 interface PaymentModalProps {
   onClose: () => void
-  onSuccess: (transactionId: string, change?: number) => void
+  onSuccess: (transactionId: string, change?: number, total?: number) => void
 }
 
 type PaymentMethod = 'CASH' | 'QRIS' | 'TRANSFER' | 'CARD'
@@ -23,29 +21,40 @@ const METHODS: { key: PaymentMethod; labelKey: string; icon: typeof Banknote }[]
   { key: 'CASH',     labelKey: 'cashier.cash',     icon: Banknote },
   { key: 'QRIS',     labelKey: 'cashier.qris',     icon: QrCode },
   { key: 'TRANSFER', labelKey: 'cashier.transfer', icon: ArrowLeftRight },
-  { key: 'CARD',     labelKey: 'cashier.card',     icon: CreditCard },
 ]
 
 const QUICK_AMOUNTS = [50_000, 100_000, 200_000, 500_000]
 
 export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
-  const { items, discount, total, subtotal, activeShiftId, activeOutletId, clearCart } = useCartStore()
+  const { items, discount, total, subtotal, activeShiftId: storeShiftId, activeOutletId: storeOutletId, clearCart } = useCartStore()
   const [method, setMethod] = useState<PaymentMethod>('CASH')
   const [paidInput, setPaidInput] = useState('')
   const [paymentStep, setPaymentStep] = useState<'select' | 'process' | 'done'>('select')
   const { t } = useTranslation()
   const isOnline = useOnlineStatus()
-  const [orderId, setOrderId] = useState('')
+
+  // Always fetch active shift fresh — don't rely only on store
+  const { data: activeShiftData } = useQuery({
+    queryKey: ['active-shift'],
+    queryFn: transactionApi.activeShift,
+    staleTime: 0,
+  })
+
+  // Use query data if store is null (e.g. after page refresh)
+  const activeShiftId = storeShiftId ?? activeShiftData?.id ?? null
+  const activeOutletId = storeOutletId ?? activeShiftData?.outletId ?? null
   const qc = useQueryClient()
 
   const totalAmount = total()
   const paidAmount = parseInt(paidInput.replace(/\D/g, '')) || 0
   const change = method === 'CASH' ? Math.max(0, paidAmount - totalAmount) : 0
-  const canPay = method === 'CASH' ? paidAmount >= totalAmount : true
+  const subtotalAmount = subtotal()
+  const discountValid = discount <= subtotalAmount
+  const canPay = discountValid && (method === 'CASH' ? paidAmount >= totalAmount : true)
 
   // Save transaction to backend (or offline queue)
   const saveTx = useMutation({
-    mutationFn: async (paymentMethod: string) => {
+    mutationFn: async ({ paymentMethod, proof }: { paymentMethod: string; proof?: string }) => {
       const payload = {
           shiftId: activeShiftId!,
           outletId: activeOutletId!,
@@ -58,51 +67,46 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
           paymentMethod: paymentMethod as 'CASH' | 'QRIS' | 'TRANSFER' | 'SPLIT',
           paidAmount: method === 'CASH' ? paidAmount : totalAmount,
           discount: discount || undefined,
+          paymentProof: proof || undefined,
         }
-        // If offline and CASH, save locally
-        if (!isOnline && paymentMethod === 'CASH') {
+        // Offline — save all methods locally
+        if (!isOnline) {
           const offlineId = await saveOfflineTransaction(payload, totalAmount)
           return { id: offlineId, offline: true } as unknown as Awaited<ReturnType<typeof transactionApi.create>>
         }
         return transactionApi.create(payload)
       },
     onSuccess: (tx) => {
+      const finalTotal = totalAmount  // capture before clearCart
+      const finalChange = method === 'CASH' ? change : 0
       clearCart()
       qc.invalidateQueries({ queryKey: ['dashboard'] })
-      onSuccess(tx.id, change)
+      qc.invalidateQueries({ queryKey: ['transactions-today'] })
+      qc.invalidateQueries({ queryKey: ['transaction', tx.id] })
+      onSuccess(tx.id, finalChange, finalTotal)
     },
-  })
-
-  // Get payment token for non-cash
-  const getToken = useMutation({
-    mutationFn: () =>
-      paymentApi.createToken({
-        amount: totalAmount,
-        customerName: 'Pelanggan',
-        paymentMethod: method === 'TRANSFER' ? 'TRANSFER' : method === 'CARD' ? 'CARD' : 'QRIS',
-        items: items.map((i) => ({
-          id: i.product.id,
-          name: i.product.name,
-          price: i.product.price,
-          quantity: i.quantity,
-        })),
-      }),
-    onSuccess: (data) => {
-      setOrderId(data.orderId)
-      setPaymentStep('process')
+    onError: (err: unknown) => {
+      console.error('saveTx error:', err)
     },
   })
 
   const handleProceed = () => {
+    if (!activeShiftId || !activeOutletId) {
+      alert('Shift belum dibuka. Buka shift terlebih dahulu.')
+      return
+    }
     if (method === 'CASH') {
-      saveTx.mutate('CASH')
+      saveTx.mutate({ paymentMethod: 'CASH' })
+    } else if (!isOnline) {
+      saveTx.mutate({ paymentMethod: method })
     } else {
-      getToken.mutate()
+      // QRIS dan CARD langsung ke step process (tampil QR/form)
+      setPaymentStep('process')
     }
   }
 
-  const handleNonCashSuccess = () => {
-    saveTx.mutate(method)
+  const handleNonCashSuccess = (proof?: string) => {
+    saveTx.mutate({ paymentMethod: method, proof })
   }
 
   return (
@@ -118,7 +122,7 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
 
         <div className="overflow-y-auto flex-1 px-6 py-5 scrollbar-thin">
           {/* ── STEP 1: Method selection ── */}
-          {paymentStep === 'select' && (
+          {paymentStep === 'select' && method !== 'TRANSFER' && (
             <div className="space-y-5">
               {/* Order summary */}
               <div className="bg-dough-50 rounded-xl p-4 space-y-1.5">
@@ -220,16 +224,29 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
               )}
 
               {/* Non-cash info */}
-              {method !== 'CASH' && (
+              {method !== 'CASH' && (method as string) !== 'TRANSFER' && (
                 <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3 text-center">
                   <p className="font-body text-sm text-crust-500">
                     {method === 'QRIS' && 'QR code akan tampil untuk di-scan pelanggan'}
-                    {method === 'TRANSFER' && 'Nomor rekening dan instruksi transfer akan ditampilkan'}
                     {method === 'CARD' && 'Form pembayaran kartu kredit/debit akan ditampilkan'}
                   </p>
                 </div>
               )}
             </div>
+          )}
+
+          {/* ── TRANSFER — shown at select step ── */}
+          {paymentStep === 'select' && (method as string) === 'TRANSFER' && (
+            <TransferDisplay
+              amount={totalAmount}
+              onConfirm={(proof) => {
+                if (!activeShiftId || !activeOutletId) {
+                  alert('Shift belum dibuka. Buka shift terlebih dahulu.')
+                  return
+                }
+                saveTx.mutate({ paymentMethod: 'TRANSFER', proof })
+              }}
+            />
           )}
 
           {/* ── STEP 2: Payment processing ── */}
@@ -238,9 +255,7 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
               {method === 'QRIS' && (
                 <QRISDisplay
                   amount={totalAmount}
-                  orderId={orderId}
-                  onSuccess={handleNonCashSuccess}
-                  onExpire={() => setPaymentStep('select')}
+                  onConfirm={handleNonCashSuccess}
                 />
               )}
               {method === 'TRANSFER' && (
@@ -249,31 +264,26 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
                   onConfirm={handleNonCashSuccess}
                 />
               )}
-              {method === 'CARD' && (
-                <CardDisplay
-                  amount={totalAmount}
-                  onSuccess={handleNonCashSuccess}
-                />
-              )}
+
             </div>
           )}
         </div>
 
         {/* Footer — only show on select step */}
-        {paymentStep === 'select' && (
+        {paymentStep === 'select' && method !== 'TRANSFER' && (
           <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
             <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
             <button
               onClick={handleProceed}
-              disabled={!canPay || saveTx.isPending || getToken.isPending}
+              disabled={!canPay || saveTx.isPending}
               className={cn(
                 'flex-1 flex items-center justify-center gap-2',
                 'bg-crust-600 hover:bg-crust-700 text-cream font-body font-medium',
                 'px-5 py-2.5 rounded-xl transition-all shadow-warm',
-                (!canPay || saveTx.isPending || getToken.isPending) && 'opacity-50 cursor-not-allowed'
+                (!canPay || saveTx.isPending) && 'opacity-50 cursor-not-allowed'
               )}
             >
-              {(saveTx.isPending || getToken.isPending) ? (
+              {(saveTx.isPending) ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : method === 'CASH' ? (
                 <><Check className="w-4 h-4" /> Bayar</>

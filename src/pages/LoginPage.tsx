@@ -141,7 +141,7 @@ export default function LoginPage() {
                 <label className="block text-sm font-body font-medium text-crust-700">
                   {t('auth.password')}
                 </label>
-                <button type="button" className="text-xs text-crust-500 hover:text-crust-700 font-body transition-colors">
+                <button type="button" onClick={() => navigate('/forgot-password')} className="text-xs text-crust-500 hover:text-crust-700 font-body transition-colors">
                   {t('auth.forgotPassword')}
                 </button>
               </div>

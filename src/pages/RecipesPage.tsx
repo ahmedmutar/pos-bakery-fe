@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
-  ChefHat, Search, Plus, Pencil, Trash2,
+  ChefHat, Search, Plus, Pencil, Trash2, Copy,
   Loader2, BookOpen, TrendingUp, TrendingDown, FileSpreadsheet } from 'lucide-react'
 import { recipeApi, type ProductWithRecipe } from '../services/recipeService'
 import { formatCurrency, cn } from '../lib/utils'
@@ -9,6 +9,7 @@ import RecipeFormModal from '../components/recipes/RecipeFormModal'
 import ExcelImportModal from '../components/ui/ExcelImportModal'
 import { useRecipeImport, RECIPE_IMPORT_COLUMNS } from '../components/recipes/useRecipeImport'
 import DeleteConfirmModal from '../components/products/DeleteConfirmModal'
+import DuplicateRecipeModal from '../components/recipes/DuplicateRecipeModal'
 
 type FilterRecipe = 'all' | 'has_recipe' | 'no_recipe'
 
@@ -20,6 +21,7 @@ export default function RecipesPage() {
   const [filter, setFilter] = useState<FilterRecipe>('all')
   const [editProduct, setEditProduct] = useState<ProductWithRecipe | undefined>()
   const [deleteProduct, setDeleteProduct] = useState<ProductWithRecipe | undefined>()
+  const [duplicateProduct, setDuplicateProduct] = useState<ProductWithRecipe | undefined>()
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['recipes'],
@@ -172,6 +174,14 @@ export default function RecipesPage() {
                               Edit resep
                             </button>
                             <button
+                              onClick={() => setDuplicateProduct(product)}
+                              title="Duplikat resep"
+                              className="w-8 h-8 rounded-lg flex items-center justify-center
+                                         text-crust-300 hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                            </button>
+                            <button
                               onClick={() => setDeleteProduct(product)}
                               className="w-8 h-8 rounded-lg flex items-center justify-center
                                          text-crust-300 hover:bg-red-50 hover:text-red-500 transition-colors"
@@ -276,6 +286,13 @@ export default function RecipesPage() {
         <RecipeFormModal
           product={editProduct}
           onClose={() => setEditProduct(undefined)}
+        />
+      )}
+
+      {duplicateProduct?.recipe && (
+        <DuplicateRecipeModal
+          product={duplicateProduct}
+          onClose={() => setDuplicateProduct(undefined)}
         />
       )}
 

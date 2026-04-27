@@ -21,6 +21,30 @@ export interface TopProduct {
   totalRevenue: number
 }
 
+export interface OrdersReport {
+  totalOrders: number
+  totalValue: number
+  totalDP: number
+  totalRemaining: number
+  totalCompleted: number
+  totalCancelled: number
+  completionRate: number
+  byStatus: { status: string; count: number; total: number }[]
+  topProducts: { name: string; qty: number; revenue: number }[]
+  orders: {
+    id: string
+    customerName: string
+    customerPhone: string
+    status: string
+    total: number
+    dpAmount: number
+    remainingAmount: number
+    pickupDate: string
+    createdAt: string
+    itemCount: number
+  }[]
+}
+
 export const reportApi = {
   dashboard: async (): Promise<DashboardSummary> => {
     const res = await api.get('/reports/dashboard')
@@ -34,6 +58,11 @@ export const reportApi = {
 
   salesSummary: async (params?: { from?: string; to?: string }) => {
     const res = await api.get('/reports/sales-summary', { params })
+    return res.data
+  },
+
+  ordersReport: async (params?: { from?: string; to?: string }): Promise<OrdersReport> => {
+    const res = await api.get('/reports/orders', { params })
     return res.data
   },
 

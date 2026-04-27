@@ -12,7 +12,7 @@ interface SuccessModalProps {
 
 export default function SuccessModal({ transactionId, total, change, onNewTransaction }: SuccessModalProps) {
   const { t } = useTranslation()
-  const { print, isReady } = useThermalReceipt({ transactionId, change })
+  const { print, isReady, isLoading, isOffline } = useThermalReceipt({ transactionId, change })
 
   return (
     <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
@@ -45,7 +45,7 @@ export default function SuccessModal({ transactionId, total, change, onNewTransa
         <div className="px-6 pb-6 flex gap-3">
           <button
             onClick={print}
-            disabled={!isReady}
+            disabled={!isReady || isOffline}
             className="btn-secondary flex-1 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Printer className="w-4 h-4" />
@@ -59,6 +59,16 @@ export default function SuccessModal({ transactionId, total, change, onNewTransa
             Transaksi Baru
           </button>
         </div>
+        {isOffline && (
+          <p className="font-body text-xs text-amber-600 text-center pb-3 px-6">
+            Transaksi offline — struk tersedia setelah tersinkronisasi
+          </p>
+        )}
+        {isLoading && !isOffline && (
+          <p className="font-body text-xs text-crust-400 text-center pb-3 px-6">
+            Memuat data struk...
+          </p>
+        )}
       </div>
     </div>
   )

@@ -184,15 +184,19 @@ export default function TransactionHistoryPanel({ onClose }: TransactionHistoryP
   const { t } = useTranslation()
   const qc = useQueryClient()
 
-  // Get today's date range
+  // Get today's date range — use UTC offsets to cover full local day
   const now = new Date()
-  const from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-  const to = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).toISOString()
+  // Start of today in local time, converted to UTC
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)
 
   const { data: transactions = [], isLoading } = useQuery({
-    queryKey: ['transactions-today', from, to],
-    queryFn: () => transactionApi.list({ from, to }),
-    refetchInterval: 30_000,
+    queryKey: ['transactions-today', startOfDay.toISOString(), endOfDay.toISOString()],
+    queryFn: () => transactionApi.list({
+      from: startOfDay.toISOString(),
+      to: endOfDay.toISOString(),
+    }),
+    refetchInterval: 10_000,
   })
 
   // Void = soft delete via backend (mark as cancelled)
@@ -201,7 +205,7 @@ export default function TransactionHistoryPanel({ onClose }: TransactionHistoryP
     qc.invalidateQueries({ queryKey: ['transactions-today'] })
   }
 
-  const visible = transactions.filter((tx) => !tx.notes?.startsWith('[VOID]'))
+  const visible = transactions.filter((tx) => !tx.isVoided)
 
   const totalSales = visible.reduce((sum, tx) => sum + tx.total, 0)
 

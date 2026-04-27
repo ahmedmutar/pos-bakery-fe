@@ -11,6 +11,7 @@ export interface RegisterPayload {
   ownerName: string
   email: string
   password: string
+  otp: string
 }
 
 export interface AuthUser {

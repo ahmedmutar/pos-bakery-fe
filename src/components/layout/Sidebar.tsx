@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { usePlan, PLAN_LABELS, PLAN_COLORS } from '../../hooks/usePlan'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  LayoutDashboard, ShoppingCart, ChefHat, Package,
+  LayoutDashboard, ShoppingCart, ChefHat, Package, ClipboardCheck,
   BookOpen, ClipboardList, BarChart3, Settings,
   Croissant, LogOut, UtensilsCrossed, Sparkles, Menu, X,
 } from 'lucide-react'
@@ -23,7 +24,8 @@ const navItems: NavItem[] = [
   { key: 'dashboard',  icon: LayoutDashboard, path: '/app/dashboard',  allow: ['OWNER', 'CASHIER', 'PRODUCTION'] },
   { key: 'cashier',    icon: ShoppingCart,    path: '/app/cashier',    allow: ['OWNER', 'CASHIER'] },
   { key: 'products',   icon: UtensilsCrossed, path: '/app/products',   allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'inventory',  icon: Package,         path: '/app/inventory',  allow: ['OWNER', 'PRODUCTION'] },
+  { key: 'inventory',    icon: Package,          path: '/app/inventory',     allow: ['OWNER', 'PRODUCTION'] },
+  { key: 'stockOpname',  icon: ClipboardCheck,   path: '/app/stock-opname',  allow: ['OWNER', 'PRODUCTION'] },
   { key: 'recipes',    icon: BookOpen,        path: '/app/recipes',    allow: ['OWNER', 'PRODUCTION'] },
   { key: 'production', icon: ChefHat,         path: '/app/production', allow: ['OWNER', 'PRODUCTION'] },
   { key: 'forecast',   icon: Sparkles,        path: '/app/forecast',   allow: ['OWNER', 'PRODUCTION'] },
@@ -95,7 +97,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         })}
 
         <NavLink
-          to="/settings"
+          to="/app/settings"
           onClick={handleNav}
           className={({ isActive }) => cn('sidebar-item', isActive && 'active')}
         >
@@ -103,6 +105,16 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
           <span>{t('nav.settings')}</span>
         </NavLink>
       </nav>
+
+      {/* Plan badge */}
+      <div className="px-3 pb-2">
+        <button
+          onClick={() => { navigate('/app/upgrade'); onClose?.() }}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-dough-50 hover:bg-dough-100 transition-colors border border-dough-200"
+        >
+          <PlanBadge />
+        </button>
+      </div>
 
       {/* Bottom user info */}
       <div className="px-3 py-4 border-t border-dough-100 space-y-1 flex-shrink-0">
@@ -119,6 +131,25 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         </button>
       </div>
     </>
+  )
+}
+
+
+function PlanBadge() {
+  const { data: plan } = usePlan()
+  if (!plan) return null
+  const label = PLAN_LABELS[plan.plan] ?? plan.plan
+  const color = PLAN_COLORS[plan.plan] ?? PLAN_COLORS.basic
+  return (
+    <div className="flex items-center justify-between w-full">
+      <span className="font-body text-xs text-crust-500">Paket</span>
+      <span className={`font-body text-xs font-semibold px-2 py-0.5 rounded-md border ${color}`}>
+        {label}
+        {plan.trial.isOnTrial && !plan.trial.expired && (
+          <span className="ml-1 text-amber-500">· {plan.trial.daysLeft}h</span>
+        )}
+      </span>
+    </div>
   )
 }
 

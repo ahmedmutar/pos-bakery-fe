@@ -56,4 +56,9 @@ export const recipeApi = {
   remove: async (productId: string): Promise<void> => {
     await api.delete(`/recipes/${productId}`)
   },
+
+  duplicate: async (productId: string, targetProductId?: string) => {
+    const res = await api.post(`/recipes/${productId}/duplicate`, { targetProductId })
+    return res.data as { recipe: unknown; targetProduct: { id: string; name: string } }
+  },
 }

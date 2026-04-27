@@ -36,7 +36,9 @@ export interface Transaction {
   paidAmount: number
   changeAmount: number
   discount: number
+  isVoided: boolean
   notes: string | null
+  paymentProof: string | null
   createdAt: string
   items: {
     id: string

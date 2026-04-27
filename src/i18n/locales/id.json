@@ -13,7 +13,8 @@
     "orders": "Pesanan",
     "reports": "Laporan",
     "settings": "Pengaturan",
-    "forecast": "Forecast"
+    "forecast": "Forecast",
+    "stockOpname": "Stock Opname"
   },
   "auth": {
     "login": "Masuk",
@@ -251,7 +252,9 @@
     "currentPassword": "Kata Sandi Saat Ini",
     "newPassword": "Kata Sandi Baru",
     "confirmPassword": "Konfirmasi Kata Sandi",
-    "repeatSetup": "Ulangi wizard setup"
+    "repeatSetup": "Ulangi wizard setup",
+    "bank": "Bank & Rekening",
+    "qris": "QRIS"
   },
   "forecast": {
     "title": "Forecast Produksi",

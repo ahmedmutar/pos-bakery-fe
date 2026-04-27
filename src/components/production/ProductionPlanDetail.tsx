@@ -103,8 +103,8 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
         <div className="h-4 w-px bg-dough-300" />
         <div>
           <p className="font-display text-base font-semibold text-oven-800">
-            {new Date(plan.date).toLocaleDateString('id-ID', {
-              weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+            {new Date(plan.date).toLocaleString('id-ID', {
+              weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
             })}
           </p>
           {plan.notes && (

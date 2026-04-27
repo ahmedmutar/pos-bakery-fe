@@ -87,8 +87,8 @@ export const settingsApi = {
     return res.data
   },
 
-  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
-    await api.post('/settings/change-password', { currentPassword, newPassword })
+  changePassword: async (currentPassword: string, newPassword: string, otp?: string): Promise<void> => {
+    await api.patch('/settings/change-password', { currentPassword, newPassword, otp })
   },
 
   getOutlets: async (): Promise<Outlet[]> => {

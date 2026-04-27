@@ -7,11 +7,13 @@ import ProfileSection from '../components/settings/ProfileSection'
 import UsersSection from '../components/settings/UsersSection'
 import OutletsSection from '../components/settings/OutletsSection'
 import SecuritySection from '../components/settings/SecuritySection'
+import BankSection from '../components/settings/BankSection'
+import QRISSection from '../components/settings/QRISSection'
 import OutletProductSettings from '../components/settings/OutletProductSettings'
 import { outletApi } from '../services/outletService'
 import { useAuthStore } from '../stores/authStore'
 
-type Tab = 'profile' | 'users' | 'outlets' | 'products' | 'security'
+type Tab = 'profile' | 'users' | 'outlets' | 'products' | 'security' | 'bank' | 'qris'
 
 const TABS: { key: Tab; labelKey: string; icon: typeof Store; ownerOnly?: boolean }[] = [
   { key: 'profile',  labelKey: 'settings.profile',  icon: Store,    ownerOnly: true },
@@ -19,6 +21,8 @@ const TABS: { key: Tab; labelKey: string; icon: typeof Store; ownerOnly?: boolea
   { key: 'outlets',  labelKey: 'settings.outlets',  icon: MapPin,   ownerOnly: true },
   { key: 'products', labelKey: 'settings.products', icon: Package,  ownerOnly: true },
   { key: 'security', labelKey: 'settings.security', icon: Shield },
+  { key: 'bank',     labelKey: 'settings.bank',     icon: Shield, ownerOnly: true },
+  { key: 'qris',     labelKey: 'settings.qris',     icon: Shield, ownerOnly: true },
 ]
 
 export default function SettingsPage() {
@@ -60,6 +64,8 @@ export default function SettingsPage() {
         {tab === 'outlets'  && <OutletsSection />}
         {tab === 'products' && <OutletProductTabContent />}
         {tab === 'security' && <SecuritySection />}
+        {tab === 'bank'     && <BankSection />}
+        {tab === 'qris'     && <QRISSection />}
       </div>
     </div>
   )

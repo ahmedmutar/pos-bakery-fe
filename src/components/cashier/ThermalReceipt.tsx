@@ -24,6 +24,9 @@ export function useThermalReceipt({ transactionId, change }: UseThermalReceiptPr
   const { data: tx } = useQuery({
     queryKey: ['transaction', transactionId],
     queryFn: () => transactionApi.get(transactionId),
+    enabled: !!transactionId && !transactionId.startsWith('offline-'),
+    retry: 3,
+    retryDelay: 1000,
   })
 
   const print = () => {
@@ -83,5 +86,6 @@ export function useThermalReceipt({ transactionId, change }: UseThermalReceiptPr
     printHTML(html)
   }
 
-  return { print, isReady: !!tx }
+  const isOffline = transactionId.startsWith('offline-')
+  return { print, isReady: !!tx, isLoading: !tx && !isOffline, isOffline }
 }

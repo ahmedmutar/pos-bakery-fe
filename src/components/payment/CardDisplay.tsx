@@ -4,10 +4,10 @@ import { formatCurrency, cn } from '../../lib/utils'
 
 interface CardDisplayProps {
   amount: number
-  onSuccess: () => void
+  onConfirm: (proof?: string) => void
 }
 
-export default function CardDisplay({ amount, onSuccess }: CardDisplayProps) {
+export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
   const [cardNumber, setCardNumber] = useState('')
   const [expiry, setExpiry] = useState('')
   const [cvv, setCvv] = useState('')
@@ -46,7 +46,7 @@ export default function CardDisplay({ amount, onSuccess }: CardDisplayProps) {
     }
 
     setProcessing(false)
-    onSuccess()
+    onConfirm()
   }
 
   return (

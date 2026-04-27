@@ -13,7 +13,8 @@ interface CartPanelProps {
 }
 
 export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProps) {
-  const { items, discount, setDiscount, updateQuantity, removeItem, subtotal, total } = useCartStore()
+  const { items, discount, setDiscount, updateQuantity, removeItem, subtotal: subtotalFn, total, activeShiftId } = useCartStore()
+  const subtotal = subtotalFn()
   const [showPayment, setShowPayment] = useState(false)
   const [successTx, setSuccessTx] = useState<{ id: string; total: number; change: number } | null>(null)
   const [discountInput, setDiscountInput] = useState('')
@@ -37,7 +38,9 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
 
   const handleDiscountApply = () => {
     const val = parseInt(discountInput.replace(/\D/g, '')) || 0
-    setDiscount(val)
+    const clamped = Math.min(val, subtotal) // tidak boleh melebihi subtotal
+    setDiscount(clamped)
+    setDiscountInput(String(clamped))
     setShowDiscount(false)
   }
 
@@ -129,18 +132,32 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
             </button>
 
             {showDiscount && (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={discountInput}
-                  onChange={(e) => setDiscountInput(e.target.value.replace(/\D/g, ''))}
-                  placeholder={t('cashier.discountAmount')}
-                  className="input text-sm py-2 flex-1"
-                  autoFocus
-                />
-                <button onClick={handleDiscountApply} className="btn-primary px-3 py-2 text-sm">
-                  OK
-                </button>
+              <div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={discountInput}
+                    onChange={(e) => {
+                    const raw = e.target.value.replace(/\D/g, '')
+                    setDiscountInput(raw)
+                  }}
+                  onBlur={() => {
+                    const val = parseInt(discountInput || '0')
+                    if (val > subtotal) setDiscountInput(String(subtotal))
+                  }}
+                    placeholder={t('cashier.discountAmount')}
+                    className={cn('input text-sm py-2 flex-1', parseInt(discountInput || '0') > subtotal && 'border-red-400')}
+                    autoFocus
+                  />
+                  <button onClick={handleDiscountApply} className="btn-primary px-3 py-2 text-sm">
+                    OK
+                  </button>
+                </div>
+                {parseInt(discountInput || '0') > subtotal && (
+                  <p className="font-body text-xs text-red-500 mt-1">
+                    Diskon tidak boleh melebihi subtotal ({formatCurrency(subtotal)})
+                  </p>
+                )}
               </div>
             )}
 
@@ -148,7 +165,7 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
             <div className="space-y-1">
               <div className="flex justify-between font-body text-sm text-crust-500">
                 <span>Subtotal</span>
-                <span>{formatCurrency(subtotal())}</span>
+                <span>{formatCurrency(subtotal)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between font-body text-sm text-green-600">
@@ -162,12 +179,19 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
               </div>
             </div>
 
+            {!activeShiftId && (
+              <p className="font-body text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-center mb-2">
+                Buka shift terlebih dahulu untuk memproses pembayaran
+              </p>
+            )}
             <button
               onClick={() => setShowPayment(true)}
+              disabled={!activeShiftId}
               className={cn(
                 'w-full py-3 rounded-xl font-body font-semibold text-base',
                 'bg-crust-600 hover:bg-crust-700 text-cream shadow-warm',
-                'transition-all duration-200 active:scale-[0.98]'
+                'transition-all duration-200 active:scale-[0.98]',
+                !activeShiftId && 'opacity-50 cursor-not-allowed'
               )}
             >
               {!isOnline && (
@@ -184,9 +208,9 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
       {showPayment && (
         <PaymentModal
           onClose={() => setShowPayment(false)}
-          onSuccess={(txId, changeAmount) => {
+          onSuccess={(txId, changeAmount, txTotal) => {
             setShowPayment(false)
-            setSuccessTx({ id: txId, total: total(), change: changeAmount ?? 0 })
+            setSuccessTx({ id: txId, total: txTotal ?? 0, change: changeAmount ?? 0 })
           }}
         />
       )}

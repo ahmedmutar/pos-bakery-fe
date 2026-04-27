@@ -18,6 +18,16 @@ import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
 import AdminPanelPage from './pages/admin/AdminPanelPage'
 import LandingPage from './pages/LandingPage'
+import UpgradePage from './pages/UpgradePage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import PaymentSuccessPage from './pages/PaymentSuccessPage'
+import BillingPage from './pages/BillingPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import TermsPage from './pages/TermsPage'
+import FAQPage from './pages/FAQPage'
+import PaymentFailedPage from './pages/PaymentFailedPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
+import StockOpnamePage from './pages/StockOpnamePage'
 import RegisterPage from './pages/RegisterPage'
 import ForecastPage from './pages/ForecastPage'
 
@@ -47,6 +57,13 @@ export default function App() {
 
             {/* Auth */}
             <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/payment/success" element={<PaymentSuccessPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/payment/failed" element={<PaymentFailedPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             {/* Admin panel — separate from main app */}
             <Route path="/admin" element={<AdminPanelPage />} />
@@ -59,6 +76,9 @@ export default function App() {
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="orders"    element={<OrdersPage />} />
               <Route path="settings"  element={<SettingsPage />} />
+              <Route path="upgrade"   element={<UpgradePage />} />
+              <Route path="billing"   element={<BillingPage />} />
+              <Route path="stock-opname" element={<StockOpnamePage />} />
 
               {/* OWNER + CASHIER */}
               <Route path="cashier" element={
