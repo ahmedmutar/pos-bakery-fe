@@ -17,7 +17,7 @@ export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
   })
 
   if (isLoading) {
-    return <div className="py-8 text-center font-body text-sm text-crust-400">Memuat QR code...</div>
+    return <div className="py-8 text-center font-body text-sm text-muted-400">Memuat QR code...</div>
   }
 
   return (
@@ -35,11 +35,11 @@ export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
       ) : (
         <div className="space-y-3">
           <div className="flex flex-col items-center gap-3">
-            <div className="flex items-center gap-1.5 text-xs font-body font-semibold text-crust-600 uppercase tracking-widest">
+            <div className="flex items-center gap-1.5 text-xs font-body font-semibold text-primary-600 uppercase tracking-widest">
               <QrCode className="w-3.5 h-3.5" />
               Scan QR Code untuk Bayar
             </div>
-            <div className="border-4 border-oven-800 rounded-2xl p-2 bg-white">
+            <div className="border-4 border-dark-800 rounded-2xl p-2 bg-white">
               <img
                 src={data.qrisImageUrl}
                 alt="QR Code QRIS"
@@ -47,12 +47,12 @@ export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
               />
             </div>
             <div className="text-center">
-              <p className="font-body text-xs text-crust-400">Total yang harus dibayar</p>
-              <p className="font-display text-xl font-bold text-oven-800">{formatCurrency(amount)}</p>
+              <p className="font-body text-xs text-muted-400">Total yang harus dibayar</p>
+              <p className="font-display text-xl font-bold text-dark-800">{formatCurrency(amount)}</p>
             </div>
           </div>
-          <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-2.5 text-center">
-            <p className="font-body text-xs text-crust-500">
+          <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-2.5 text-center">
+            <p className="font-body text-xs text-muted-500">
               Arahkan kamera ke QR code · Nominal akan muncul otomatis
             </p>
           </div>
@@ -61,10 +61,10 @@ export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
 
       {/* Bukti pembayaran */}
       <div>
-        <label className="block text-xs font-body font-medium text-crust-700 mb-1.5 flex items-center gap-1.5">
+        <label className="block text-xs font-body font-medium text-primary-700 mb-1.5 flex items-center gap-1.5">
           <FileText className="w-3.5 h-3.5" />
           Nomor Referensi
-          <span className="text-crust-400 font-normal">(opsional)</span>
+          <span className="text-muted-400 font-normal">(opsional)</span>
         </label>
         <input
           type="text"
@@ -73,7 +73,7 @@ export default function QRISDisplay({ amount, onConfirm }: QRISDisplayProps) {
           placeholder="Nomor referensi dari notifikasi QRIS"
           className="input text-sm"
         />
-        <p className="font-body text-xs text-crust-400 mt-1">
+        <p className="font-body text-xs text-muted-400 mt-1">
           Isi jika ada, untuk rekonsiliasi pembayaran
         </p>
       </div>

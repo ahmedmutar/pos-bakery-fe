@@ -58,7 +58,7 @@ export default function ProductionPage() {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="font-body text-sm text-crust-400">
+        <p className="font-body text-sm text-muted-400">
           {plans.length} rencana produksi
         </p>
         <button
@@ -73,15 +73,15 @@ export default function ProductionPage() {
       {/* Today's plan highlight */}
       {todayPlan && (
         <div
-          className="card border-crust-300 bg-crust-50 cursor-pointer hover:border-crust-400 transition-all"
+          className="card border-surface-300 bg-surface-50 cursor-pointer hover:border-primary-400 transition-all"
           onClick={() => setSelectedPlanId(todayPlan.id)}
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <p className="font-display text-base font-semibold text-oven-800">Produksi Hari Ini</p>
+              <p className="font-display text-base font-semibold text-dark-800">Produksi Hari Ini</p>
             </div>
-            <span className="font-body text-xs text-crust-500">
+            <span className="font-body text-xs text-muted-500">
               {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long' })}
             </span>
           </div>
@@ -89,12 +89,12 @@ export default function ProductionPage() {
           <div className="flex gap-4">
             {todayPlan.items.map((item) => (
               <div key={item.id} className="flex items-center gap-2">
-                <span className="font-body text-sm text-oven-700">{item.product.name}</span>
+                <span className="font-body text-sm text-dark-700">{item.product.name}</span>
                 <span className={cn(
                   'font-body text-xs px-2 py-0.5 rounded-full',
                   item.actualQty > 0
                     ? 'bg-green-100 text-green-700'
-                    : 'bg-dough-200 text-crust-500'
+                    : 'bg-surface-200 text-muted-500'
                 )}>
                   {item.actualQty > 0 ? `${item.actualQty}/${item.targetQty}` : `target ${item.targetQty}`} pcs
                 </span>
@@ -107,10 +107,10 @@ export default function ProductionPage() {
       {/* Plans list */}
       {isLoading ? (
         <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+          <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
         </div>
       ) : plans.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+        <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
           <ChefHat className="w-10 h-10" />
           <p className="font-body text-sm">{t('production.noPlan')}</p>
           <button
@@ -133,45 +133,45 @@ export default function ProductionPage() {
               <div
                 key={plan.id}
                 onClick={() => setSelectedPlanId(plan.id)}
-                className="card hover:border-crust-300 cursor-pointer transition-all group"
+                className="card hover:border-surface-300 cursor-pointer transition-all group"
               >
                 <div className="flex items-center gap-4">
                   {/* Status icon */}
                   <div className={cn(
                     'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
                     status === 'done' ? 'bg-green-100' :
-                    status === 'partial' ? 'bg-amber-100' : 'bg-dough-100'
+                    status === 'partial' ? 'bg-amber-100' : 'bg-surface-100'
                   )}>
                     {status === 'done' ? (
                       <CheckCircle className="w-5 h-5 text-green-600" />
                     ) : status === 'partial' ? (
                       <Clock className="w-5 h-5 text-amber-500" />
                     ) : (
-                      <Calendar className="w-5 h-5 text-crust-400" />
+                      <Calendar className="w-5 h-5 text-muted-400" />
                     )}
                   </div>
 
                   {/* Date + products */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="font-body text-sm font-semibold text-oven-800">
+                      <p className="font-body text-sm font-semibold text-dark-800">
                         {new Date(plan.date).toLocaleString('id-ID', {
                           weekday: 'short', day: 'numeric', month: 'long', year: 'numeric',
                         })}
                       </p>
                       {plan.notes && (
-                        <span className="font-body text-xs text-crust-400">· {plan.notes}</span>
+                        <span className="font-body text-xs text-muted-400">· {plan.notes}</span>
                       )}
                     </div>
 
                     <div className="flex flex-wrap gap-1.5">
                       {plan.items.slice(0, 4).map((item) => (
-                        <span key={item.id} className="font-body text-xs bg-dough-100 text-crust-600 px-2 py-0.5 rounded-lg">
+                        <span key={item.id} className="font-body text-xs bg-surface-100 text-primary-600 px-2 py-0.5 rounded-lg">
                           {item.product.name} {item.targetQty}pcs
                         </span>
                       ))}
                       {plan.items.length > 4 && (
-                        <span className="font-body text-xs text-crust-400">
+                        <span className="font-body text-xs text-muted-400">
                           +{plan.items.length - 4} lagi
                         </span>
                       )}
@@ -180,7 +180,7 @@ export default function ProductionPage() {
 
                   {/* Stats */}
                   <div className="text-right flex-shrink-0 space-y-1">
-                    <p className="font-body text-xs text-crust-500">
+                    <p className="font-body text-xs text-muted-500">
                       {totalActual > 0
                         ? <span className="text-green-700 font-medium">{totalActual}</span>
                         : '—'
@@ -211,24 +211,24 @@ export default function ProductionPage() {
       )}
     {/* Stock deduction toast */}
     {deductionToast && (
-      <div className="fixed bottom-6 right-6 z-50 w-80 bg-oven-800 text-cream rounded-2xl shadow-warm-lg p-4 space-y-2 animate-in slide-in-from-bottom-4">
+      <div className="fixed bottom-6 right-6 z-50 w-80 bg-dark-800 text-white rounded-2xl shadow-warm-lg p-4 space-y-2 animate-in slide-in-from-bottom-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-400" />
             <p className="font-body text-sm font-semibold">{t('production.stockDeducted')}</p>
           </div>
-          <button onClick={() => setDeductionToast(null)} className="text-crust-300 hover:text-cream text-xs">
+          <button onClick={() => setDeductionToast(null)} className="text-surface-300 hover:text-white text-xs">
             ✕
           </button>
         </div>
-        <p className="font-body text-xs text-crust-300">
+        <p className="font-body text-xs text-surface-300">
           {deductionToast.productName} · {deductionToast.delta} pcs diproduksi
         </p>
-        <div className="space-y-1 pt-1 border-t border-oven-700">
+        <div className="space-y-1 pt-1 border-t border-dark-700">
           {deductionToast.items.map((item) => (
             <div key={item.ingredientName} className="flex justify-between font-body text-xs">
-              <span className="text-dough-200">{item.ingredientName}</span>
-              <span className="font-mono text-crust-300">
+              <span className="text-surface-200">{item.ingredientName}</span>
+              <span className="font-mono text-surface-300">
                 -{Math.abs(item.deducted).toFixed(1)} {item.unit}
               </span>
             </div>

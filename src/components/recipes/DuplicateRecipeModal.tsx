@@ -42,14 +42,14 @@ export default function DuplicateRecipeModal({ product, onClose }: DuplicateReci
 
   if (done) {
     return (
-      <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 text-center space-y-4">
+      <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+        <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-5 sm:p-8 text-center space-y-4">
           <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle className="w-7 h-7 text-green-600" />
           </div>
           <div>
-            <p className="font-display text-lg font-bold text-oven-800">Resep Berhasil Diduplikat</p>
-            <p className="font-body text-sm text-crust-400 mt-1">
+            <p className="font-display text-lg font-bold text-dark-800">Resep Berhasil Diduplikat</p>
+            <p className="font-body text-sm text-muted-400 mt-1">
               Resep <strong>{productName}</strong> berhasil disalin ke <strong>{done.targetName}</strong>
             </p>
           </div>
@@ -60,32 +60,32 @@ export default function DuplicateRecipeModal({ product, onClose }: DuplicateReci
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
           <div className="flex items-center gap-2">
-            <Copy className="w-5 h-5 text-crust-600" />
-            <h2 className="font-display text-base font-semibold text-oven-800">Duplikat Resep</h2>
+            <Copy className="w-5 h-5 text-primary-600" />
+            <h2 className="font-display text-base font-semibold text-dark-800">Duplikat Resep</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="px-6 py-5 space-y-4">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4">
           {/* Source recipe info */}
-          <div className="bg-dough-50 rounded-xl px-4 py-3">
-            <p className="font-body text-xs text-crust-400 mb-0.5">Resep yang akan diduplikat</p>
-            <p className="font-body text-sm font-semibold text-oven-800">{productName}</p>
-            <p className="font-body text-xs text-crust-400 mt-0.5">
+          <div className="bg-surface-50 rounded-xl px-4 py-3">
+            <p className="font-body text-xs text-muted-400 mb-0.5">Resep yang akan diduplikat</p>
+            <p className="font-body text-sm font-semibold text-dark-800">{productName}</p>
+            <p className="font-body text-xs text-muted-400 mt-0.5">
               {recipe.items.length} bahan · batch {recipe.batchSize} pcs
             </p>
           </div>
 
           {/* Target product selector */}
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               Salin ke produk
             </label>
             {available.length === 0 ? (
@@ -107,9 +107,9 @@ export default function DuplicateRecipeModal({ product, onClose }: DuplicateReci
                       <option key={p.id} value={p.id}>{p.name}</option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400 pointer-events-none" />
                 </div>
-                <p className="font-body text-xs text-crust-400 mt-1">
+                <p className="font-body text-xs text-muted-400 mt-1">
                   {available.length} produk belum memiliki resep
                 </p>
               </>
@@ -124,7 +124,7 @@ export default function DuplicateRecipeModal({ product, onClose }: DuplicateReci
         </div>
 
         {/* Footer */}
-        <div className="px-6 pb-5 flex gap-3">
+        <div className="px-4 sm:px-6 pb-4 sm:pb-5 flex gap-3">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={() => mutation.mutate()}

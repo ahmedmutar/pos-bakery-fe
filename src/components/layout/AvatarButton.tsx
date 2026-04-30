@@ -71,7 +71,7 @@ export default function AvatarButton() {
         className={cn(
           'w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center',
           'ring-2 ring-offset-1 transition-all',
-          open ? 'ring-crust-500' : 'ring-transparent hover:ring-crust-300'
+          open ? 'ring-muted-500' : 'ring-transparent hover:ring-surface-300'
         )}
       >
         {user?.avatarUrl ? (
@@ -81,8 +81,8 @@ export default function AvatarButton() {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-crust-600 flex items-center justify-center shadow-warm">
-            <span className="font-body text-sm font-semibold text-cream">{initials}</span>
+          <div className="w-full h-full bg-primary-600 flex items-center justify-center shadow-warm">
+            <span className="font-body text-sm font-semibold text-white">{initials}</span>
           </div>
         )}
       </button>
@@ -93,15 +93,15 @@ export default function AvatarButton() {
           {/* Backdrop */}
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
 
-          <div className="absolute right-0 top-11 w-64 bg-white rounded-2xl shadow-warm-lg border border-dough-200 z-40 overflow-hidden">
+          <div className="absolute right-0 top-11 w-64 bg-white rounded-2xl shadow-warm-lg border border-surface-200 z-40 overflow-hidden">
             {/* User info */}
-            <div className="px-4 py-4 border-b border-dough-100">
+            <div className="px-4 py-4 border-b border-surface-200">
               <div className="flex items-center gap-3">
                 {/* Large avatar */}
                 <div
                   className={cn(
                     'w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 relative group cursor-pointer',
-                    'ring-2 ring-dough-200'
+                    'ring-2 ring-surface-200'
                   )}
                   onClick={() => inputRef.current?.click()}
                   onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
@@ -114,14 +114,14 @@ export default function AvatarButton() {
                   }}
                 >
                   {isLoading ? (
-                    <div className="w-full h-full bg-dough-100 flex items-center justify-center">
-                      <Loader2 className="w-5 h-5 text-crust-400 animate-spin" />
+                    <div className="w-full h-full bg-surface-100 flex items-center justify-center">
+                      <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
                     </div>
                   ) : user?.avatarUrl ? (
                     <>
                       <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
                       <div className={cn(
-                        'absolute inset-0 bg-oven-900/50 flex items-center justify-center transition-opacity',
+                        'absolute inset-0 bg-dark-900/50 flex items-center justify-center transition-opacity',
                         dragOver ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       )}>
                         <Camera className="w-5 h-5 text-white" />
@@ -129,11 +129,11 @@ export default function AvatarButton() {
                     </>
                   ) : (
                     <>
-                      <div className="w-full h-full bg-crust-600 flex items-center justify-center">
-                        <span className="font-display text-lg font-bold text-cream">{initials}</span>
+                      <div className="w-full h-full bg-primary-600 flex items-center justify-center">
+                        <span className="font-display text-lg font-bold text-white">{initials}</span>
                       </div>
                       <div className={cn(
-                        'absolute inset-0 bg-oven-900/50 flex items-center justify-center transition-opacity',
+                        'absolute inset-0 bg-dark-900/50 flex items-center justify-center transition-opacity',
                         dragOver ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       )}>
                         <Camera className="w-5 h-5 text-white" />
@@ -143,13 +143,13 @@ export default function AvatarButton() {
                 </div>
 
                 <div className="min-w-0">
-                  <p className="font-body text-sm font-semibold text-oven-800 truncate">
+                  <p className="font-body text-sm font-semibold text-dark-800 truncate">
                     {user?.name}
                   </p>
-                  <p className="font-body text-xs text-crust-400 truncate">
+                  <p className="font-body text-xs text-muted-400 truncate">
                     {user?.email}
                   </p>
-                  <span className="inline-flex mt-1 items-center px-1.5 py-0.5 rounded-md text-[10px] font-body font-semibold uppercase tracking-wide bg-dough-100 text-crust-600">
+                  <span className="inline-flex mt-1 items-center px-1.5 py-0.5 rounded-md text-[10px] font-body font-semibold uppercase tracking-wide bg-surface-100 text-primary-600">
                     {t(`role.${user?.role ?? 'CASHIER'}`)}
                   </span>
                 </div>
@@ -162,7 +162,7 @@ export default function AvatarButton() {
                 onClick={() => inputRef.current?.click()}
                 disabled={isLoading}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-body
-                           text-crust-600 hover:bg-dough-50 transition-colors text-left disabled:opacity-50"
+                           text-primary-600 hover:bg-surface-50 transition-colors text-left disabled:opacity-50"
               >
                 <Camera className="w-4 h-4 flex-shrink-0" />
                 {user?.avatarUrl ? t('settings.changeAvatar') : t('settings.avatarUpload')}
@@ -180,12 +180,12 @@ export default function AvatarButton() {
                 </button>
               )}
 
-              <div className="h-px bg-dough-100 my-1" />
+              <div className="h-px bg-surface-100 my-1" />
 
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-body
-                           text-crust-600 hover:bg-dough-50 transition-colors text-left"
+                           text-primary-600 hover:bg-surface-50 transition-colors text-left"
               >
                 <LogOut className="w-4 h-4 flex-shrink-0" />
                 Keluar

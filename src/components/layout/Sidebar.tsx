@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next'
 import {
   LayoutDashboard, ShoppingCart, ChefHat, Package, ClipboardCheck,
   BookOpen, ClipboardList, BarChart3, Settings,
-  Croissant, LogOut, UtensilsCrossed, Sparkles, Menu, X,
+  LogOut, UtensilsCrossed, Sparkles, Menu, X,
 } from 'lucide-react'
 import { useAuthStore, type AuthUser } from '../../stores/authStore'
 import { authApi } from '../../services/authService'
+import { SajiinIcon } from '../ui/SajiinLogo'
 import { cn } from '../../lib/utils'
 
 type Role = 'OWNER' | 'CASHIER' | 'PRODUCTION'
@@ -57,20 +58,20 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   return (
     <>
       {/* Logo */}
-      <div className="px-4 py-5 border-b border-dough-100 flex-shrink-0">
+      <div className="px-4 py-5 border-b border-surface-200 flex-shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 bg-crust-600 rounded-xl flex items-center justify-center shadow-warm overflow-hidden flex-shrink-0">
-            {typedUser?.logoUrl ? (
-              <img src={typedUser.logoUrl} alt="Logo" className="w-full h-full object-contain p-0.5" />
-            ) : (
-              <Croissant className="w-5 h-5 text-cream" />
-            )}
-          </div>
+          {typedUser?.logoUrl ? (
+            <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0">
+              <img src={typedUser.logoUrl} alt="Logo" className="w-full h-full object-contain" />
+            </div>
+          ) : (
+            <SajiinIcon size={36} className="flex-shrink-0" />
+          )}
           <div className="min-w-0">
-            <p className="font-display text-lg font-bold text-oven-800 leading-tight tracking-tight truncate">
-              {typedUser?.tenantName ?? 'Roti POS'}
+            <p className="font-display text-lg font-extrabold text-dark-800 leading-tight tracking-tight truncate">
+              {typedUser?.tenantName ?? 'Sajiin'}
             </p>
-            <p className="font-body text-[10px] text-crust-400 leading-tight uppercase tracking-widest truncate">
+            <p className="font-body text-[10px] text-muted-400 leading-tight uppercase tracking-widest truncate">
               {typedUser?.name}
             </p>
           </div>
@@ -110,18 +111,18 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       <div className="px-3 pb-2">
         <button
           onClick={() => { navigate('/app/upgrade'); onClose?.() }}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-dough-50 hover:bg-dough-100 transition-colors border border-dough-200"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-surface-50 hover:bg-surface-100 transition-colors border border-surface-200"
         >
           <PlanBadge />
         </button>
       </div>
 
       {/* Bottom user info */}
-      <div className="px-3 py-4 border-t border-dough-100 space-y-1 flex-shrink-0">
+      <div className="px-3 py-4 border-t border-surface-200 space-y-1 flex-shrink-0">
         <div className="px-4 py-2">
-          <p className="font-body text-xs font-medium text-oven-700 truncate">{typedUser?.name}</p>
-          <p className="font-body text-xs text-crust-400 truncate">{typedUser?.email}</p>
-          <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-body font-medium bg-dough-100 text-crust-600">
+          <p className="font-body text-xs font-medium text-dark-700 truncate">{typedUser?.name}</p>
+          <p className="font-body text-xs text-muted-400 truncate">{typedUser?.email}</p>
+          <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-body font-medium bg-surface-100 text-primary-600">
             {ROLE_LABELS[role]}
           </span>
         </div>
@@ -142,11 +143,11 @@ function PlanBadge() {
   const color = PLAN_COLORS[plan.plan] ?? PLAN_COLORS.basic
   return (
     <div className="flex items-center justify-between w-full">
-      <span className="font-body text-xs text-crust-500">Paket</span>
+      <span className="font-body text-xs text-muted-500">Paket</span>
       <span className={`font-body text-xs font-semibold px-2 py-0.5 rounded-md border ${color}`}>
         {label}
         {plan.trial.isOnTrial && !plan.trial.expired && (
-          <span className="ml-1 text-amber-500">· {plan.trial.daysLeft}h</span>
+          <span className="ml-1 text-accent-500">· {plan.trial.daysLeft}h</span>
         )}
       </span>
     </div>
@@ -159,15 +160,15 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-[220px] h-full bg-white border-r border-dough-200 flex-col shadow-warm flex-shrink-0">
+      <aside className="hidden lg:flex w-[220px] h-full bg-white border-r border-surface-200 flex-col shadow-warm flex-shrink-0">
         <SidebarContent />
       </aside>
 
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-3.5 left-4 z-50 w-9 h-9 bg-white border border-dough-200 rounded-xl
-                   flex items-center justify-center shadow-warm text-crust-600 hover:bg-dough-50 transition-colors"
+        className="lg:hidden fixed top-3.5 left-4 z-50 w-9 h-9 bg-white border border-surface-200 rounded-xl
+                   flex items-center justify-center shadow-warm text-primary-600 hover:bg-surface-50 transition-colors"
       >
         <Menu className="w-4 h-4" />
       </button>
@@ -177,7 +178,7 @@ export default function Sidebar() {
         <div className="lg:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-oven-900/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-dark-900/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
           {/* Drawer */}
@@ -185,7 +186,7 @@ export default function Sidebar() {
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg
-                         text-crust-400 hover:text-crust-600 hover:bg-dough-100 transition-colors"
+                         text-muted-400 hover:text-primary-600 hover:bg-surface-100 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>

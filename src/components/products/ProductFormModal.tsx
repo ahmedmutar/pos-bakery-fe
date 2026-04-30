@@ -73,14 +73,14 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
     : ''
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-md max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
-          <h2 className="font-display text-lg font-semibold text-oven-800">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
+          <h2 className="font-display text-lg font-semibold text-dark-800">
             {isEdit ? 'Edit Produk' : 'Tambah Produk'}
           </h2>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -89,15 +89,15 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-4 scrollbar-thin">
           {/* Image preview */}
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-xl bg-dough-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="w-20 h-20 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0">
               {imageUrl ? (
                 <img src={imageUrl} alt="preview" className="w-full h-full object-cover" />
               ) : (
-                <ImagePlus className="w-7 h-7 text-crust-300" />
+                <ImagePlus className="w-7 h-7 text-surface-300" />
               )}
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 URL Gambar (opsional)
               </label>
               <input
@@ -112,7 +112,7 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
 
           {/* Name */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Nama Produk <span className="text-red-400">*</span>
             </label>
             <input
@@ -128,11 +128,11 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Harga Jual <span className="text-red-400">*</span>
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-muted-400">
                 Rp
               </span>
               <input
@@ -144,7 +144,7 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
               />
             </div>
             {price && !errors.price && (
-              <p className="text-crust-400 text-xs mt-1 font-body">{priceDisplay}</p>
+              <p className="text-muted-400 text-xs mt-1 font-body">{priceDisplay}</p>
             )}
             {errors.price && <p className="text-red-500 text-xs mt-1 font-body">{errors.price}</p>}
           </div>
@@ -152,13 +152,13 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
           {/* Category */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-sm font-body font-medium text-crust-700">
+              <label className="block text-sm font-body font-medium text-primary-700">
                 Kategori (opsional)
               </label>
               <button
                 type="button"
                 onClick={() => setShowNewCategory(!showNewCategory)}
-                className="text-xs text-crust-500 hover:text-crust-700 font-body underline"
+                className="text-xs text-muted-500 hover:text-primary-700 font-body underline"
               >
                 + Kategori baru
               </button>
@@ -212,7 +212,7 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
         </div>
 
         {/* Footer */}
-        <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={handleSave}

@@ -67,14 +67,14 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-dough-100">
-          <h2 className="font-display text-base font-semibold text-oven-800">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200">
+          <h2 className="font-display text-base font-semibold text-dark-800">
             {isEdit ? 'Edit Item' : 'Tambah Item Inventaris'}
           </h2>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -83,7 +83,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
         <div className="px-5 py-5 space-y-4">
           {/* Type selector */}
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-2">Tipe</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-2">Tipe</label>
             <div className="flex gap-2">
               {TYPE_OPTIONS.map(({ key, label }) => (
                 <button
@@ -93,8 +93,8 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
                   className={cn(
                     'flex-1 py-2 px-3 rounded-xl text-sm font-body font-medium border transition-all',
                     type === key
-                      ? 'bg-crust-600 text-cream border-crust-600 shadow-warm'
-                      : 'bg-white text-crust-600 border-dough-200 hover:bg-dough-50'
+                      ? 'bg-primary-600 text-white border-primary-600 shadow-warm'
+                      : 'bg-white text-primary-600 border-surface-200 hover:bg-surface-50'
                   )}
                 >
                   {label}
@@ -105,7 +105,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
 
           {/* Name */}
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               Nama {type === 'INGREDIENT' ? 'Bahan' : type === 'EQUIPMENT' ? 'Alat' : 'Kemasan'}
             </label>
             <input
@@ -125,7 +125,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
 
           {/* Unit */}
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Satuan</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Satuan</label>
             <select
               value={isCustomUnit ? '__custom__' : baseUnit}
               onChange={(e) => {
@@ -158,7 +158,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
           <div className="grid grid-cols-2 gap-3">
             {/* Minimum Stock */}
             <div>
-              <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                 Stok Minimum
               </label>
               <input
@@ -173,7 +173,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
 
             {/* Price */}
             <div>
-              <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                 Harga per Satuan (Rp)
               </label>
               <input
@@ -188,7 +188,7 @@ export default function IngredientFormModal({ ingredient, onClose }: IngredientF
 
           {/* Notes */}
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               Catatan (opsional)
             </label>
             <input

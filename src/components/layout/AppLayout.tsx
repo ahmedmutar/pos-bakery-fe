@@ -30,7 +30,7 @@ export default function AppLayout() {
   const titleKey = pageTitles[location.pathname] || 'nav.dashboard'
 
   return (
-    <div className="flex h-screen overflow-hidden bg-crust-50">
+    <div className="flex h-screen overflow-hidden bg-surface-50">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TrialBanner />

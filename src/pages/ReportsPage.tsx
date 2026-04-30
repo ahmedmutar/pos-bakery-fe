@@ -43,10 +43,10 @@ export default function ReportsPage() {
     <div className="space-y-5">
       {/* Date range */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <h1 className="font-display text-xl font-bold text-oven-800 flex-1">{t('nav.reports')}</h1>
+        <h1 className="font-display text-xl font-bold text-dark-800 flex-1">{t('nav.reports')}</h1>
         <div className="flex items-center gap-2">
           <input type="date" value={from} onChange={e => setFrom(e.target.value)} className="input text-sm py-1.5 w-36" />
-          <span className="font-body text-sm text-crust-400">–</span>
+          <span className="font-body text-sm text-muted-400">–</span>
           <input type="date" value={to}   onChange={e => setTo(e.target.value)}   className="input text-sm py-1.5 w-36" />
         </div>
       </div>
@@ -61,8 +61,8 @@ export default function ReportsPage() {
             { label: 'Stok Menipis',        value: String(summary.lowStockCount ?? 0) },
           ].map(card => (
             <div key={card.label} className="card">
-              <p className="font-body text-xs text-crust-400">{card.label}</p>
-              <p className="font-display text-xl font-bold text-oven-800 mt-1">{card.value}</p>
+              <p className="font-body text-xs text-muted-400">{card.label}</p>
+              <p className="font-display text-xl font-bold text-dark-800 mt-1">{card.value}</p>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ export default function ReportsPage() {
             onClick={() => setTab(key)}
             className={cn(
               'flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-body font-medium whitespace-nowrap transition-all',
-              tab === key ? 'bg-crust-600 text-cream shadow-warm' : 'bg-white text-crust-500 hover:bg-dough-100 border border-dough-200'
+              tab === key ? 'bg-primary-600 text-white shadow-warm' : 'bg-white text-muted-500 hover:bg-surface-100 border border-surface-200'
             )}
           >
             <Icon className="w-3.5 h-3.5" />
@@ -89,7 +89,7 @@ export default function ReportsPage() {
 
         {/* ── SALES TAB ── */}
         {tab === 'sales' && (loadingSales ? (
-          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-crust-400 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-muted-400 animate-spin" /></div>
         ) : salesData ? (
           <div className="space-y-4">
             <div className="flex justify-end">
@@ -112,11 +112,11 @@ export default function ReportsPage() {
               ]} />
             </div>
             <div className="card">
-              <p className="font-body text-sm font-semibold text-oven-800 mb-3">Ringkasan Penjualan</p>
+              <p className="font-body text-sm font-semibold text-dark-800 mb-3">Ringkasan Penjualan</p>
               <div className="grid grid-cols-3 gap-4 mb-4">
-                <div><p className="font-body text-xs text-crust-400">Total Transaksi</p><p className="font-display text-2xl font-bold text-oven-800">{salesData.totalTransactions}</p></div>
-                <div><p className="font-body text-xs text-crust-400">Total Pendapatan</p><p className="font-display text-2xl font-bold text-oven-800">{formatRupiah(salesData.totalRevenue)}</p></div>
-                <div><p className="font-body text-xs text-crust-400">Total Diskon</p><p className="font-display text-2xl font-bold text-orange-500">{formatRupiah(salesData.totalDiscount)}</p></div>
+                <div><p className="font-body text-xs text-muted-400">Total Transaksi</p><p className="font-display text-2xl font-bold text-dark-800">{salesData.totalTransactions}</p></div>
+                <div><p className="font-body text-xs text-muted-400">Total Pendapatan</p><p className="font-display text-2xl font-bold text-dark-800">{formatRupiah(salesData.totalRevenue)}</p></div>
+                <div><p className="font-body text-xs text-muted-400">Total Diskon</p><p className="font-display text-2xl font-bold text-orange-500">{formatRupiah(salesData.totalDiscount)}</p></div>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function ReportsPage() {
 
         {/* ── TOP PRODUCTS TAB ── */}
         {tab === 'products' && (loadingProducts ? (
-          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-crust-400 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-muted-400 animate-spin" /></div>
         ) : topProducts && topProducts.length > 0 ? (
           <div className="space-y-4">
             <div className="flex justify-end">
@@ -145,31 +145,31 @@ export default function ReportsPage() {
             <div className="card p-0 overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-dough-100 bg-dough-50">
-                    <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest w-8">#</th>
-                    <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">Produk</th>
-                    <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">Qty</th>
-                    <th className="text-right px-5 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">Pendapatan</th>
+                  <tr className="border-b border-surface-200 bg-surface-50">
+                    <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest w-8">#</th>
+                    <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">Produk</th>
+                    <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">Qty</th>
+                    <th className="text-right px-5 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">Pendapatan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {topProducts.map((p, i) => (
-                    <tr key={p.product.id} className="border-b border-dough-50 hover:bg-dough-50 transition-colors">
-                      <td className="px-5 py-3 font-body text-sm text-crust-400">{i + 1}</td>
-                      <td className="px-4 py-3 font-body text-sm font-medium text-oven-800">{p.product.name}</td>
-                      <td className="px-4 py-3 font-body text-sm text-crust-600 text-right">{p.totalSold}</td>
-                      <td className="px-5 py-3 font-body text-sm font-semibold text-oven-800 text-right">{formatRupiah(p.totalRevenue)}</td>
+                    <tr key={p.product.id} className="border-b border-surface-50 hover:bg-surface-50 transition-colors">
+                      <td className="px-5 py-3 font-body text-sm text-muted-400">{i + 1}</td>
+                      <td className="px-4 py-3 font-body text-sm font-medium text-dark-800">{p.product.name}</td>
+                      <td className="px-4 py-3 font-body text-sm text-primary-600 text-right">{p.totalSold}</td>
+                      <td className="px-5 py-3 font-body text-sm font-semibold text-dark-800 text-right">{formatRupiah(p.totalRevenue)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-        ) : <p className="font-body text-sm text-crust-400 text-center py-12">Tidak ada data produk</p>)}
+        ) : <p className="font-body text-sm text-muted-400 text-center py-12">Tidak ada data produk</p>)}
 
         {/* ── WASTE TAB ── */}
         {tab === 'waste' && (loadingWaste ? (
-          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-crust-400 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-muted-400 animate-spin" /></div>
         ) : wasteData ? (
           <div className="space-y-4">
             <div className="flex justify-end">
@@ -193,17 +193,17 @@ export default function ReportsPage() {
             </div>
             <div className="card">
               <div className="grid grid-cols-2 gap-4 mb-4">
-                <div><p className="font-body text-xs text-crust-400">Total Waste</p><p className="font-display text-2xl font-bold text-orange-500">{wasteData.totalWaste} pcs</p></div>
-                <div><p className="font-body text-xs text-crust-400">Estimasi Kerugian</p><p className="font-display text-2xl font-bold text-red-600">{formatRupiah(wasteData.totalLoss)}</p></div>
+                <div><p className="font-body text-xs text-muted-400">Total Waste</p><p className="font-display text-2xl font-bold text-orange-500">{wasteData.totalWaste} pcs</p></div>
+                <div><p className="font-body text-xs text-muted-400">Estimasi Kerugian</p><p className="font-display text-2xl font-bold text-red-600">{formatRupiah(wasteData.totalLoss)}</p></div>
               </div>
               {(wasteData.items ?? []).length > 0 && (
                 <div className="space-y-2 mt-4">
                   {(wasteData.items ?? []).map((w: { productName: string; totalWaste: number; totalUnsold: number; estimatedLoss: number }) => (
-                    <div key={w.productName} className="flex justify-between py-1.5 border-b border-dough-100 last:border-0">
-                      <span className="font-body text-sm text-oven-800">{w.productName}</span>
+                    <div key={w.productName} className="flex justify-between py-1.5 border-b border-surface-200 last:border-0">
+                      <span className="font-body text-sm text-dark-800">{w.productName}</span>
                       <div className="text-right">
                         <span className="font-body text-sm font-semibold text-orange-500">{w.totalWaste} waste</span>
-                        <span className="font-body text-xs text-crust-400 ml-2">{formatRupiah(w.estimatedLoss)}</span>
+                        <span className="font-body text-xs text-muted-400 ml-2">{formatRupiah(w.estimatedLoss)}</span>
                       </div>
                     </div>
                   ))}
@@ -215,7 +215,7 @@ export default function ReportsPage() {
 
         {/* ── ORDERS TAB ── */}
         {tab === 'orders' && (!ordersData ? (
-          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-crust-400 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-muted-400 animate-spin" /></div>
         ) : (
           <div className="space-y-5">
             <div className="flex justify-end">
@@ -245,25 +245,25 @@ export default function ReportsPage() {
                 { label: 'Selesai/Batal', value: `${ordersData.totalCompleted}/${ordersData.totalCancelled}`, sub: '' },
               ].map(card => (
                 <div key={card.label} className="card">
-                  <p className="font-body text-xs text-crust-400">{card.label}</p>
-                  <p className="font-display text-xl font-bold text-oven-800 mt-1">{card.value}</p>
-                  {card.sub && <p className="font-body text-xs text-crust-400 mt-0.5">{card.sub}</p>}
+                  <p className="font-body text-xs text-muted-400">{card.label}</p>
+                  <p className="font-display text-xl font-bold text-dark-800 mt-1">{card.value}</p>
+                  {card.sub && <p className="font-body text-xs text-muted-400 mt-0.5">{card.sub}</p>}
                 </div>
               ))}
             </div>
             {ordersData.topProducts.length > 0 && (
               <div className="card">
-                <p className="font-body text-sm font-semibold text-oven-800 mb-3">Produk Terlaris (Pre-Order)</p>
+                <p className="font-body text-sm font-semibold text-dark-800 mb-3">Produk Terlaris (Pre-Order)</p>
                 <div className="space-y-2">
                   {ordersData.topProducts.map((p: { name: string; qty: number; revenue: number }, i: number) => (
-                    <div key={p.name} className="flex items-center justify-between py-1.5 border-b border-dough-100 last:border-0">
+                    <div key={p.name} className="flex items-center justify-between py-1.5 border-b border-surface-200 last:border-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-body text-xs text-crust-400 w-5">{i + 1}.</span>
-                        <span className="font-body text-sm text-oven-800">{p.name}</span>
+                        <span className="font-body text-xs text-muted-400 w-5">{i + 1}.</span>
+                        <span className="font-body text-sm text-dark-800">{p.name}</span>
                       </div>
                       <div className="text-right">
-                        <span className="font-body text-sm font-semibold text-oven-800">{formatRupiah(p.revenue)}</span>
-                        <span className="font-body text-xs text-crust-400 ml-2">{p.qty} pcs</span>
+                        <span className="font-body text-sm font-semibold text-dark-800">{formatRupiah(p.revenue)}</span>
+                        <span className="font-body text-xs text-muted-400 ml-2">{p.qty} pcs</span>
                       </div>
                     </div>
                   ))}
@@ -271,22 +271,22 @@ export default function ReportsPage() {
               </div>
             )}
             <div className="card">
-              <p className="font-body text-sm font-semibold text-oven-800 mb-3">Daftar Pesanan</p>
+              <p className="font-body text-sm font-semibold text-dark-800 mb-3">Daftar Pesanan</p>
               {ordersData.orders.length === 0 ? (
-                <p className="font-body text-sm text-crust-400 text-center py-6">Tidak ada pesanan di periode ini</p>
+                <p className="font-body text-sm text-muted-400 text-center py-6">Tidak ada pesanan di periode ini</p>
               ) : (
                 <div className="space-y-2">
                   {ordersData.orders.map((o: { id: string; customerName: string; status: string; total: number; remainingAmount: number; pickupDate: string; itemCount: number }) => (
-                    <div key={o.id} className="flex items-center justify-between py-2 border-b border-dough-100 last:border-0 gap-3">
+                    <div key={o.id} className="flex items-center justify-between py-2 border-b border-surface-200 last:border-0 gap-3">
                       <div className="flex-1 min-w-0">
-                        <p className="font-body text-sm font-semibold text-oven-800 truncate">{o.customerName}</p>
-                        <p className="font-body text-xs text-crust-400">{new Date(o.pickupDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} · {o.itemCount} item</p>
+                        <p className="font-body text-sm font-semibold text-dark-800 truncate">{o.customerName}</p>
+                        <p className="font-body text-xs text-muted-400">{new Date(o.pickupDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} · {o.itemCount} item</p>
                       </div>
                       <span className={cn('px-2 py-0.5 rounded-full text-xs font-body font-medium flex-shrink-0',
-                        o.status === 'COMPLETED' ? 'bg-crust-100 text-crust-600' : o.status === 'CANCELLED' ? 'bg-red-100 text-red-500' : 'bg-amber-100 text-amber-700'
+                        o.status === 'COMPLETED' ? 'bg-surface-100 text-primary-600' : o.status === 'CANCELLED' ? 'bg-red-100 text-red-500' : 'bg-gold-200 text-accent-600'
                       )}>{STATUS_LABEL[o.status] ?? o.status}</span>
                       <div className="text-right flex-shrink-0">
-                        <p className="font-body text-sm font-semibold text-oven-800">{formatRupiah(o.total)}</p>
+                        <p className="font-body text-sm font-semibold text-dark-800">{formatRupiah(o.total)}</p>
                         {o.remainingAmount > 0 && <p className="font-body text-xs text-orange-500">Sisa {formatRupiah(o.remainingAmount)}</p>}
                       </div>
                     </div>
@@ -299,7 +299,7 @@ export default function ReportsPage() {
 
         {/* ── PROFIT-LOSS TAB ── */}
         {tab === 'profit' && (!profitData ? (
-          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-crust-400 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48"><Loader2 className="w-6 h-6 text-muted-400 animate-spin" /></div>
         ) : (
           <div className="space-y-5">
             <div className="flex justify-end">
@@ -340,33 +340,33 @@ export default function ReportsPage() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="card">
-                <p className="font-body text-xs text-crust-400">Total Pendapatan</p>
+                <p className="font-body text-xs text-muted-400">Total Pendapatan</p>
                 <p className="font-display text-xl font-bold text-green-700 mt-1">{formatRupiah(profitData.revenue.total)}</p>
-                <p className="font-body text-xs text-crust-400 mt-0.5">Kasir + Pre-order</p>
+                <p className="font-body text-xs text-muted-400 mt-0.5">Kasir + Pre-order</p>
               </div>
               <div className="card">
-                <p className="font-body text-xs text-crust-400">Total Pengeluaran</p>
+                <p className="font-body text-xs text-muted-400">Total Pengeluaran</p>
                 <p className="font-display text-xl font-bold text-red-600 mt-1">{formatRupiah(profitData.cost.total)}</p>
-                <p className="font-body text-xs text-crust-400 mt-0.5">Pembelian bahan baku</p>
+                <p className="font-body text-xs text-muted-400 mt-0.5">Pembelian bahan baku</p>
               </div>
               <div className={cn('card col-span-2 md:col-span-1', profitData.profit.gross >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200')}>
-                <p className="font-body text-xs text-crust-400">Laba Kotor</p>
+                <p className="font-body text-xs text-muted-400">Laba Kotor</p>
                 <p className={cn('font-display text-xl font-bold mt-1', profitData.profit.gross >= 0 ? 'text-green-700' : 'text-red-600')}>
                   {profitData.profit.gross >= 0 ? '+' : ''}{formatRupiah(profitData.profit.gross)}
                 </p>
-                <p className="font-body text-xs text-crust-400 mt-0.5">Margin {profitData.profit.grossMargin}%</p>
+                <p className="font-body text-xs text-muted-400 mt-0.5">Margin {profitData.profit.grossMargin}%</p>
               </div>
             </div>
             <div className="card">
-              <p className="font-body text-sm font-semibold text-oven-800 mb-3">Rincian Pendapatan</p>
+              <p className="font-body text-sm font-semibold text-dark-800 mb-3">Rincian Pendapatan</p>
               <div className="space-y-2">
                 {[
                   { label: 'Penjualan kasir', value: profitData.revenue.kasir, color: 'text-green-700' },
                   { label: 'Pre-order selesai', value: profitData.revenue.orders, color: 'text-green-700' },
                   { label: 'Total diskon', value: -profitData.revenue.discount, color: 'text-orange-500' },
                 ].map(row => (
-                  <div key={row.label} className="flex justify-between py-1.5 border-b border-dough-100 font-body text-sm">
-                    <span className="text-crust-500">{row.label}</span>
+                  <div key={row.label} className="flex justify-between py-1.5 border-b border-surface-200 font-body text-sm">
+                    <span className="text-muted-500">{row.label}</span>
                     <span className={cn('font-semibold', row.color)}>{row.value < 0 ? '-' : ''}{formatRupiah(Math.abs(row.value))}</span>
                   </div>
                 ))}
@@ -374,23 +374,23 @@ export default function ReportsPage() {
                   const labels: Record<string, string> = { CASH: 'Tunai', QRIS: 'QRIS', TRANSFER: 'Transfer', SPLIT: 'Split' }
                   return (
                     <div key={method} className="flex justify-between py-1 font-body text-xs">
-                      <span className="text-crust-400 pl-4">↳ {labels[method] ?? method}</span>
-                      <span className="text-crust-500">{formatRupiah(amount)}</span>
+                      <span className="text-muted-400 pl-4">↳ {labels[method] ?? method}</span>
+                      <span className="text-muted-500">{formatRupiah(amount)}</span>
                     </div>
                   )
                 })}
               </div>
             </div>
             <div className="card">
-              <p className="font-body text-sm font-semibold text-oven-800 mb-3">Rincian Pengeluaran</p>
+              <p className="font-body text-sm font-semibold text-dark-800 mb-3">Rincian Pengeluaran</p>
               <div className="space-y-2">
-                <div className="flex justify-between py-1.5 border-b border-dough-100 font-body text-sm">
-                  <span className="text-crust-500">Pembelian bahan baku</span>
+                <div className="flex justify-between py-1.5 border-b border-surface-200 font-body text-sm">
+                  <span className="text-muted-500">Pembelian bahan baku</span>
                   <span className="font-semibold text-red-600">{formatRupiah(profitData.cost.purchases)}</span>
                 </div>
                 {profitData.cost.waste > 0 && (
-                  <div className="flex justify-between py-1.5 border-b border-dough-100 font-body text-sm">
-                    <span className="text-crust-500">Estimasi nilai waste</span>
+                  <div className="flex justify-between py-1.5 border-b border-surface-200 font-body text-sm">
+                    <span className="text-muted-500">Estimasi nilai waste</span>
                     <span className="font-semibold text-orange-500">{formatRupiah(profitData.cost.waste)}</span>
                   </div>
                 )}
@@ -398,7 +398,7 @@ export default function ReportsPage() {
             </div>
             {profitData.daily.length > 1 && (
               <div className="card">
-                <p className="font-body text-sm font-semibold text-oven-800 mb-4">Tren Harian</p>
+                <p className="font-body text-sm font-semibold text-dark-800 mb-4">Tren Harian</p>
                 <div className="space-y-2">
                   {profitData.daily.map((d: { date: string; revenue: number; cost: number }) => {
                     const profit = d.revenue - d.cost
@@ -406,14 +406,14 @@ export default function ReportsPage() {
                     return (
                       <div key={d.date} className="space-y-1">
                         <div className="flex items-center justify-between font-body text-xs">
-                          <span className="text-crust-400">{new Date(d.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>
+                          <span className="text-muted-400">{new Date(d.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>
                           <div className="flex gap-3">
                             <span className="text-green-600">{formatRupiah(d.revenue)}</span>
                             <span className="text-red-500">{formatRupiah(d.cost)}</span>
-                            <span className={cn('font-semibold', profit >= 0 ? 'text-oven-800' : 'text-red-600')}>{profit >= 0 ? '+' : ''}{formatRupiah(profit)}</span>
+                            <span className={cn('font-semibold', profit >= 0 ? 'text-dark-800' : 'text-red-600')}>{profit >= 0 ? '+' : ''}{formatRupiah(profit)}</span>
                           </div>
                         </div>
-                        <div className="h-2 bg-dough-100 rounded-full overflow-hidden">
+                        <div className="h-2 bg-surface-100 rounded-full overflow-hidden">
                           <div className="bg-green-400 h-full rounded-full" style={{ width: `${(d.revenue / maxVal) * 100}%` }} />
                         </div>
                       </div>
@@ -422,8 +422,8 @@ export default function ReportsPage() {
                 </div>
               </div>
             )}
-            <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-              <p className="font-body text-xs text-crust-400">⚠ Laba kotor belum termasuk biaya operasional (sewa, gaji, listrik).</p>
+            <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+              <p className="font-body text-xs text-muted-400">⚠ Laba kotor belum termasuk biaya operasional (sewa, gaji, listrik).</p>
             </div>
           </div>
         ))}

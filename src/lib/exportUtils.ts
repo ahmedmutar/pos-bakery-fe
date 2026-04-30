@@ -91,7 +91,7 @@ export function exportTableToPDF(data: TableData) {
   </table>
   <div class="footer">
     Dicetak pada ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-    · Roti POS
+    · Sajiin
   </div>
 </body>
 </html>`

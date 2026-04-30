@@ -82,14 +82,14 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
   const isValid = items.some((i) => i.ingredientId && i.quantity && i.pricePerUnit)
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-crust-600" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">Catat Pembelian</h2>
+            <ShoppingBag className="w-5 h-5 text-primary-600" />
+            <h2 className="font-display text-lg font-semibold text-dark-800">Catat Pembelian</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -98,7 +98,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
           {/* Date & notes */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">Tanggal</label>
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">Tanggal</label>
               <input
                 type="date"
                 value={date}
@@ -107,7 +107,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
               />
             </div>
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 Catatan (opsional)
               </label>
               <input
@@ -123,10 +123,10 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
           {/* Items */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="font-body text-sm font-medium text-crust-700">Daftar Bahan</p>
+              <p className="font-body text-sm font-medium text-primary-700">Daftar Bahan</p>
               <button
                 onClick={addItem}
-                className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Tambah bahan
@@ -137,13 +137,13 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
               {items.map((item, index) => {
                 const ingredient = ingredients.find((g) => g.id === item.ingredientId)
                 return (
-                  <div key={index} className="bg-dough-50 rounded-xl p-4 space-y-3">
+                  <div key={index} className="bg-surface-50 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="font-body text-sm font-medium text-crust-600">Bahan #{index + 1}</p>
+                      <p className="font-body text-sm font-medium text-primary-600">Bahan #{index + 1}</p>
                       {items.length > 1 && (
                         <button
                           onClick={() => removeItem(index)}
-                          className="text-crust-300 hover:text-red-400 transition-colors"
+                          className="text-surface-300 hover:text-red-400 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -165,7 +165,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
                     <div className="grid grid-cols-3 gap-3">
                       {/* Quantity */}
                       <div>
-                        <label className="block text-xs font-body text-crust-500 mb-1">Jumlah</label>
+                        <label className="block text-xs font-body text-muted-500 mb-1">Jumlah</label>
                         <input
                           type="number"
                           value={item.quantity}
@@ -179,7 +179,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
 
                       {/* Unit */}
                       <div>
-                        <label className="block text-xs font-body text-crust-500 mb-1">
+                        <label className="block text-xs font-body text-muted-500 mb-1">
                           Satuan beli
                         </label>
                         <input
@@ -193,7 +193,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
 
                       {/* Unit factor */}
                       <div>
-                        <label className="block text-xs font-body text-crust-500 mb-1">
+                        <label className="block text-xs font-body text-muted-500 mb-1">
                           Konversi ke {ingredient?.baseUnit ?? 'satuan dasar'}
                         </label>
                         <input
@@ -210,11 +210,11 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
 
                     {/* Price */}
                     <div>
-                      <label className="block text-xs font-body text-crust-500 mb-1">
+                      <label className="block text-xs font-body text-muted-500 mb-1">
                         Harga per {item.unit || ingredient?.baseUnit || 'satuan'}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">Rp</span>
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-muted-400">Rp</span>
                         <input
                           type="text"
                           value={item.pricePerUnit}
@@ -226,7 +226,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
 
                       {/* Cost hint */}
                       {item.quantity && item.pricePerUnit && (
-                        <p className="font-body text-xs text-crust-400 mt-1">
+                        <p className="font-body text-xs text-muted-400 mt-1">
                           Subtotal: {formatCurrency(
                             (parseFloat(item.quantity) || 0) *
                             (parseInt(item.pricePerUnit.replace(/\D/g, '')) || 0)
@@ -248,9 +248,9 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
 
           {/* Total */}
           {totalCost > 0 && (
-            <div className="flex justify-between items-center bg-crust-50 border border-crust-200 rounded-xl px-4 py-3">
-              <span className="font-body text-sm font-medium text-crust-700">Total Pembelian</span>
-              <span className="font-display text-lg font-semibold text-crust-700">
+            <div className="flex justify-between items-center bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+              <span className="font-body text-sm font-medium text-primary-700">Total Pembelian</span>
+              <span className="font-display text-lg font-semibold text-primary-700">
                 {formatCurrency(totalCost)}
               </span>
             </div>
@@ -263,7 +263,7 @@ export default function PurchaseModal({ onClose }: PurchaseModalProps) {
           )}
         </div>
 
-        <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={() => mutation.mutate()}

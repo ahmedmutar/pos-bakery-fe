@@ -15,22 +15,22 @@ export default function SuccessModal({ transactionId, total, change, onNewTransa
   const { print, isReady, isLoading, isOffline } = useThermalReceipt({ transactionId, change })
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-sm text-center">
         <div className="px-6 pt-8 pb-5">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-9 h-9 text-green-600" />
           </div>
-          <h2 className="font-display text-xl font-semibold text-oven-800 mb-1">
+          <h2 className="font-display text-xl font-semibold text-dark-800 mb-1">
             Pembayaran Berhasil
           </h2>
-          <p className="font-body text-sm text-crust-400">
+          <p className="font-body text-sm text-muted-400">
             #{transactionId.slice(-8).toUpperCase()}
           </p>
         </div>
 
-        <div className="mx-6 bg-dough-50 rounded-xl p-4 mb-5 space-y-2">
-          <div className="flex justify-between font-body text-sm text-crust-600">
+        <div className="mx-6 bg-surface-50 rounded-xl p-4 mb-5 space-y-2">
+          <div className="flex justify-between font-body text-sm text-primary-600">
             <span>{t('common.total')}</span>
             <span className="font-medium">{formatCurrency(total)}</span>
           </div>
@@ -65,7 +65,7 @@ export default function SuccessModal({ transactionId, total, change, onNewTransa
           </p>
         )}
         {isLoading && !isOffline && (
-          <p className="font-body text-xs text-crust-400 text-center pb-3 px-6">
+          <p className="font-body text-xs text-muted-400 text-center pb-3 px-6">
             Memuat data struk...
           </p>
         )}

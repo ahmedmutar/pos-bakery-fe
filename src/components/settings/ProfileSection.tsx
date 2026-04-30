@@ -35,7 +35,7 @@ export default function ProfileSection() {
   if (isLoading) {
     return (
       <div className="card flex items-center justify-center h-28">
-        <Loader2 className="w-5 h-5 text-crust-400 animate-spin" />
+        <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
       </div>
     )
   }
@@ -49,19 +49,19 @@ export default function ProfileSection() {
   return (
     <div className="card space-y-4">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-crust-100 rounded-xl flex items-center justify-center">
-          <Store className="w-5 h-5 text-crust-600" />
+        <div className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center">
+          <Store className="w-5 h-5 text-primary-600" />
         </div>
         <div>
-          <h3 className="font-display text-base font-semibold text-oven-800">Profil Toko</h3>
-          <p className="font-body text-xs text-crust-400">Informasi dasar toko Anda</p>
+          <h3 className="font-display text-base font-semibold text-dark-800">Profil Toko</h3>
+          <p className="font-body text-xs text-muted-400">Informasi dasar toko Anda</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         {/* Store name */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nama Toko
           </label>
           {editing ? (
@@ -89,10 +89,10 @@ export default function ProfileSection() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <p className="font-body text-sm font-medium text-oven-800">{profile?.name}</p>
+              <p className="font-body text-sm font-medium text-dark-800">{profile?.name}</p>
               <button
                 onClick={() => setEditing(true)}
-                className="text-crust-400 hover:text-crust-600 transition-colors"
+                className="text-muted-400 hover:text-primary-600 transition-colors"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </button>
@@ -102,7 +102,7 @@ export default function ProfileSection() {
 
         {/* Logo */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-3">{t('settings.logoUpload')}</label>
+          <label className="block text-xs font-body font-medium text-primary-700 mb-3">{t('settings.logoUpload')}</label>
           <LogoUploader
             currentLogo={profile?.logoUrl ?? null}
             tenantName={profile?.name ?? ''}
@@ -111,22 +111,22 @@ export default function ProfileSection() {
 
         {/* Slug */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">{t('settings.storeSlug')}</label>
-          <p className="font-mono text-sm text-crust-500">{profile?.slug}</p>
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">{t('settings.storeSlug')}</label>
+          <p className="font-mono text-sm text-muted-500">{profile?.slug}</p>
         </div>
 
         {/* Plan */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">{t('settings.plan')}</label>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-body font-medium bg-crust-100 text-crust-700">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">{t('settings.plan')}</label>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-body font-medium bg-surface-100 text-primary-700">
             {PLAN_LABELS[profile?.plan ?? 'basic'] ?? profile?.plan}
           </span>
         </div>
 
         {/* Member since */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">{t('settings.memberSince')}</label>
-          <p className="font-body text-sm text-oven-700">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">{t('settings.memberSince')}</label>
+          <p className="font-body text-sm text-dark-700">
             {profile?.createdAt
               ? new Date(profile.createdAt).toLocaleDateString('id-ID', {
                   day: 'numeric', month: 'long', year: 'numeric',
@@ -137,10 +137,10 @@ export default function ProfileSection() {
       </div>
 
       {/* Reset onboarding */}
-      <div className="pt-2 border-t border-dough-100 mt-2">
+      <div className="pt-2 border-t border-surface-200 mt-2">
         <button
           onClick={resetOnboarding}
-          className="flex items-center gap-2 text-sm font-body text-crust-400 hover:text-crust-600 transition-colors"
+          className="flex items-center gap-2 text-sm font-body text-muted-400 hover:text-primary-600 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           Ulangi wizard setup

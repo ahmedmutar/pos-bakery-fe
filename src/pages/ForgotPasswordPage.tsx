@@ -19,16 +19,16 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 text-center space-y-4">
           <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle className="w-7 h-7 text-green-600" />
           </div>
-          <h1 className="font-display text-xl font-bold text-oven-800">Cek Email Anda</h1>
-          <p className="font-body text-sm text-crust-500">
+          <h1 className="font-display text-xl font-bold text-dark-800">Cek Email Anda</h1>
+          <p className="font-body text-sm text-muted-500">
             Jika email <strong>{email}</strong> terdaftar, instruksi reset password akan dikirim. Periksa inbox dan folder spam.
           </p>
-          <p className="font-body text-xs text-crust-400 bg-dough-50 rounded-xl px-4 py-3">
+          <p className="font-body text-xs text-muted-400 bg-surface-50 rounded-xl px-4 py-3">
             Tidak ada email masuk? Hubungi owner atau admin toko untuk reset password manual.
           </p>
           <button
@@ -43,12 +43,12 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 space-y-6">
         {/* Back */}
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Kembali ke Login
@@ -56,11 +56,11 @@ export default function ForgotPasswordPage() {
 
         {/* Header */}
         <div>
-          <div className="w-12 h-12 bg-crust-100 rounded-2xl flex items-center justify-center mb-4">
-            <Mail className="w-6 h-6 text-crust-600" />
+          <div className="w-12 h-12 bg-surface-100 rounded-2xl flex items-center justify-center mb-4">
+            <Mail className="w-6 h-6 text-primary-600" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-oven-800">Lupa Password</h1>
-          <p className="font-body text-sm text-crust-400 mt-1">
+          <h1 className="font-display text-2xl font-bold text-dark-800">Lupa Password</h1>
+          <p className="font-body text-sm text-muted-400 mt-1">
             Masukkan email akun Anda. Kami akan kirim link reset password.
           </p>
         </div>
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
         {/* Form */}
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Email
             </label>
             <input

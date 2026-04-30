@@ -110,12 +110,12 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-md max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
-          <h2 className="font-display text-lg font-semibold text-oven-800">Pembayaran</h2>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
+          <h2 className="font-display text-lg font-semibold text-dark-800">Pembayaran</h2>
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -125,8 +125,8 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
           {paymentStep === 'select' && method !== 'TRANSFER' && (
             <div className="space-y-5">
               {/* Order summary */}
-              <div className="bg-dough-50 rounded-xl p-4 space-y-1.5">
-                <div className="flex justify-between font-body text-sm text-crust-500">
+              <div className="bg-surface-50 rounded-xl p-4 space-y-1.5">
+                <div className="flex justify-between font-body text-sm text-muted-500">
                   <span>{t('cashier.subtotal')}</span>
                   <span>{formatCurrency(subtotal())}</span>
                 </div>
@@ -136,7 +136,7 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
                     <span>- {formatCurrency(discount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between font-display text-2xl font-bold text-oven-800 pt-1 border-t border-dough-200 tracking-tight">
+                <div className="flex justify-between font-display text-2xl font-bold text-dark-800 pt-1 border-t border-surface-200 tracking-tight">
                   <span>Total</span>
                   <span>{formatCurrency(totalAmount)}</span>
                 </div>
@@ -144,7 +144,7 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
 
               {/* Method tabs */}
               <div>
-                <p className="font-body text-xs font-medium text-crust-700 mb-2">{t('cashier.paymentMethod')}</p>
+                <p className="font-body text-xs font-medium text-primary-700 mb-2">{t('cashier.paymentMethod')}</p>
                 <div className="grid grid-cols-4 gap-2">
                   {METHODS.map(({ key, labelKey, icon: Icon }) => (
                     <button
@@ -153,8 +153,8 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
                       className={cn(
                         'flex flex-col items-center gap-1.5 py-3 rounded-xl border text-xs font-body font-medium transition-all',
                         method === key
-                          ? 'bg-crust-600 text-cream border-crust-600 shadow-warm'
-                          : 'bg-dough-50 text-crust-600 border-dough-200 hover:bg-dough-100'
+                          ? 'bg-primary-600 text-white border-primary-600 shadow-warm'
+                          : 'bg-surface-50 text-primary-600 border-surface-200 hover:bg-surface-100'
                       )}
                     >
                       <Icon className="w-5 h-5" />
@@ -167,11 +167,11 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
               {/* Cash input */}
               {method === 'CASH' && (
                 <div>
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                     Uang Diterima
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">Rp</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-muted-400">Rp</span>
                     <input
                       type="text"
                       value={paidInput}
@@ -189,8 +189,8 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
                       className={cn(
                         'px-3 py-1.5 rounded-lg text-xs font-body font-medium border transition-all',
                         paidAmount === totalAmount
-                          ? 'bg-crust-600 text-cream border-crust-600'
-                          : 'bg-dough-50 text-crust-600 border-dough-200 hover:bg-dough-100'
+                          ? 'bg-primary-600 text-white border-primary-600'
+                          : 'bg-surface-50 text-primary-600 border-surface-200 hover:bg-surface-100'
                       )}
                     >
                       Pas
@@ -202,8 +202,8 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
                         className={cn(
                           'px-3 py-1.5 rounded-lg text-xs font-body font-medium border transition-all',
                           paidAmount === amt
-                            ? 'bg-crust-600 text-cream border-crust-600'
-                            : 'bg-dough-50 text-crust-600 border-dough-200 hover:bg-dough-100'
+                            ? 'bg-primary-600 text-white border-primary-600'
+                            : 'bg-surface-50 text-primary-600 border-surface-200 hover:bg-surface-100'
                         )}
                       >
                         {formatCurrency(amt)}
@@ -225,8 +225,8 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
 
               {/* Non-cash info */}
               {method !== 'CASH' && (method as string) !== 'TRANSFER' && (
-                <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3 text-center">
-                  <p className="font-body text-sm text-crust-500">
+                <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3 text-center">
+                  <p className="font-body text-sm text-muted-500">
                     {method === 'QRIS' && 'QR code akan tampil untuk di-scan pelanggan'}
                     {method === 'CARD' && 'Form pembayaran kartu kredit/debit akan ditampilkan'}
                   </p>
@@ -271,14 +271,14 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
 
         {/* Footer — only show on select step */}
         {paymentStep === 'select' && method !== 'TRANSFER' && (
-          <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+          <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
             <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
             <button
               onClick={handleProceed}
               disabled={!canPay || saveTx.isPending}
               className={cn(
                 'flex-1 flex items-center justify-center gap-2',
-                'bg-crust-600 hover:bg-crust-700 text-cream font-body font-medium',
+                'bg-primary-600 hover:bg-primary-700 text-white font-body font-medium',
                 'px-5 py-2.5 rounded-xl transition-all shadow-warm',
                 (!canPay || saveTx.isPending) && 'opacity-50 cursor-not-allowed'
               )}
@@ -296,7 +296,7 @@ export default function PaymentModal({ onClose, onSuccess }: PaymentModalProps) 
 
         {/* Back button on process step */}
         {paymentStep === 'process' && (
-          <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex-shrink-0">
+          <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex-shrink-0">
             <button
               onClick={() => setPaymentStep('select')}
               className="btn-secondary w-full text-sm"

@@ -52,7 +52,7 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
   return (
     <div className="space-y-4">
       {/* Card preview */}
-      <div className="bg-gradient-to-br from-oven-800 to-crust-700 rounded-2xl p-5 text-cream shadow-warm-lg">
+      <div className="bg-gradient-to-br from-dark-800 to-primary-700 rounded-2xl p-5 text-white shadow-warm-lg">
         <div className="flex justify-between items-start mb-6">
           <CreditCard className="w-8 h-8 opacity-70" />
           <div className="flex gap-1">
@@ -80,7 +80,7 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
       {/* Form */}
       <div className="space-y-3">
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nomor Kartu
           </label>
           <input
@@ -96,7 +96,7 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               Berlaku Hingga
             </label>
             <input
@@ -109,7 +109,7 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
             />
           </div>
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               CVV
             </label>
             <div className="relative">
@@ -121,13 +121,13 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
                 maxLength={4}
                 className="input font-mono text-sm pr-9"
               />
-              <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-crust-300" />
+              <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-surface-300" />
             </div>
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nama di Kartu
           </label>
           <input
@@ -147,8 +147,8 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
       )}
 
       {/* Simulation hint */}
-      <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-2.5">
-        <p className="font-body text-xs text-crust-500">
+      <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-2.5">
+        <p className="font-body text-xs text-muted-500">
           Mode simulasi · Gunakan nomor kartu apapun kecuali yang diawali <span className="font-mono font-medium">4000</span> (akan ditolak)
         </p>
       </div>
@@ -158,7 +158,7 @@ export default function CardDisplay({ amount, onConfirm }: CardDisplayProps) {
         disabled={!isValid || processing}
         className={cn(
           'w-full flex items-center justify-center gap-2',
-          'bg-crust-600 hover:bg-crust-700 text-cream font-body font-medium',
+          'bg-primary-600 hover:bg-primary-700 text-white font-body font-medium',
           'px-5 py-3 rounded-xl transition-all shadow-warm',
           (!isValid || processing) && 'opacity-50 cursor-not-allowed'
         )}

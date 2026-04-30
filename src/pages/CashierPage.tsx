@@ -65,7 +65,7 @@ export default function CashierPage() {
   if (checkingShift) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
-        <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+        <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
       </div>
     )
   }
@@ -73,22 +73,22 @@ export default function CashierPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] -m-4 lg:-m-6">
       {/* Shift status bar */}
-      <div className="bg-white border-b border-dough-200 px-5 py-2.5 flex items-center justify-between flex-shrink-0">
+      <div className="bg-white border-b border-surface-200 px-5 py-2.5 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           {hasShift ? (
             <>
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="font-body text-sm text-oven-700">
+              <span className="font-body text-sm text-dark-700">
                 {t('cashier.shiftActive')} · {user?.name}
               </span>
               {outlets[0] && (
-                <span className="font-body text-xs text-crust-400">· {outlets[0].name}</span>
+                <span className="font-body text-xs text-muted-400">· {outlets[0].name}</span>
               )}
             </>
           ) : (
             <>
               <span className="w-2 h-2 rounded-full bg-red-400" />
-              <span className="font-body text-sm text-crust-500">Belum ada shift aktif</span>
+              <span className="font-body text-sm text-muted-500">Belum ada shift aktif</span>
             </>
           )}
         </div>
@@ -99,8 +99,8 @@ export default function CashierPage() {
           {hasShift && (
             <button
               onClick={() => setShowHistory(true)}
-              className="flex items-center gap-1.5 text-sm font-body font-medium text-crust-600
-                         hover:bg-dough-100 px-3 py-1.5 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 text-sm font-body font-medium text-primary-600
+                         hover:bg-surface-100 px-3 py-1.5 rounded-lg transition-colors"
             >
               <History className="w-3.5 h-3.5" />
               Riwayat
@@ -155,7 +155,7 @@ export default function CashierPage() {
             onNumericHandled={() => setTriggerNumeric(null)}
           />
         </div>
-        <div className="w-full lg:w-80 flex-shrink-0 overflow-hidden border-t lg:border-t-0 lg:border-l border-dough-200 max-h-[45vh] lg:max-h-none">
+        <div className="w-full lg:w-80 flex-shrink-0 overflow-hidden border-t lg:border-t-0 lg:border-l border-surface-200 max-h-[45vh] lg:max-h-none">
           <CartPanel
             triggerPay={triggerPay}
             triggerDiscount={triggerDiscount}

@@ -2,47 +2,47 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Shield } from 'lucide-react'
 
 const LAST_UPDATED = '25 April 2026'
-const COMPANY = 'Roti POS'
-const EMAIL = 'privacy@rotipos.com'
+const COMPANY = 'Sajiin'
+const EMAIL = 'privacy@sajiin.com'
 const WA = 'https://wa.me/6285947566558'
 
 export default function PrivacyPolicyPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-dough-50">
+    <div className="min-h-screen bg-surface-50">
       {/* Header */}
-      <div className="bg-white border-b border-dough-100 sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="bg-white border-b border-surface-200 sticky top-0 z-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Kembali
           </button>
-          <div className="h-4 w-px bg-dough-200" />
+          <div className="h-4 w-px bg-surface-200" />
           <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-crust-500" />
-            <span className="font-body text-sm font-medium text-crust-600">Kebijakan Privasi</span>
+            <Shield className="w-4 h-4 text-muted-500" />
+            <span className="font-body text-sm font-medium text-primary-600">Kebijakan Privasi</span>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Title */}
         <div className="mb-10">
-          <h1 className="font-display text-3xl font-bold text-oven-800 mb-2">Kebijakan Privasi</h1>
-          <p className="font-body text-sm text-crust-400">Terakhir diperbarui: {LAST_UPDATED}</p>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-dark-800 mb-2">Kebijakan Privasi</h1>
+          <p className="font-body text-sm text-muted-400">Terakhir diperbarui: {LAST_UPDATED}</p>
         </div>
 
-        <div className="space-y-8 font-body text-crust-600 leading-relaxed">
+        <div className="space-y-8 font-body text-primary-600 leading-relaxed">
 
           {/* Intro */}
-          <div className="bg-white rounded-2xl border border-dough-200 px-6 py-5">
+          <div className="bg-white rounded-2xl border border-surface-200 px-6 py-5">
             <p className="text-sm">
-              {COMPANY} ("<strong>kami</strong>", "<strong>kita</strong>") berkomitmen melindungi privasi pengguna platform kasir dan manajemen bakery kami. Kebijakan ini menjelaskan data apa yang kami kumpulkan, bagaimana kami menggunakannya, dan hak-hak Anda.
+              {COMPANY} ("<strong>kami</strong>", "<strong>kita</strong>") berkomitmen melindungi privasi pengguna platform manajemen bisnis kuliner kami. Kebijakan ini menjelaskan data apa yang kami kumpulkan, bagaimana kami menggunakannya, dan hak-hak Anda.
             </p>
           </div>
 
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
               <li><strong>Portabilitas</strong> — Anda dapat mengekspor data transaksi dalam format Excel/PDF</li>
             </ul>
             <p className="text-sm mt-3">
-              Untuk menggunakan hak-hak ini, hubungi kami di <a href={`mailto:${EMAIL}`} className="text-crust-700 font-medium underline">{EMAIL}</a>.
+              Untuk menggunakan hak-hak ini, hubungi kami di <a href={`mailto:${EMAIL}`} className="text-primary-700 font-medium underline">{EMAIL}</a>.
             </p>
           </Section>
 
@@ -126,9 +126,9 @@ export default function PrivacyPolicyPage() {
             <p className="text-sm">
               Jika ada pertanyaan tentang kebijakan privasi ini, hubungi kami:
             </p>
-            <div className="mt-3 bg-dough-50 rounded-xl px-4 py-3 space-y-1 text-sm">
-              <p>Email: <a href={`mailto:${EMAIL}`} className="text-crust-700 font-medium">{EMAIL}</a></p>
-              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-crust-700 font-medium">085947566558</a></p>
+            <div className="mt-3 bg-surface-50 rounded-xl px-4 py-3 space-y-1 text-sm">
+              <p>Email: <a href={`mailto:${EMAIL}`} className="text-primary-700 font-medium">{EMAIL}</a></p>
+              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-primary-700 font-medium">085947566558</a></p>
             </div>
           </Section>
         </div>
@@ -140,7 +140,7 @@ export default function PrivacyPolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="font-display text-lg font-semibold text-oven-800 mb-3">{title}</h2>
+      <h2 className="font-display text-lg font-semibold text-dark-800 mb-3">{title}</h2>
       <div className="space-y-3">{children}</div>
     </div>
   )
@@ -149,7 +149,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="font-body text-sm font-semibold text-crust-700 mb-2">{title}</p>
+      <p className="font-body text-sm font-semibold text-primary-700 mb-2">{title}</p>
       {children}
     </div>
   )

@@ -100,15 +100,15 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-2xl max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <ClipboardList className="w-5 h-5 text-crust-600" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">Buat Pesanan Baru</h2>
+            <ClipboardList className="w-5 h-5 text-primary-600" />
+            <h2 className="font-display text-lg font-semibold text-dark-800">Buat Pesanan Baru</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -116,10 +116,10 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-5 scrollbar-thin">
           {/* Customer info */}
           <div>
-            <p className="font-body text-sm font-semibold text-oven-800 mb-3">Data Pelanggan</p>
+            <p className="font-body text-sm font-semibold text-dark-800 mb-3">Data Pelanggan</p>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                   Nama <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -133,7 +133,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                 {errors.customerName && <p className="text-red-500 text-xs mt-1">{errors.customerName}</p>}
               </div>
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                   Nomor HP <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -150,10 +150,10 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
           {/* Pickup date */}
           <div>
-            <p className="font-body text-sm font-semibold text-oven-800 mb-3">Waktu Pengambilan</p>
+            <p className="font-body text-sm font-semibold text-dark-800 mb-3">Waktu Pengambilan</p>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                   Tanggal <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -166,7 +166,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                 {errors.pickupDate && <p className="text-red-500 text-xs mt-1">{errors.pickupDate}</p>}
               </div>
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Jam</label>
+                <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Jam</label>
                 <input
                   type="time"
                   value={pickupTime}
@@ -180,10 +180,10 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
           {/* Order items */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="font-body text-sm font-semibold text-oven-800">Produk Dipesan</p>
+              <p className="font-body text-sm font-semibold text-dark-800">Produk Dipesan</p>
               <button
                 onClick={() => setItems((prev) => [...prev, emptyItem()])}
-                className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Tambah produk
@@ -196,7 +196,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
             <div className="space-y-3">
               {items.map((item, index) => (
-                <div key={index} className="bg-dough-50 rounded-xl p-4 space-y-3">
+                <div key={index} className="bg-surface-50 rounded-xl p-4 space-y-3">
                   <div className="flex items-center gap-3">
                     <select
                       value={item.productId}
@@ -211,7 +211,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                     {items.length > 1 && (
                       <button
                         onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
-                        className="text-crust-300 hover:text-red-400 transition-colors flex-shrink-0"
+                        className="text-surface-300 hover:text-red-400 transition-colors flex-shrink-0"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -220,7 +220,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-body text-crust-500 mb-1">Jumlah</label>
+                      <label className="block text-xs font-body text-muted-500 mb-1">Jumlah</label>
                       <div className="relative">
                         <input
                           type="number"
@@ -229,13 +229,13 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                           min="1"
                           className="input text-sm py-2 bg-white pr-12"
                         />
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs text-crust-400">pcs</span>
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs text-muted-400">pcs</span>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-body text-crust-500 mb-1">Harga satuan</label>
+                      <label className="block text-xs font-body text-muted-500 mb-1">Harga satuan</label>
                       <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-xs text-crust-400">Rp</span>
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-xs text-muted-400">Rp</span>
                         <input
                           type="text"
                           value={item.unitPrice}
@@ -247,7 +247,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-body text-crust-500 mb-1">
+                    <label className="block text-xs font-body text-muted-500 mb-1">
                       Catatan kustom (tulisan di kue, warna, dll)
                     </label>
                     <input
@@ -261,7 +261,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
                   {item.productId && item.quantity && item.unitPrice && (
                     <div className="flex justify-end">
-                      <span className="font-body text-sm font-semibold text-crust-700">
+                      <span className="font-body text-sm font-semibold text-primary-700">
                         {formatCurrency((parseInt(item.quantity) || 0) * (parseInt(item.unitPrice.replace(/\D/g, '')) || 0))}
                       </span>
                     </div>
@@ -273,20 +273,20 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
           {/* Payment summary */}
           {subtotal > 0 && (
-            <div className="bg-dough-50 rounded-xl p-4 space-y-3">
-              <p className="font-body text-sm font-semibold text-oven-800">Pembayaran</p>
+            <div className="bg-surface-50 rounded-xl p-4 space-y-3">
+              <p className="font-body text-sm font-semibold text-dark-800">Pembayaran</p>
 
               <div className="flex justify-between font-body text-sm">
-                <span className="text-crust-500">Total pesanan</span>
-                <span className="font-semibold text-oven-800">{formatCurrency(subtotal)}</span>
+                <span className="text-muted-500">Total pesanan</span>
+                <span className="font-semibold text-dark-800">{formatCurrency(subtotal)}</span>
               </div>
 
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                   Uang muka (DP)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-muted-400">Rp</span>
                   <input
                     type="text"
                     value={dpAmount}
@@ -304,7 +304,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                       key={pct}
                       onClick={() => setDpAmount(String(Math.round(subtotal * pct)))}
                       className="flex-1 py-1.5 rounded-lg text-xs font-body font-medium border
-                                 bg-white text-crust-600 border-dough-200 hover:bg-dough-100 transition-all"
+                                 bg-white text-primary-600 border-surface-200 hover:bg-surface-100 transition-all"
                     >
                       {pct === 1 ? 'Lunas' : `${pct * 100}%`}
                     </button>
@@ -313,11 +313,11 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
               </div>
 
               {dp > 0 && (
-                <div className="flex justify-between font-body text-sm border-t border-dough-200 pt-2">
-                  <span className="text-crust-500">Sisa pelunasan</span>
+                <div className="flex justify-between font-body text-sm border-t border-surface-200 pt-2">
+                  <span className="text-muted-500">Sisa pelunasan</span>
                   <span className={cn(
                     'font-semibold',
-                    remaining === 0 ? 'text-green-600' : 'text-oven-800'
+                    remaining === 0 ? 'text-green-600' : 'text-dark-800'
                   )}>
                     {remaining === 0 ? 'Lunas ✓' : formatCurrency(remaining)}
                   </span>
@@ -328,7 +328,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Catatan tambahan (opsional)
             </label>
             <textarea
@@ -346,7 +346,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
           )}
         </div>
 
-        <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={handleSave}

@@ -46,8 +46,8 @@ export default function SettingsPage() {
               className={cn(
                 'w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body font-medium transition-all',
                 tab === key
-                  ? 'bg-crust-600 text-cream shadow-warm'
-                  : 'text-crust-600 hover:bg-dough-100'
+                  ? 'bg-primary-600 text-white shadow-warm'
+                  : 'text-primary-600 hover:bg-surface-100'
               )}
             >
               <Icon className="w-4 h-4 flex-shrink-0" />
@@ -83,7 +83,7 @@ function OutletProductTabContent() {
   if (outlets.length === 0) {
     return (
       <div className="card flex items-center justify-center h-32">
-        <p className="font-body text-sm text-crust-400">Belum ada outlet. Tambah outlet di tab Outlet & Cabang.</p>
+        <p className="font-body text-sm text-muted-400">Belum ada outlet. Tambah outlet di tab Outlet & Cabang.</p>
       </div>
     )
   }
@@ -98,8 +98,8 @@ function OutletProductTabContent() {
               onClick={() => setSelectedOutletId(o.id)}
               className={`px-4 py-2 rounded-xl font-body text-sm font-medium transition-all border ${
                 (activeOutlet?.id === o.id)
-                  ? 'bg-crust-600 text-cream border-crust-600'
-                  : 'bg-white text-crust-600 border-dough-200 hover:bg-dough-50'
+                  ? 'bg-primary-600 text-white border-primary-600'
+                  : 'bg-white text-primary-600 border-surface-200 hover:bg-surface-50'
               }`}
             >
               {o.name}

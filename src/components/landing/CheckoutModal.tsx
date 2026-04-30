@@ -4,9 +4,9 @@ import { X, Loader2, ShoppingBag, ArrowRight } from 'lucide-react'
 import api from '../../lib/api'
 
 const PLAN_INFO = {
-  basic:      { label: 'Basic',      price: 149_000, color: 'border-dough-300' },
-  pro:        { label: 'Pro',        price: 349_000, color: 'border-crust-400' },
-  enterprise: { label: 'Enterprise', price: 999_000, color: 'border-oven-500' },
+  basic:      { label: 'Basic',      price: 149_000, color: 'border-surface-300' },
+  pro:        { label: 'Pro',        price: 349_000, color: 'border-primary-400' },
+  enterprise: { label: 'Enterprise', price: 999_000, color: 'border-dark-500' },
 }
 
 interface CheckoutModalProps {
@@ -36,27 +36,27 @@ export default function CheckoutModal({ plan, onClose }: CheckoutModalProps) {
   const valid = form.name.length >= 2 && form.email.includes('@') && form.storeName.length >= 2
 
   return (
-    <div className="fixed inset-0 bg-oven-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-crust-600" />
+            <ShoppingBag className="w-5 h-5 text-primary-600" />
             <div>
-              <h2 className="font-display text-base font-semibold text-oven-800">
+              <h2 className="font-display text-base font-semibold text-dark-800">
                 Beli Paket {info.label}
               </h2>
-              <p className="font-body text-xs text-crust-400">{formatRp(info.price)}/bulan</p>
+              <p className="font-body text-xs text-muted-400">{formatRp(info.price)}/bulan</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="px-6 py-5 space-y-4">
-          <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-            <p className="font-body text-xs text-crust-500">
+          <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+            <p className="font-body text-xs text-muted-500">
               Isi data di bawah, lalu Anda akan diarahkan ke halaman pembayaran Xendit. 
               Setelah pembayaran berhasil, akun akan langsung aktif.
             </p>
@@ -64,7 +64,7 @@ export default function CheckoutModal({ plan, onClose }: CheckoutModalProps) {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Nama Anda *</label>
+              <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Nama Anda *</label>
               <input
                 type="text"
                 value={form.name}
@@ -75,19 +75,19 @@ export default function CheckoutModal({ plan, onClose }: CheckoutModalProps) {
               />
             </div>
             <div>
-              <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Nama Toko *</label>
+              <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Nama Toko *</label>
               <input
                 type="text"
                 value={form.storeName}
                 onChange={(e) => setForm(f => ({ ...f, storeName: e.target.value }))}
-                placeholder="Bakery Enak"
+                placeholder="Bisnis Kuliner Enak"
                 className="input"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Email *</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Email *</label>
             <input
               type="email"
               value={form.email}
@@ -98,8 +98,8 @@ export default function CheckoutModal({ plan, onClose }: CheckoutModalProps) {
           </div>
 
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
-              Nomor WhatsApp <span className="text-crust-400 font-normal">(opsional)</span>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
+              Nomor WhatsApp <span className="text-muted-400 font-normal">(opsional)</span>
             </label>
             <input
               type="tel"

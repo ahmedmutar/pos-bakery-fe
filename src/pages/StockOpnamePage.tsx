@@ -29,9 +29,9 @@ export default function StockOpnamePage() {
   if (!plan?.limits.hasExcelImport) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <ClipboardCheck className="w-12 h-12 text-dough-300 mb-4" />
-        <h2 className="font-display text-lg font-semibold text-oven-800 mb-2">Stock Opname</h2>
-        <p className="font-body text-sm text-crust-400 max-w-xs">
+        <ClipboardCheck className="w-12 h-12 text-surface-300 mb-4" />
+        <h2 className="font-display text-lg font-semibold text-dark-800 mb-2">Stock Opname</h2>
+        <p className="font-body text-sm text-muted-400 max-w-xs">
           Fitur ini tersedia untuk paket Pro dan Enterprise. Upgrade untuk mengakses stock opname penuh.
         </p>
       </div>
@@ -47,8 +47,8 @@ export default function StockOpnamePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-xl font-bold text-oven-800">Stock Opname</h1>
-          <p className="font-body text-sm text-crust-400 mt-0.5">Rekonsiliasi stok sistem vs fisik</p>
+          <h1 className="font-display text-xl font-bold text-dark-800">Stock Opname</h1>
+          <p className="font-body text-sm text-muted-400 mt-0.5">Rekonsiliasi stok sistem vs fisik</p>
         </div>
         <button
           onClick={() => setCreating(true)}
@@ -71,12 +71,12 @@ export default function StockOpnamePage() {
       {/* List */}
       {isLoading ? (
         <div className="flex justify-center py-10">
-          <Loader2 className="w-6 h-6 animate-spin text-crust-400" />
+          <Loader2 className="w-6 h-6 animate-spin text-muted-400" />
         </div>
       ) : opnames.length === 0 ? (
         <div className="flex flex-col items-center py-16 text-center">
-          <ClipboardCheck className="w-10 h-10 text-dough-300 mb-3" />
-          <p className="font-body text-sm text-crust-400">Belum ada stock opname</p>
+          <ClipboardCheck className="w-10 h-10 text-surface-300 mb-3" />
+          <p className="font-body text-sm text-muted-400">Belum ada stock opname</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -96,10 +96,10 @@ export default function StockOpnamePage() {
                     : <Clock className="w-5 h-5 text-amber-600" />}
                 </div>
                 <div>
-                  <p className="font-body text-sm font-semibold text-oven-800">
+                  <p className="font-body text-sm font-semibold text-dark-800">
                     Opname {new Date(op.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
-                  <p className="font-body text-xs text-crust-400">
+                  <p className="font-body text-xs text-muted-400">
                     {op.user.name} · {op.items.length} bahan
                     {op.status === 'FINISHED' && op.finishedAt && (
                       <span className="ml-1 text-green-500">· Selesai</span>
@@ -110,7 +110,7 @@ export default function StockOpnamePage() {
                   </p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-crust-400" />
+              <ChevronRight className="w-4 h-4 text-muted-400" />
             </button>
           ))}
         </div>
@@ -130,20 +130,20 @@ function CreateOpnameModal({
   const [notes, setNotes] = useState('')
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
-          <h2 className="font-display text-base font-semibold text-oven-800">Mulai Stock Opname</h2>
-          <button onClick={onClose}><X className="w-5 h-5 text-crust-400" /></button>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
+          <h2 className="font-display text-base font-semibold text-dark-800">Mulai Stock Opname</h2>
+          <button onClick={onClose}><X className="w-5 h-5 text-muted-400" /></button>
         </div>
         <div className="px-6 py-5 space-y-4">
-          <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-            <p className="font-body text-sm text-crust-600">
+          <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+            <p className="font-body text-sm text-primary-600">
               Sistem akan mengambil snapshot stok saat ini untuk semua bahan baku. Anda kemudian memasukkan qty fisik hasil hitung.
             </p>
           </div>
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
               Catatan (opsional)
             </label>
             <input
@@ -214,12 +214,12 @@ function OpnameDetail({ opname: initial, onBack }: { opname: StockOpname; onBack
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <button onClick={onBack} className="p-2 rounded-xl hover:bg-dough-100 text-crust-500 transition-colors">
+        <button onClick={onBack} className="p-2 rounded-xl hover:bg-surface-100 text-muted-500 transition-colors">
           ← 
         </button>
         <div className="flex-1">
-          <h1 className="font-display text-lg font-bold text-oven-800">Detail Opname</h1>
-          <p className="font-body text-xs text-crust-400">
+          <h1 className="font-display text-lg font-bold text-dark-800">Detail Opname</h1>
+          <p className="font-body text-xs text-muted-400">
             {new Date(opname.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
             · {opname.user.name}
             {isFinished && <span className="ml-1 text-green-500">· Selesai</span>}
@@ -253,14 +253,14 @@ function OpnameDetail({ opname: initial, onBack }: { opname: StockOpname; onBack
 
       {/* Progress */}
       {!isFinished && (
-        <div className="bg-dough-50 rounded-xl px-4 py-3 flex items-center justify-between">
-          <p className="font-body text-sm text-crust-600">
-            <span className="font-semibold text-oven-800">{filledCount}</span> dari{' '}
+        <div className="bg-surface-50 rounded-xl px-4 py-3 flex items-center justify-between">
+          <p className="font-body text-sm text-primary-600">
+            <span className="font-semibold text-dark-800">{filledCount}</span> dari{' '}
             <span className="font-semibold">{opname.items.length}</span> bahan sudah diisi
           </p>
-          <div className="w-24 h-2 bg-dough-200 rounded-full overflow-hidden">
+          <div className="w-24 h-2 bg-surface-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-crust-600 rounded-full transition-all"
+              className="h-full bg-primary-600 rounded-full transition-all"
               style={{ width: `${opname.items.length ? (filledCount / opname.items.length) * 100 : 0}%` }}
             />
           </div>
@@ -278,15 +278,15 @@ function OpnameDetail({ opname: initial, onBack }: { opname: StockOpname; onBack
             <div key={item.id} className="card">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
-                  <p className="font-body text-sm font-semibold text-oven-800">{item.ingredient.name}</p>
-                  <p className="font-body text-xs text-crust-400">
-                    Sistem: <span className="font-semibold text-crust-600">{item.systemQty} {item.ingredient.baseUnit}</span>
+                  <p className="font-body text-sm font-semibold text-dark-800">{item.ingredient.name}</p>
+                  <p className="font-body text-xs text-muted-400">
+                    Sistem: <span className="font-semibold text-primary-600">{item.systemQty} {item.ingredient.baseUnit}</span>
                   </p>
                 </div>
 
                 {isFinished ? (
                   <div className="text-right">
-                    <p className="font-body text-sm font-semibold text-oven-800">
+                    <p className="font-body text-sm font-semibold text-dark-800">
                       {item.physicalQty ?? '—'} {item.ingredient.baseUnit}
                     </p>
                     {item.difference !== null && item.difference !== 0 && (
@@ -312,7 +312,7 @@ function OpnameDetail({ opname: initial, onBack }: { opname: StockOpname; onBack
                         placeholder={String(item.systemQty)}
                         className="input text-sm py-1.5 pr-8 text-right font-mono"
                       />
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-crust-400">
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-400">
                         {item.ingredient.baseUnit}
                       </span>
                     </div>

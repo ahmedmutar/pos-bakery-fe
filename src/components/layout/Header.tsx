@@ -37,18 +37,18 @@ export default function Header({ title }: HeaderProps) {
           ⚠ UAT Environment — Bukan untuk penggunaan nyata
         </div>
       )}
-    <header className="h-16 bg-white border-b border-dough-200 px-4 lg:px-6 pl-16 lg:pl-6 flex items-center justify-between flex-shrink-0">
+    <header className="h-16 bg-white border-b border-surface-200 px-4 lg:px-6 pl-16 lg:pl-6 flex items-center justify-between flex-shrink-0">
       <div>
-        <h1 className="font-display text-xl font-bold text-oven-800 tracking-tight">{title}</h1>
-        <p className="font-body text-[11px] text-crust-400 tracking-wide uppercase hidden sm:block">{now}</p>
+        <h1 className="font-display text-xl font-bold text-dark-800 tracking-tight">{title}</h1>
+        <p className="font-body text-[11px] text-muted-400 tracking-wide uppercase hidden sm:block">{now}</p>
       </div>
 
       <div className="flex items-center gap-3">
         {/* Language toggle */}
         <button
           onClick={toggleLanguage}
-          className="px-2.5 py-1 rounded-lg bg-dough-100 border border-dough-200
-                     text-crust-600 text-xs font-body font-medium hover:bg-dough-200 transition-colors"
+          className="px-2.5 py-1 rounded-lg bg-surface-100 border border-surface-200
+                     text-primary-600 text-xs font-body font-medium hover:bg-surface-200 transition-colors"
         >
           {i18n.language === 'id' ? 'EN' : 'ID'}
         </button>
@@ -60,8 +60,8 @@ export default function Header({ title }: HeaderProps) {
             className={cn(
               'w-9 h-9 rounded-xl border flex items-center justify-center transition-colors relative',
               showPanel
-                ? 'bg-crust-600 border-crust-600 text-cream'
-                : 'bg-dough-50 border-dough-200 text-crust-500 hover:bg-dough-100'
+                ? 'bg-primary-600 border-primary-600 text-white'
+                : 'bg-surface-50 border-surface-200 text-muted-500 hover:bg-surface-100'
             )}
           >
             <Bell className="w-4 h-4" />
@@ -69,7 +69,7 @@ export default function Header({ title }: HeaderProps) {
               <span className={cn(
                 'absolute -top-1 -right-1 min-w-[16px] h-4 rounded-full flex items-center justify-center',
                 'text-[10px] font-body font-bold text-white px-1',
-                urgentCount > 0 ? 'bg-red-500' : 'bg-crust-500'
+                urgentCount > 0 ? 'bg-red-500' : 'bg-surface-500'
               )}>
                 {totalCount > 9 ? '9+' : totalCount}
               </span>

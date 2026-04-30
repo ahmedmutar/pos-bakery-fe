@@ -10,8 +10,8 @@ const PLANS = [
     name: 'Basic',
     price: 'Rp 149.000',
     period: '/bulan',
-    desc: 'Untuk bakery kecil yang baru mulai',
-    color: 'border-dough-300',
+    desc: 'Untuk bisnis kuliner kecil yang baru mulai',
+    color: 'border-surface-300',
     features: [
       '1 outlet',
       '3 staff',
@@ -27,8 +27,8 @@ const PLANS = [
     name: 'Pro',
     price: 'Rp 349.000',
     period: '/bulan',
-    desc: 'Untuk bakery yang sedang berkembang',
-    color: 'border-crust-500',
+    desc: 'Untuk bisnis kuliner yang sedang berkembang',
+    color: 'border-primary-500',
     badge: 'Paling Populer',
     features: [
       'Hingga 5 outlet',
@@ -46,8 +46,8 @@ const PLANS = [
     name: 'Enterprise',
     price: 'Custom',
     period: '',
-    desc: 'Untuk jaringan bakery & franchise',
-    color: 'border-oven-600',
+    desc: 'Untuk jaringan bisnis kuliner & franchise',
+    color: 'border-dark-600',
     features: [
       'Outlet tidak terbatas',
       'Staff tidak terbatas',
@@ -82,16 +82,16 @@ export default function UpgradePage() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 rounded-xl hover:bg-dough-100 transition-colors text-crust-500"
+          className="p-2 rounded-xl hover:bg-surface-100 transition-colors text-muted-500"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="font-display text-2xl font-bold text-oven-800">Upgrade Paket</h1>
-          <p className="font-body text-sm text-crust-400 mt-0.5">
-            Paket saat ini: <span className="font-semibold text-crust-600">{PLAN_LABELS[currentPlan]}</span>
+          <h1 className="font-display text-2xl font-bold text-dark-800">Upgrade Paket</h1>
+          <p className="font-body text-sm text-muted-400 mt-0.5">
+            Paket saat ini: <span className="font-semibold text-primary-600">{PLAN_LABELS[currentPlan]}</span>
             {plan?.trial.isOnTrial && !isExpired && (
-              <span className="ml-2 text-amber-600">· {daysLeft} hari trial tersisa</span>
+              <span className="ml-2 text-accent-600">· {daysLeft} hari trial tersisa</span>
             )}
             {isExpired && (
               <span className="ml-2 text-red-500">· Trial sudah berakhir</span>
@@ -124,12 +124,12 @@ export default function UpgradePage() {
               className={cn(
                 'relative rounded-2xl border-2 p-6 bg-white flex flex-col shadow-warm',
                 color,
-                isCurrent && 'ring-2 ring-crust-400 ring-offset-2'
+                isCurrent && 'ring-2 ring-primary-400 ring-offset-2'
               )}
             >
               {badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-crust-600 text-cream text-xs font-body font-semibold px-4 py-1.5 rounded-full">
+                  <span className="bg-primary-600 text-white text-xs font-body font-semibold px-4 py-1.5 rounded-full">
                     {badge}
                   </span>
                 </div>
@@ -144,22 +144,22 @@ export default function UpgradePage() {
               )}
 
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 bg-dough-100 rounded-xl flex items-center justify-center">
-                  <Icon className="w-4 h-4 text-crust-600" />
+                <div className="w-8 h-8 bg-surface-100 rounded-xl flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-primary-600" />
                 </div>
-                <h3 className="font-display text-lg font-bold text-oven-800">{name}</h3>
+                <h3 className="font-display text-lg font-bold text-dark-800">{name}</h3>
               </div>
 
-              <p className="font-body text-xs text-crust-400 mb-4">{desc}</p>
+              <p className="font-body text-xs text-muted-400 mb-4">{desc}</p>
 
               <div className="mb-5">
-                <span className="font-display text-2xl font-bold text-oven-800">{price}</span>
-                {period && <span className="font-body text-sm text-crust-400">{period}</span>}
+                <span className="font-display text-2xl font-bold text-dark-800">{price}</span>
+                {period && <span className="font-body text-sm text-muted-400">{period}</span>}
               </div>
 
               <ul className="space-y-2 flex-1 mb-6">
                 {features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 font-body text-sm text-crust-600">
+                  <li key={f} className="flex items-start gap-2 font-body text-sm text-primary-600">
                     <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     {f}
                   </li>
@@ -174,8 +174,8 @@ export default function UpgradePage() {
                   isCurrent
                     ? 'bg-green-50 text-green-600 border border-green-200 cursor-default'
                     : badge
-                    ? 'bg-crust-600 text-cream hover:bg-crust-700'
-                    : 'bg-dough-100 text-crust-700 hover:bg-dough-200 border border-dough-300'
+                    ? 'bg-primary-600 text-white hover:bg-primary-700'
+                    : 'bg-surface-100 text-primary-700 hover:bg-surface-200 border border-surface-300'
                 )}
               >
                 {isCurrent ? 'Paket Saat Ini' : key === 'enterprise' ? 'Hubungi Sales' : 'Upgrade via WhatsApp'}
@@ -186,14 +186,14 @@ export default function UpgradePage() {
       </div>
 
       {/* Contact */}
-      <div className="bg-dough-50 border border-dough-200 rounded-2xl p-5 text-center">
-        <p className="font-body text-sm text-crust-500">
+      <div className="bg-surface-50 border border-surface-200 rounded-2xl p-5 text-center">
+        <p className="font-body text-sm text-muted-500">
           Butuh bantuan memilih paket? Hubungi kami di{' '}
-          <a href="mailto:hello@rotipos.com" className="text-crust-700 font-medium underline">
-            hello@rotipos.com
+          <a href="mailto:hello@sajiin.com" className="text-primary-700 font-medium underline">
+            hello@sajiin.com
           </a>{' '}
           atau WhatsApp{' '}
-          <a href="https://wa.me/6285947566558" className="text-crust-700 font-medium underline" target="_blank">
+          <a href="https://wa.me/6285947566558" className="text-primary-700 font-medium underline" target="_blank">
             0812-3456-7890
           </a>
         </p>

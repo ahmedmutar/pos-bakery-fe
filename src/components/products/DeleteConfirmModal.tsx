@@ -17,20 +17,20 @@ export default function DeleteConfirmModal({
   onClose,
 }: DeleteConfirmModalProps) {
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
           <div className="flex items-center gap-2">
             <Trash2 className="w-5 h-5 text-red-500" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">{title}</h2>
+            <h2 className="font-display text-lg font-semibold text-dark-800">{title}</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="px-6 py-5">
-          <p className="font-body text-sm text-crust-600">{description}</p>
+          <p className="font-body text-sm text-primary-600">{description}</p>
         </div>
 
         <div className="px-6 pb-5 flex gap-3">

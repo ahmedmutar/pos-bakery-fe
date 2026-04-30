@@ -53,14 +53,14 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
   const isValid = items.some((i) => i.productId && i.targetQty)
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-lg max-h-[90vh] flex flex-col">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <ChefHat className="w-5 h-5 text-crust-600" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">Buat Rencana Produksi</h2>
+            <ChefHat className="w-5 h-5 text-primary-600" />
+            <h2 className="font-display text-lg font-semibold text-dark-800">Buat Rencana Produksi</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -68,7 +68,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-5 scrollbar-thin">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">Tanggal</label>
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">Tanggal</label>
               <input
                 type="date"
                 value={date}
@@ -77,7 +77,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
               />
             </div>
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">Jam Mulai</label>
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">Jam Mulai</label>
               <input
                 type="time"
                 value={time}
@@ -87,7 +87,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
             </div>
           </div>
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Catatan (opsional)
             </label>
             <input
@@ -101,10 +101,10 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
 
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="font-body text-sm font-medium text-crust-700">Target produksi</p>
+              <p className="font-body text-sm font-medium text-primary-700">Target produksi</p>
               <button
                 onClick={() => setItems((prev) => [...prev, { productId: '', targetQty: '' }])}
-                className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Tambah produk
@@ -136,7 +136,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
                       min="1"
                       className="input text-sm pr-10 text-center"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs text-crust-400">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs text-muted-400">
                       pcs
                     </span>
                   </div>
@@ -144,7 +144,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
                   {items.length > 1 && (
                     <button
                       onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
-                      className="text-crust-300 hover:text-red-400 transition-colors flex-shrink-0"
+                      className="text-surface-300 hover:text-red-400 transition-colors flex-shrink-0"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -161,7 +161,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
           )}
         </div>
 
-        <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={() => mutation.mutate()}

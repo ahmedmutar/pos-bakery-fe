@@ -1,3 +1,4 @@
+import { SajiinIcon } from '../ui/SajiinLogo'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
@@ -76,7 +77,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-48">
-        <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+        <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
       </div>
     )
   }
@@ -95,20 +96,20 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
       <div className="flex items-center gap-3">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Kembali
         </button>
-        <div className="h-4 w-px bg-dough-300" />
+        <div className="h-4 w-px bg-surface-300" />
         <div>
-          <p className="font-display text-base font-semibold text-oven-800">
+          <p className="font-display text-base font-semibold text-dark-800">
             {new Date(plan.date).toLocaleString('id-ID', {
               weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
             })}
           </p>
           {plan.notes && (
-            <p className="font-body text-xs text-crust-400">{plan.notes}</p>
+            <p className="font-body text-xs text-muted-400">{plan.notes}</p>
           )}
         </div>
       </div>
@@ -116,13 +117,13 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
       {/* Summary cards */}
       <div className="grid grid-cols-4 gap-3">
         {[
-          { label: 'Target', value: `${totalTarget} pcs`, color: 'text-oven-800' },
+          { label: 'Target', value: `${totalTarget} pcs`, color: 'text-dark-800' },
           { label: 'Aktual', value: `${totalActual} pcs`, color: 'text-green-700' },
           { label: 'Waste / sisa', value: `${totalWaste} pcs`, color: 'text-red-500' },
           { label: 'Nilai waste', value: formatCurrency(wasteValue), color: 'text-red-500' },
         ].map(({ label, value, color }) => (
           <div key={label} className="card">
-            <p className="font-body text-xs text-crust-400">{label}</p>
+            <p className="font-body text-xs text-muted-400">{label}</p>
             <p className={`font-display text-lg font-semibold mt-1 ${color}`}>{value}</p>
           </div>
         ))}
@@ -168,23 +169,23 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
             )}>
               {/* Item header */}
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-dough-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                   {item.product.imageUrl ? (
                     <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-lg">🥐</span>
+                    <SajiinIcon size={28} className="opacity-25" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-body text-sm font-semibold text-oven-800">{item.product.name}</p>
+                    <p className="font-body text-sm font-semibold text-dark-800">{item.product.name}</p>
                     {isDone && <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />}
                   </div>
 
                   <div className="flex items-center gap-4 mt-1">
-                    <span className="font-body text-xs text-crust-500">
-                      Target: <span className="font-medium text-oven-700">{item.targetQty} pcs</span>
+                    <span className="font-body text-xs text-muted-500">
+                      Target: <span className="font-medium text-dark-700">{item.targetQty} pcs</span>
                     </span>
                     {isDone && (
                       <>
@@ -201,7 +202,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
                   </div>
 
                   {isDone && (
-                    <div className="w-full h-1.5 bg-dough-100 rounded-full mt-2 overflow-hidden">
+                    <div className="w-full h-1.5 bg-surface-100 rounded-full mt-2 overflow-hidden">
                       <div
                         className="h-full bg-green-400 rounded-full transition-all"
                         style={{ width: `${progressPct}%` }}
@@ -213,7 +214,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
                 <button
                   onClick={() => isExpanded ? setExpandedItem(null) : initEdit(item)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body
-                             font-medium text-crust-600 hover:bg-dough-100 transition-colors flex-shrink-0"
+                             font-medium text-primary-600 hover:bg-surface-100 transition-colors flex-shrink-0"
                 >
                   {isDone ? 'Edit' : 'Catat hasil'}
                   {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -222,11 +223,11 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
 
               {/* Expanded form */}
               {isExpanded && draft && (
-                <div className="mt-4 pt-4 border-t border-dough-100 space-y-4">
+                <div className="mt-4 pt-4 border-t border-surface-200 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     {/* Actual qty */}
                     <div>
-                      <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                      <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                         Hasil produksi aktual (pcs)
                       </label>
                       <input
@@ -244,7 +245,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
 
                     {/* Waste qty */}
                     <div>
-                      <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                      <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                         Jumlah waste / reject (pcs)
                       </label>
                       <input
@@ -263,7 +264,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
                   <div className="grid grid-cols-2 gap-4">
                     {/* Waste category */}
                     <div>
-                      <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                      <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                         Kategori waste
                       </label>
                       <div className="flex gap-2">
@@ -277,8 +278,8 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
                             className={cn(
                               'flex-1 py-1.5 rounded-lg text-xs font-body font-medium border transition-all capitalize',
                               draft.wasteCategory === cat
-                                ? 'bg-crust-600 text-cream border-crust-600'
-                                : 'bg-dough-50 text-crust-600 border-dough-200 hover:bg-dough-100'
+                                ? 'bg-primary-600 text-white border-primary-600'
+                                : 'bg-surface-50 text-primary-600 border-surface-200 hover:bg-surface-100'
                             )}
                           >
                             {cat}
@@ -289,7 +290,7 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
 
                     {/* Unsold */}
                     <div>
-                      <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                      <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                         Sisa tidak terjual (pcs)
                       </label>
                       <input
@@ -347,8 +348,8 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
       {materialCheck && (
         <div className="card">
           <div className="flex items-center gap-2 mb-3">
-            <Package className="w-4 h-4 text-crust-500" />
-            <p className="font-body text-sm font-medium text-oven-800">Kebutuhan bahan</p>
+            <Package className="w-4 h-4 text-muted-500" />
+            <p className="font-body text-sm font-medium text-dark-800">Kebutuhan bahan</p>
             {materialCheck.allSufficient && (
               <span className="ml-auto flex items-center gap-1 text-green-600 text-xs font-body">
                 <CheckCircle className="w-3.5 h-3.5" />
@@ -359,9 +360,9 @@ export default function ProductionPlanDetail({ planId, onBack }: ProductionPlanD
           <div className="space-y-2">
             {materialCheck.materials.map((m) => (
               <div key={m.ingredient.id} className="flex items-center justify-between">
-                <span className="font-body text-sm text-oven-700">{m.ingredient.name}</span>
+                <span className="font-body text-sm text-dark-700">{m.ingredient.name}</span>
                 <div className="flex items-center gap-3">
-                  <span className="font-body text-xs text-crust-500">
+                  <span className="font-body text-xs text-muted-500">
                     butuh {m.needed.toFixed(1)} {m.ingredient.baseUnit}
                   </span>
                   <span className={cn(

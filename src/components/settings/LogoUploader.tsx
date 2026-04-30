@@ -77,8 +77,8 @@ export default function LogoUploader({ currentLogo }: LogoUploaderProps) {
         <div
           className={cn(
             'w-24 h-24 rounded-2xl border-2 border-dashed flex items-center justify-center flex-shrink-0 overflow-hidden transition-all',
-            dragOver ? 'border-crust-500 bg-dough-100' : 'border-dough-300 bg-dough-50',
-            !displayLogo && 'cursor-pointer hover:border-crust-400 hover:bg-dough-100'
+            dragOver ? 'border-primary-500 bg-surface-100' : 'border-surface-300 bg-surface-50',
+            !displayLogo && 'cursor-pointer hover:border-primary-400 hover:bg-surface-100'
           )}
           onClick={() => !displayLogo && inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
@@ -86,7 +86,7 @@ export default function LogoUploader({ currentLogo }: LogoUploaderProps) {
           onDrop={handleDrop}
         >
           {isLoading ? (
-            <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+            <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
           ) : displayLogo ? (
             <img
               src={displayLogo}
@@ -94,7 +94,7 @@ export default function LogoUploader({ currentLogo }: LogoUploaderProps) {
               className="w-full h-full object-contain p-1"
             />
           ) : (
-            <div className="flex flex-col items-center gap-1 text-crust-300">
+            <div className="flex flex-col items-center gap-1 text-surface-300">
               <ImagePlus className="w-7 h-7" />
               <span className="font-body text-[10px]">Logo</span>
             </div>
@@ -104,13 +104,13 @@ export default function LogoUploader({ currentLogo }: LogoUploaderProps) {
         {/* Info + actions */}
         <div className="flex-1 min-w-0 space-y-2">
           <div>
-            <p className="font-body text-sm font-semibold text-oven-800">
+            <p className="font-body text-sm font-semibold text-dark-800">
               {displayLogo ? t('settings.logoUpload') : t('common.noData')}
             </p>
-            <p className="font-body text-xs text-crust-400">
+            <p className="font-body text-xs text-muted-400">
               JPG, PNG, WEBP, atau SVG · Maks 2MB
             </p>
-            <p className="font-body text-xs text-crust-400">
+            <p className="font-body text-xs text-muted-400">
               Ukuran ideal: 200×200px atau 400×400px
             </p>
           </div>
@@ -157,19 +157,19 @@ export default function LogoUploader({ currentLogo }: LogoUploaderProps) {
         <div
           className={cn(
             'border-2 border-dashed rounded-2xl px-6 py-8 text-center cursor-pointer transition-all',
-            dragOver ? 'border-crust-500 bg-dough-100' : 'border-dough-200 hover:border-crust-300 hover:bg-dough-50'
+            dragOver ? 'border-primary-500 bg-surface-100' : 'border-surface-200 hover:border-surface-300 hover:bg-surface-50'
           )}
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
         >
-          <Upload className="w-8 h-8 text-crust-300 mx-auto mb-2" />
-          <p className="font-body text-sm text-crust-500">
+          <Upload className="w-8 h-8 text-surface-300 mx-auto mb-2" />
+          <p className="font-body text-sm text-muted-500">
             Drag & drop file logo ke sini, atau{' '}
-            <span className="text-crust-600 font-medium underline">pilih file</span>
+            <span className="text-primary-600 font-medium underline">pilih file</span>
           </p>
-          <p className="font-body text-xs text-crust-400 mt-1">
+          <p className="font-body text-xs text-muted-400 mt-1">
             Logo akan tampil di struk dan sidebar kasir
           </p>
         </div>

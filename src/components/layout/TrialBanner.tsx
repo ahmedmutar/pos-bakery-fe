@@ -25,7 +25,7 @@ export default function TrialBanner() {
         <div className="flex items-center gap-2 text-sm font-body">
           <AlertTriangle className="w-4 h-4 flex-shrink-0" />
           <span>
-            Trial Anda telah berakhir. Upgrade sekarang untuk melanjutkan menggunakan Roti POS.
+            Trial Anda telah berakhir. Upgrade sekarang untuk melanjutkan menggunakan Sajiin.
           </span>
         </div>
         <button
@@ -46,7 +46,7 @@ export default function TrialBanner() {
   return (
     <div className={cn(
       'px-4 py-2 flex items-center justify-between gap-4 flex-shrink-0',
-      urgent ? 'bg-red-500 text-white' : 'bg-amber-500 text-white'
+      urgent ? 'bg-red-500 text-white' : 'bg-gold-300 text-white'
     )}>
       <div className="flex items-center gap-2 text-sm font-body">
         <Zap className="w-4 h-4 flex-shrink-0" />
@@ -58,7 +58,7 @@ export default function TrialBanner() {
       <div className="flex items-center gap-2 flex-shrink-0">
         <button
           onClick={() => navigate('/app/upgrade')}
-          className="bg-white text-amber-600 font-body font-semibold text-xs px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
+          className="bg-white text-dark-600 font-body font-semibold text-xs px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
         >
           Lihat Paket
         </button>

@@ -69,15 +69,15 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-sm">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
           <div className="flex items-center gap-2">
-            <Banknote className="w-5 h-5 text-crust-600" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">{t('cashier.openShift')}</h2>
+            <Banknote className="w-5 h-5 text-primary-600" />
+            <h2 className="font-display text-lg font-semibold text-dark-800">{t('cashier.openShift')}</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -86,7 +86,7 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
           {/* Outlet selector — tampil kalau lebih dari 1 outlet */}
           {outlets.length > 1 && (
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 <Store className="inline w-3.5 h-3.5 mr-1" />
                 Pilih Outlet
               </label>
@@ -105,14 +105,14 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
 
           {/* Kas awal */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               {t('shift.openingCash')}
             </label>
-            <p className="font-body text-xs text-crust-400 mb-2">
+            <p className="font-body text-xs text-muted-400 mb-2">
               Masukkan jumlah uang tunai di laci kasir saat ini.
             </p>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-crust-400">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-sm text-muted-400">
                 Rp
               </span>
               <input
@@ -125,7 +125,7 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
               />
             </div>
             {openingCash > 0 && (
-              <p className="font-body text-xs text-crust-400 mt-1">
+              <p className="font-body text-xs text-muted-400 mt-1">
                 {formatCurrency(openingCash)}
               </p>
             )}
@@ -140,8 +140,8 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
                 className={cn(
                   'py-2 px-3 rounded-xl text-sm font-body font-medium border transition-all',
                   openingCash === amt
-                    ? 'bg-crust-600 text-cream border-crust-600'
-                    : 'bg-dough-50 text-crust-600 border-dough-200 hover:bg-dough-100'
+                    ? 'bg-primary-600 text-white border-primary-600'
+                    : 'bg-surface-50 text-primary-600 border-surface-200 hover:bg-surface-100'
                 )}
               >
                 {formatCurrency(amt)}
@@ -167,7 +167,7 @@ export default function OpenShiftModal({ outletId: defaultOutletId, onClose }: O
             className="btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isPending && (
-              <span className="w-4 h-4 border-2 border-cream border-t-transparent rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
             )}
             {t('cashier.openShift')}
           </button>

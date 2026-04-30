@@ -79,7 +79,7 @@ export function useThermalReceipt({ transactionId, change }: UseThermalReceiptPr
       <div class="receipt-footer">
         <div>Simpan struk ini sebagai bukti pembelian</div>
         <div class="receipt-stars">* * * * * * * * * *</div>
-        <div class="receipt-powered">Powered by Roti POS</div>
+        <div class="receipt-powered">Powered by Sajiin</div>
       </div>
     `
 

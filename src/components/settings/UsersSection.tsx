@@ -12,7 +12,7 @@ const ROLE_LABELS: Record<StaffUser['role'], string> = {
 }
 
 const ROLE_COLORS: Record<StaffUser['role'], string> = {
-  OWNER: 'bg-crust-100 text-crust-700',
+  OWNER: 'bg-surface-100 text-primary-700',
   CASHIER: 'bg-blue-100 text-blue-700',
   PRODUCTION: 'bg-amber-100 text-amber-700',
 }
@@ -71,12 +71,12 @@ export default function UsersSection() {
     <div className="card space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-crust-100 rounded-xl flex items-center justify-center">
-            <Users className="w-5 h-5 text-crust-600" />
+          <div className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center">
+            <Users className="w-5 h-5 text-primary-600" />
           </div>
           <div>
-            <h3 className="font-display text-base font-semibold text-oven-800">Manajemen Staff</h3>
-            <p className="font-body text-xs text-crust-400">{users.length} akun terdaftar</p>
+            <h3 className="font-display text-base font-semibold text-dark-800">Manajemen Staff</h3>
+            <p className="font-body text-xs text-muted-400">{users.length} akun terdaftar</p>
           </div>
         </div>
         <button
@@ -90,16 +90,16 @@ export default function UsersSection() {
 
       {/* Add form */}
       {showAdd && (
-        <div className="bg-dough-50 rounded-xl p-4 space-y-3 border border-dough-200">
+        <div className="bg-surface-50 rounded-xl p-4 space-y-3 border border-surface-200">
           <div className="flex items-center justify-between">
-            <p className="font-body text-sm font-medium text-oven-800">Staff Baru</p>
-            <button onClick={() => setShowAdd(false)} className="text-crust-400 hover:text-crust-600">
+            <p className="font-body text-sm font-medium text-dark-800">Staff Baru</p>
+            <button onClick={() => setShowAdd(false)} className="text-muted-400 hover:text-primary-600">
               <X className="w-4 h-4" />
             </button>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Nama</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Nama</label>
               <input
                 type="text"
                 value={form.name}
@@ -110,7 +110,7 @@ export default function UsersSection() {
               />
             </div>
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Email</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Email</label>
               <input
                 type="email"
                 value={form.email}
@@ -120,7 +120,7 @@ export default function UsersSection() {
               />
             </div>
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Kata Sandi</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Kata Sandi</label>
               <input
                 type="password"
                 value={form.password}
@@ -130,7 +130,7 @@ export default function UsersSection() {
               />
             </div>
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Role</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Role</label>
               <select
                 value={form.role}
                 onChange={(e) => setForm((p) => ({ ...p, role: e.target.value as StaffUser['role'] }))}
@@ -160,16 +160,16 @@ export default function UsersSection() {
       {/* User list */}
       {isLoading ? (
         <div className="flex items-center justify-center h-24">
-          <Loader2 className="w-5 h-5 text-crust-400 animate-spin" />
+          <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
         </div>
       ) : (
-        <div className="divide-y divide-dough-100">
+        <div className="divide-y divide-surface-100">
           {users.map((user) => (
             <div key={user.id} className="py-3 flex items-center gap-3">
               {/* Avatar */}
               <div className={cn(
                 'w-9 h-9 rounded-xl flex items-center justify-center font-body text-sm font-semibold flex-shrink-0',
-                user.isActive ? 'bg-crust-600 text-cream' : 'bg-dough-200 text-crust-400'
+                user.isActive ? 'bg-primary-600 text-white' : 'bg-surface-200 text-muted-400'
               )}>
                 {user.name.charAt(0).toUpperCase()}
               </div>
@@ -198,7 +198,7 @@ export default function UsersSection() {
                       <option value="PRODUCTION">Produksi</option>
                       <option value="OWNER">Pemilik</option>
                     </select>
-                    <button onClick={() => setEditUser(null)} className="text-crust-400 hover:text-crust-600">
+                    <button onClick={() => setEditUser(null)} className="text-muted-400 hover:text-primary-600">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -206,11 +206,11 @@ export default function UsersSection() {
                   <div className="flex items-center gap-2">
                     <p className={cn(
                       'font-body text-sm font-medium truncate',
-                      user.isActive ? 'text-oven-800' : 'text-crust-400'
+                      user.isActive ? 'text-dark-800' : 'text-muted-400'
                     )}>
                       {user.name}
                       {user.id === currentUser?.id && (
-                        <span className="ml-1.5 font-body text-xs text-crust-400">(Anda)</span>
+                        <span className="ml-1.5 font-body text-xs text-muted-400">(Anda)</span>
                       )}
                     </p>
                     <span className={cn('text-xs font-body font-medium px-2 py-0.5 rounded-full flex-shrink-0', ROLE_COLORS[user.role])}>
@@ -218,7 +218,7 @@ export default function UsersSection() {
                     </span>
                   </div>
                 )}
-                <p className="font-body text-xs text-crust-400 truncate mt-0.5">{user.email}</p>
+                <p className="font-body text-xs text-muted-400 truncate mt-0.5">{user.email}</p>
               </div>
 
               {/* Actions */}
@@ -226,8 +226,8 @@ export default function UsersSection() {
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     onClick={() => setEditUser(editUser?.id === user.id ? null : user)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                               hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                               hover:bg-surface-100 hover:text-primary-600 transition-colors"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
@@ -238,7 +238,7 @@ export default function UsersSection() {
                   >
                     {user.isActive
                       ? <ToggleRight className="w-5 h-5 text-green-500 hover:text-green-600" />
-                      : <ToggleLeft className="w-5 h-5 text-crust-300 hover:text-crust-500" />
+                      : <ToggleLeft className="w-5 h-5 text-surface-300 hover:text-muted-500" />
                     }
                   </button>
                 </div>

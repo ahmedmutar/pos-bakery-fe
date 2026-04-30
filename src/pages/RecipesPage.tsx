@@ -1,3 +1,4 @@
+import { SajiinIcon } from '../components/ui/SajiinLogo'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
@@ -64,15 +65,15 @@ export default function RecipesPage() {
       {/* Header stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <div className="card">
-          <p className="font-body text-sm text-crust-500">Total produk</p>
-          <p className="font-display text-2xl font-semibold text-oven-800 mt-1">{products.length}</p>
+          <p className="font-body text-sm text-muted-500">Total produk</p>
+          <p className="font-display text-2xl font-semibold text-dark-800 mt-1">{products.length}</p>
         </div>
         <div className="card">
-          <p className="font-body text-sm text-crust-500">Sudah ada resep</p>
+          <p className="font-body text-sm text-muted-500">Sudah ada resep</p>
           <p className="font-display text-2xl font-semibold text-green-700 mt-1">{withRecipe}</p>
         </div>
         <div className="card">
-          <p className="font-body text-sm text-crust-500">Belum ada resep</p>
+          <p className="font-body text-sm text-muted-500">Belum ada resep</p>
           <p className="font-display text-2xl font-semibold text-amber-600 mt-1">
             {products.length - withRecipe}
           </p>
@@ -82,7 +83,7 @@ export default function RecipesPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
           <input
             type="text"
             value={search}
@@ -92,7 +93,7 @@ export default function RecipesPage() {
           />
         </div>
 
-        <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+        <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
           {([
             { key: 'all', label: 'Semua' },
             { key: 'has_recipe', label: 'Ada resep' },
@@ -104,8 +105,8 @@ export default function RecipesPage() {
               className={cn(
                 'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
                 filter === key
-                  ? 'bg-white text-oven-800 shadow-warm'
-                  : 'text-crust-500 hover:text-crust-700'
+                  ? 'bg-white text-dark-800 shadow-warm'
+                  : 'text-muted-500 hover:text-primary-700'
               )}
             >
               {label}
@@ -125,10 +126,10 @@ export default function RecipesPage() {
       {/* Product list */}
       {isLoading ? (
         <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+          <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+        <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
           <BookOpen className="w-10 h-10" />
           <p className="font-body text-sm">Tidak ada produk ditemukan</p>
         </div>
@@ -139,15 +140,15 @@ export default function RecipesPage() {
             return (
               <div
                 key={product.id}
-                className="card hover:border-crust-300 transition-all group"
+                className="card hover:border-surface-300 transition-all group"
               >
                 <div className="flex items-start gap-4">
                   {/* Product image */}
-                  <div className="w-12 h-12 rounded-xl bg-dough-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                     {product.imageUrl ? (
                       <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-xl">🥐</span>
+                      <SajiinIcon size={32} className="opacity-25" />
                     )}
                   </div>
 
@@ -155,9 +156,9 @@ export default function RecipesPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-body text-sm font-semibold text-oven-800">{product.name}</p>
+                        <p className="font-body text-sm font-semibold text-dark-800">{product.name}</p>
                         {product.category && (
-                          <p className="font-body text-xs text-crust-400">{product.category.name}</p>
+                          <p className="font-body text-xs text-muted-400">{product.category.name}</p>
                         )}
                       </div>
 
@@ -168,7 +169,7 @@ export default function RecipesPage() {
                             <button
                               onClick={() => setEditProduct(product)}
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body
-                                         font-medium text-crust-600 hover:bg-dough-100 transition-colors"
+                                         font-medium text-primary-600 hover:bg-surface-100 transition-colors"
                             >
                               <Pencil className="w-3.5 h-3.5" />
                               Edit resep
@@ -177,14 +178,14 @@ export default function RecipesPage() {
                               onClick={() => setDuplicateProduct(product)}
                               title="Duplikat resep"
                               className="w-8 h-8 rounded-lg flex items-center justify-center
-                                         text-crust-300 hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                                         text-surface-300 hover:bg-surface-100 hover:text-primary-600 transition-colors"
                             >
                               <Copy className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => setDeleteProduct(product)}
                               className="w-8 h-8 rounded-lg flex items-center justify-center
-                                         text-crust-300 hover:bg-red-50 hover:text-red-500 transition-colors"
+                                         text-surface-300 hover:bg-red-50 hover:text-red-500 transition-colors"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -193,7 +194,7 @@ export default function RecipesPage() {
                           <button
                             onClick={() => setEditProduct(product)}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body
-                                       font-medium bg-crust-600 text-cream hover:bg-crust-700 transition-colors shadow-warm"
+                                       font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-warm"
                           >
                             <Plus className="w-3.5 h-3.5" />
                             Buat resep
@@ -211,10 +212,10 @@ export default function RecipesPage() {
                             <span
                               key={item.id}
                               className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-body
-                                         bg-dough-100 text-crust-600 border border-dough-200"
+                                         bg-surface-100 text-primary-600 border border-surface-200"
                             >
                               {item.ingredient.name}
-                              <span className="ml-1 text-crust-400">
+                              <span className="ml-1 text-muted-400">
                                 {item.amount} {item.unit}
                               </span>
                             </span>
@@ -225,8 +226,8 @@ export default function RecipesPage() {
                         {margin && (
                           <div className="flex items-center gap-4 pt-1">
                             <div className="flex items-center gap-1.5">
-                              <ChefHat className="w-3.5 h-3.5 text-crust-400" />
-                              <span className="font-body text-xs text-crust-500">
+                              <ChefHat className="w-3.5 h-3.5 text-muted-400" />
+                              <span className="font-body text-xs text-muted-500">
                                 {product.recipe.batchSize} pcs / batch ·
                                 biaya {formatCurrency(margin.costPerPcs)} / pcs
                               </span>
@@ -252,24 +253,24 @@ export default function RecipesPage() {
                         )}
 
                         {product.recipe.notes && (
-                          <p className="font-body text-xs text-crust-400 italic mt-2">
+                          <p className="font-body text-xs text-muted-400 italic mt-2">
                             {product.recipe.notes}
                           </p>
                         )}
 
                         {product.recipe.instructions && (
-                          <div className="mt-3 border-t border-dough-100 pt-3">
-                            <p className="font-body text-xs font-semibold text-crust-600 uppercase tracking-widest mb-2">
+                          <div className="mt-3 border-t border-surface-200 pt-3">
+                            <p className="font-body text-xs font-semibold text-primary-600 uppercase tracking-widest mb-2">
                               Instruksi Pembuatan
                             </p>
-                            <div className="font-body text-sm text-oven-700 whitespace-pre-line leading-relaxed bg-dough-50 rounded-xl px-4 py-3">
+                            <div className="font-body text-sm text-dark-700 whitespace-pre-line leading-relaxed bg-surface-50 rounded-xl px-4 py-3">
                               {product.recipe.instructions}
                             </div>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <p className="font-body text-xs text-crust-300 mt-2 italic">
+                      <p className="font-body text-xs text-surface-300 mt-2 italic">
                         Belum ada resep — food cost tidak dapat dihitung
                       </p>
                     )}

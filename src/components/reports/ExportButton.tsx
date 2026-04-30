@@ -55,13 +55,13 @@ export default function ExportButton({ options, disabled }: ExportButtonProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-10 w-48 bg-white rounded-xl shadow-warm-lg border border-dough-200 z-10 overflow-hidden">
+        <div className="absolute right-0 top-10 w-48 bg-white rounded-xl shadow-warm-lg border border-surface-200 z-10 overflow-hidden">
           {options.map((opt) => (
             <button
               key={opt.label}
               onClick={() => handleExport(opt)}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-body text-crust-700
-                         hover:bg-dough-50 transition-colors text-left"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-body text-primary-700
+                         hover:bg-surface-50 transition-colors text-left"
             >
               {opt.format === 'excel' ? (
                 <FileSpreadsheet className="w-4 h-4 text-green-600 flex-shrink-0" />

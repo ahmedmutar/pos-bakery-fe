@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
-  Croissant, Store, Package, ShoppingCart,
+  Store, Package, ShoppingCart,
   CheckCircle, ArrowRight, Loader2,
 } from 'lucide-react'
 import { settingsApi } from '../../services/settingsService'
 import { productApi } from '../../services/productService'
 import { categoryApi } from '../../services/categoryService'
 import { useAuthStore } from '../../stores/authStore'
+import { SajiinIcon } from '../ui/SajiinLogo'
 import { cn } from '../../lib/utils'
 
 interface OnboardingWizardProps {
@@ -15,7 +16,7 @@ interface OnboardingWizardProps {
 }
 
 const STEPS = [
-  { id: 'welcome',  label: 'Selamat datang', icon: Croissant },
+  { id: 'welcome',  label: 'Selamat datang', icon: Store },
   { id: 'store',    label: 'Profil toko',    icon: Store },
   { id: 'product',  label: 'Produk pertama', icon: Package },
   { id: 'done',     label: 'Siap!',          icon: CheckCircle },
@@ -61,12 +62,12 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
   const skipProduct = () => setStep(3)
 
   return (
-    <div className="fixed inset-0 bg-oven-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-3xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-lg overflow-hidden">
         {/* Progress bar */}
-        <div className="h-1.5 bg-dough-100">
+        <div className="h-1.5 bg-surface-100">
           <div
-            className="h-full bg-crust-600 transition-all duration-500 rounded-full"
+            className="h-full bg-primary-600 transition-all duration-500 rounded-full"
             style={{ width: `${((step) / (STEPS.length - 1)) * 100}%` }}
           />
         </div>
@@ -80,8 +81,8 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                 <div className={cn(
                   'w-9 h-9 rounded-xl flex items-center justify-center transition-all',
                   i < step ? 'bg-green-500 text-white' :
-                  i === step ? 'bg-crust-600 text-cream shadow-warm' :
-                  'bg-dough-100 text-crust-300'
+                  i === step ? 'bg-primary-600 text-white shadow-warm' :
+                  'bg-surface-100 text-surface-300'
                 )}>
                   {i < step
                     ? <CheckCircle className="w-5 h-5" />
@@ -90,7 +91,7 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                 </div>
                 <span className={cn(
                   'font-body text-[10px]',
-                  i === step ? 'text-crust-700 font-medium' : 'text-crust-300'
+                  i === step ? 'text-primary-700 font-medium' : 'text-surface-300'
                 )}>
                   {s.label}
                 </span>
@@ -104,14 +105,14 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
           {/* ── Step 0: Welcome ── */}
           {step === 0 && (
             <div className="text-center space-y-4">
-              <div className="w-20 h-20 bg-crust-100 rounded-3xl flex items-center justify-center mx-auto">
-                <Croissant className="w-10 h-10 text-crust-600" />
+              <div className="w-20 h-20 bg-surface-100 rounded-3xl flex items-center justify-center mx-auto">
+                <SajiinIcon size={48} />
               </div>
               <div>
-                <h2 className="font-display text-2xl font-semibold text-oven-800 mb-2">
-                  Selamat datang di Roti POS!
+                <h2 className="font-display text-2xl font-semibold text-dark-800 mb-2">
+                  Selamat datang di Sajiin!
                 </h2>
-                <p className="font-body text-sm text-crust-500 leading-relaxed">
+                <p className="font-body text-sm text-muted-500 leading-relaxed">
                   Halo, <strong>{user?.name}</strong>! Mari setup toko Anda dalam 2 menit.
                   Kami akan bantu Anda mengatur profil toko dan menambahkan produk pertama.
                 </p>
@@ -123,9 +124,9 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                   { icon: Package, label: 'Produk' },
                   { icon: ShoppingCart, label: 'Kasir siap' },
                 ].map(({ icon: Icon, label }) => (
-                  <div key={label} className="bg-dough-50 rounded-xl p-3 text-center">
-                    <Icon className="w-5 h-5 text-crust-500 mx-auto mb-1" />
-                    <p className="font-body text-xs text-crust-600">{label}</p>
+                  <div key={label} className="bg-surface-50 rounded-xl p-3 text-center">
+                    <Icon className="w-5 h-5 text-muted-500 mx-auto mb-1" />
+                    <p className="font-body text-xs text-primary-600">{label}</p>
                   </div>
                 ))}
               </div>
@@ -136,23 +137,23 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
           {step === 1 && (
             <div className="space-y-4">
               <div>
-                <h2 className="font-display text-xl font-semibold text-oven-800 mb-1">
+                <h2 className="font-display text-xl font-semibold text-dark-800 mb-1">
                   Nama toko Anda
                 </h2>
-                <p className="font-body text-sm text-crust-500">
+                <p className="font-body text-sm text-muted-500">
                   Nama ini akan muncul di struk dan tampilan kasir.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+                <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                   Nama Toko
                 </label>
                 <input
                   type="text"
                   value={storeName}
                   onChange={(e) => setStoreName(e.target.value)}
-                  placeholder="Bakery Sejahtera"
+                  placeholder="Sajiin"
                   className="input text-lg"
                   autoFocus
                   onKeyDown={(e) => { if (e.key === 'Enter' && storeName.trim()) updateStore.mutate() }}
@@ -169,17 +170,17 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
           {step === 2 && (
             <div className="space-y-4">
               <div>
-                <h2 className="font-display text-xl font-semibold text-oven-800 mb-1">
+                <h2 className="font-display text-xl font-semibold text-dark-800 mb-1">
                   Tambah produk pertama
                 </h2>
-                <p className="font-body text-sm text-crust-500">
+                <p className="font-body text-sm text-muted-500">
                   Produk bisa ditambah lebih banyak nanti dari menu Produk.
                 </p>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                     Nama Produk
                   </label>
                   <input
@@ -194,7 +195,7 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+                    <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                       Harga (Rp)
                     </label>
                     <input
@@ -206,7 +207,7 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+                    <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                       Kategori
                     </label>
                     <select
@@ -235,17 +236,17 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                 <CheckCircle className="w-10 h-10 text-green-600" />
               </div>
               <div>
-                <h2 className="font-display text-2xl font-semibold text-oven-800 mb-2">
+                <h2 className="font-display text-2xl font-semibold text-dark-800 mb-2">
                   Toko siap beroperasi!
                 </h2>
-                <p className="font-body text-sm text-crust-500 leading-relaxed">
+                <p className="font-body text-sm text-muted-500 leading-relaxed">
                   Setup selesai. Anda bisa langsung buka shift dan mulai mencatat transaksi.
                   Tambah lebih banyak produk, bahan baku, dan resep dari menu di sidebar.
                 </p>
               </div>
 
-              <div className="bg-dough-50 rounded-xl p-4 text-left space-y-2">
-                <p className="font-body text-xs font-semibold text-crust-600 uppercase tracking-wide">
+              <div className="bg-surface-50 rounded-xl p-4 text-left space-y-2">
+                <p className="font-body text-xs font-semibold text-primary-600 uppercase tracking-wide">
                   Langkah selanjutnya
                 </p>
                 {[
@@ -255,8 +256,8 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
                   'Buat resep untuk kalkulasi food cost',
                 ].map((tip) => (
                   <div key={tip} className="flex items-start gap-2">
-                    <ArrowRight className="w-3.5 h-3.5 text-crust-400 flex-shrink-0 mt-0.5" />
-                    <p className="font-body text-xs text-crust-600">{tip}</p>
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-400 flex-shrink-0 mt-0.5" />
+                    <p className="font-body text-xs text-primary-600">{tip}</p>
                   </div>
                 ))}
               </div>
@@ -308,7 +309,7 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
           {step === 3 && (
             <button onClick={onComplete} className="btn-primary flex-1 flex items-center justify-center gap-2">
               <CheckCircle className="w-4 h-4" />
-              Mulai Gunakan Roti POS
+              Mulai Gunakan Sajiin
             </button>
           )}
         </div>

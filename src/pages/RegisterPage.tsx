@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { Croissant, Loader2, ArrowLeft, Eye, EyeOff, Mail, CheckCircle } from 'lucide-react'
+import { Loader2, ArrowLeft, Eye, EyeOff, Mail, CheckCircle } from 'lucide-react'
 import { authApi } from '../services/authService'
 import { useAuthStore } from '../stores/authStore'
 import api from '../lib/api'
+import { SajiinIcon } from '../components/ui/SajiinLogo'
 import { cn } from '../lib/utils'
 
 type Step = 'form' | 'otp' | 'done'
@@ -109,12 +110,12 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md px-2 sm:px-0">
         {/* Back button */}
         <button
           onClick={() => step === 'otp' ? setStep('form') : navigate('/')}
-          className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 mb-6 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           {step === 'otp' ? 'Ubah data pendaftaran' : 'Kembali ke beranda'}
@@ -123,14 +124,12 @@ export default function RegisterPage() {
         <div className="bg-white rounded-2xl shadow-warm-lg p-8 space-y-6">
           {/* Header */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-crust-600 rounded-xl flex items-center justify-center shadow-warm">
-              <Croissant className="w-5 h-5 text-cream" />
-            </div>
+            <SajiinIcon size={40} />
             <div>
-              <h1 className="font-display text-xl font-bold text-oven-800">
-                {step === 'otp' ? 'Verifikasi Email' : 'Daftar Roti POS'}
+              <h1 className="font-display text-xl font-bold text-dark-800">
+                {step === 'otp' ? 'Verifikasi Email' : 'Daftar Sajiin'}
               </h1>
-              <p className="font-body text-xs text-crust-400">
+              <p className="font-body text-xs text-muted-400">
                 {step === 'otp'
                   ? `Kode OTP dikirim ke ${email}`
                   : 'Mulai trial gratis 14 hari'}
@@ -143,14 +142,14 @@ export default function RegisterPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2">
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
-                    Nama Toko / Bakery *
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
+                    Nama Toko / Bisnis Kuliner *
                   </label>
                   <input
                     type="text"
                     value={tenantName}
                     onChange={(e) => handleTenantName(e.target.value)}
-                    placeholder="Bakery Enak"
+                    placeholder="Bisnis Kuliner Enak"
                     className={cn('input', errors.tenantName && 'border-red-400')}
                     autoFocus
                   />
@@ -158,7 +157,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                     Nama Anda *
                   </label>
                   <input
@@ -172,21 +171,21 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                     Slug URL *
                   </label>
                   <input
                     type="text"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                    placeholder="bakery-enak"
+                    placeholder="bisnis kuliner-enak"
                     className={cn('input font-mono text-sm', errors.slug && 'border-red-400')}
                   />
                   {errors.slug && <p className="text-xs text-red-500 mt-1">{errors.slug}</p>}
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                     Email *
                   </label>
                   <input
@@ -200,7 +199,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
                     Password *
                   </label>
                   <div className="relative">
@@ -214,7 +213,7 @@ export default function RegisterPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-crust-400"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400"
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -239,16 +238,16 @@ export default function RegisterPage() {
                 {sendOtpMutation.isPending ? 'Mengirim OTP...' : 'Lanjut — Verifikasi Email'}
               </button>
 
-              <p className="font-body text-xs text-crust-400 text-center">
+              <p className="font-body text-xs text-muted-400 text-center">
                 Dengan mendaftar, Anda menyetujui{' '}
-                <a href="/terms" target="_blank" className="underline text-crust-600">Syarat & Ketentuan</a>{' '}
+                <a href="/terms" target="_blank" className="underline text-primary-600">Syarat & Ketentuan</a>{' '}
                 dan{' '}
-                <a href="/privacy" target="_blank" className="underline text-crust-600">Kebijakan Privasi</a> kami.
+                <a href="/privacy" target="_blank" className="underline text-primary-600">Kebijakan Privasi</a> kami.
               </p>
 
-              <p className="font-body text-sm text-crust-500 text-center">
+              <p className="font-body text-sm text-muted-500 text-center">
                 Sudah punya akun?{' '}
-                <Link to="/login" className="font-semibold text-crust-700 hover:text-oven-800 transition-colors">
+                <Link to="/login" className="font-semibold text-primary-700 hover:text-dark-800 transition-colors">
                   Login
                 </Link>
               </p>
@@ -258,11 +257,11 @@ export default function RegisterPage() {
           {/* ── STEP 2: OTP ── */}
           {step === 'otp' && (
             <div className="space-y-6">
-              <div className="bg-dough-50 rounded-xl px-4 py-3 flex items-start gap-3">
-                <Mail className="w-4 h-4 text-crust-500 flex-shrink-0 mt-0.5" />
+              <div className="bg-surface-50 rounded-xl px-4 py-3 flex items-start gap-3">
+                <Mail className="w-4 h-4 text-muted-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-body text-sm font-semibold text-oven-800">Cek email Anda</p>
-                  <p className="font-body text-xs text-crust-400 mt-0.5">
+                  <p className="font-body text-sm font-semibold text-dark-800">Cek email Anda</p>
+                  <p className="font-body text-xs text-muted-400 mt-0.5">
                     Kode OTP 6 digit dikirim ke <strong>{email}</strong>. Berlaku 10 menit.
                   </p>
                 </div>
@@ -270,7 +269,7 @@ export default function RegisterPage() {
 
               {/* OTP input boxes */}
               <div>
-                <label className="block text-xs font-body font-medium text-crust-700 mb-3 text-center">
+                <label className="block text-xs font-body font-medium text-primary-700 mb-3 text-center">
                   Masukkan Kode OTP
                 </label>
                 <div className="flex gap-2 justify-center" onPaste={handleOtpPaste}>
@@ -286,8 +285,8 @@ export default function RegisterPage() {
                       onKeyDown={(e) => handleOtpKeyDown(i, e)}
                       className={cn(
                         'w-11 h-12 text-center font-mono text-xl font-bold border-2 rounded-xl',
-                        'focus:outline-none focus:ring-2 focus:ring-crust-400 transition-all',
-                        digit ? 'border-crust-500 bg-dough-50' : 'border-dough-300 bg-white',
+                        'focus:outline-none focus:ring-2 focus:ring-primary-400 transition-all',
+                        digit ? 'border-primary-500 bg-surface-50' : 'border-surface-300 bg-white',
                         errors.otp && 'border-red-400'
                       )}
                     />
@@ -313,7 +312,7 @@ export default function RegisterPage() {
                 <button
                   onClick={() => sendOtpMutation.mutate()}
                   disabled={sendOtpMutation.isPending}
-                  className="font-body text-xs text-crust-400 hover:text-crust-600 transition-colors"
+                  className="font-body text-xs text-muted-400 hover:text-primary-600 transition-colors"
                 >
                   {sendOtpMutation.isPending ? 'Mengirim ulang...' : 'Tidak menerima kode? Kirim ulang'}
                 </button>

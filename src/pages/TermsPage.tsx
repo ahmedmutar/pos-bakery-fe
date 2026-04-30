@@ -2,43 +2,43 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, FileText } from 'lucide-react'
 
 const LAST_UPDATED = '25 April 2026'
-const COMPANY = 'Roti POS'
-const EMAIL = 'support@rotipos.com'
+const COMPANY = 'Sajiin'
+const EMAIL = 'support@sajiin.com'
 const WA = 'https://wa.me/6285947566558'
 
 export default function TermsPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-dough-50">
+    <div className="min-h-screen bg-surface-50">
       {/* Header */}
-      <div className="bg-white border-b border-dough-100 sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="bg-white border-b border-surface-200 sticky top-0 z-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Kembali
           </button>
-          <div className="h-4 w-px bg-dough-200" />
+          <div className="h-4 w-px bg-surface-200" />
           <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-crust-500" />
-            <span className="font-body text-sm font-medium text-crust-600">Syarat & Ketentuan</span>
+            <FileText className="w-4 h-4 text-muted-500" />
+            <span className="font-body text-sm font-medium text-primary-600">Syarat & Ketentuan</span>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-10">
-          <h1 className="font-display text-3xl font-bold text-oven-800 mb-2">Syarat & Ketentuan</h1>
-          <p className="font-body text-sm text-crust-400">Terakhir diperbarui: {LAST_UPDATED}</p>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-dark-800 mb-2">Syarat & Ketentuan</h1>
+          <p className="font-body text-sm text-muted-400">Terakhir diperbarui: {LAST_UPDATED}</p>
         </div>
 
-        <div className="space-y-8 font-body text-crust-600 leading-relaxed">
+        <div className="space-y-8 font-body text-primary-600 leading-relaxed">
 
-          <div className="bg-white rounded-2xl border border-dough-200 px-6 py-5">
+          <div className="bg-white rounded-2xl border border-surface-200 px-6 py-5">
             <p className="text-sm">
               Dengan mendaftar atau menggunakan platform <strong>{COMPANY}</strong>, Anda menyetujui syarat dan ketentuan ini. Baca dengan seksama sebelum menggunakan layanan kami.
             </p>
@@ -46,7 +46,7 @@ export default function TermsPage() {
 
           <Section title="1. Definisi">
             <ul className="list-disc pl-5 space-y-1.5 text-sm">
-              <li><strong>"Layanan"</strong> merujuk pada platform kasir dan manajemen bakery {COMPANY}</li>
+              <li><strong>"Layanan"</strong> merujuk pada platform manajemen bisnis kuliner {COMPANY}</li>
               <li><strong>"Pengguna"</strong> adalah individu atau bisnis yang mendaftar dan menggunakan Layanan</li>
               <li><strong>"Akun"</strong> adalah akses terdaftar ke Layanan</li>
               <li><strong>"Konten"</strong> adalah data yang Anda masukkan ke dalam Layanan (produk, transaksi, dll)</li>
@@ -136,9 +136,9 @@ export default function TermsPage() {
 
           <Section title="10. Kontak">
             <p className="text-sm">Pertanyaan tentang syarat ini dapat disampaikan ke:</p>
-            <div className="mt-3 bg-dough-50 rounded-xl px-4 py-3 space-y-1 text-sm">
-              <p>Email: <a href={`mailto:${EMAIL}`} className="text-crust-700 font-medium">{EMAIL}</a></p>
-              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-crust-700 font-medium">085947566558</a></p>
+            <div className="mt-3 bg-surface-50 rounded-xl px-4 py-3 space-y-1 text-sm">
+              <p>Email: <a href={`mailto:${EMAIL}`} className="text-primary-700 font-medium">{EMAIL}</a></p>
+              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-primary-700 font-medium">085947566558</a></p>
             </div>
           </Section>
         </div>
@@ -150,7 +150,7 @@ export default function TermsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="font-display text-lg font-semibold text-oven-800 mb-3">{title}</h2>
+      <h2 className="font-display text-lg font-semibold text-dark-800 mb-3">{title}</h2>
       <div className="space-y-3">{children}</div>
     </div>
   )

@@ -15,7 +15,7 @@ const STATUS_CONFIG: Record<OrderStatus, { labelKey: string; color: string; dot:
   CONFIRMED:     { labelKey: 'orders.confirmed',     color: 'bg-blue-100 text-blue-700',   dot: 'bg-blue-500' },
   IN_PRODUCTION: { labelKey: 'orders.inProduction',  color: 'bg-amber-100 text-amber-700', dot: 'bg-amber-500' },
   READY:         { labelKey: 'orders.ready',         color: 'bg-green-100 text-green-700', dot: 'bg-green-500' },
-  COMPLETED:     { labelKey: 'orders.completed',     color: 'bg-crust-100 text-crust-600', dot: 'bg-crust-400' },
+  COMPLETED:     { labelKey: 'orders.completed',     color: 'bg-surface-100 text-primary-600', dot: 'bg-muted-400' },
   CANCELLED:     { labelKey: 'orders.cancelled',     color: 'bg-red-100 text-red-500',     dot: 'bg-red-400' },
 }
 
@@ -67,7 +67,7 @@ export default function OrdersPage() {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="font-body text-sm text-crust-400">
+        <p className="font-body text-sm text-muted-400">
           {activeCount} pesanan aktif
         </p>
         <button
@@ -107,7 +107,7 @@ export default function OrdersPage() {
 
       {/* Tabs + filters */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+        <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
           {FILTER_TABS.map(({ key, labelKey }) => (
             <button
               key={key}
@@ -115,8 +115,8 @@ export default function OrdersPage() {
               className={cn(
                 'px-4 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
                 tab === key
-                  ? 'bg-white text-oven-800 shadow-warm'
-                  : 'text-crust-500 hover:text-crust-700'
+                  ? 'bg-white text-dark-800 shadow-warm'
+                  : 'text-muted-500 hover:text-primary-700'
               )}
             >
               {t(labelKey)}
@@ -125,7 +125,7 @@ export default function OrdersPage() {
         </div>
 
         <div className="relative flex-1 min-w-48">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
           <input
             type="text"
             value={search}
@@ -150,10 +150,10 @@ export default function OrdersPage() {
       {/* Orders list */}
       {isLoading ? (
         <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+          <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
         </div>
       ) : sorted.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+        <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
           <ClipboardList className="w-10 h-10" />
           <p className="font-body text-sm">
             {tab === 'active' ? 'Tidak ada pesanan aktif' : 'Belum ada pesanan'}
@@ -178,7 +178,7 @@ export default function OrdersPage() {
                 key={order.id}
                 onClick={() => setSelectedOrder(order)}
                 className={cn(
-                  'card hover:border-crust-300 cursor-pointer transition-all',
+                  'card hover:border-surface-300 cursor-pointer transition-all',
                   isOverdue && 'border-red-200 bg-red-50'
                 )}
               >
@@ -189,7 +189,7 @@ export default function OrdersPage() {
                   {/* Main info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <p className="font-body text-sm font-semibold text-oven-800">
+                      <p className="font-body text-sm font-semibold text-dark-800">
                         {order.customerName}
                       </p>
                       <span className={cn('text-xs font-body font-medium px-2.5 py-0.5 rounded-full flex-shrink-0', status.color)}>
@@ -197,7 +197,7 @@ export default function OrdersPage() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs font-body text-crust-400 mb-2">
+                    <div className="flex items-center gap-3 text-xs font-body text-muted-400 mb-2">
                       <span>{order.customerPhone}</span>
                       <span>·</span>
                       <span className={cn(
@@ -224,12 +224,12 @@ export default function OrdersPage() {
                     {/* Items preview */}
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       {order.items.slice(0, 3).map((item) => (
-                        <span key={item.id} className="font-body text-xs bg-dough-100 text-crust-600 px-2 py-0.5 rounded-lg">
+                        <span key={item.id} className="font-body text-xs bg-surface-100 text-primary-600 px-2 py-0.5 rounded-lg">
                           {item.product.name} ×{item.quantity}
                         </span>
                       ))}
                       {order.items.length > 3 && (
-                        <span className="font-body text-xs text-crust-400">
+                        <span className="font-body text-xs text-muted-400">
                           +{order.items.length - 3} lagi
                         </span>
                       )}
@@ -238,7 +238,7 @@ export default function OrdersPage() {
 
                   {/* Price + payment */}
                   <div className="text-right flex-shrink-0">
-                    <p className="font-display text-base font-bold text-oven-800 tracking-tight">
+                    <p className="font-display text-base font-bold text-dark-800 tracking-tight">
                       {formatCurrency(order.total)}
                     </p>
                     {order.remainingAmount > 0 ? (

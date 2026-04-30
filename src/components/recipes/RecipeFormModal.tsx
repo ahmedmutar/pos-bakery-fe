@@ -95,22 +95,22 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
   const isValid = items.some((i) => i.ingredientId && i.amount)
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-2xl max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-crust-100 rounded-xl flex items-center justify-center">
-              <ChefHat className="w-5 h-5 text-crust-600" />
+            <div className="w-9 h-9 bg-surface-100 rounded-xl flex items-center justify-center">
+              <ChefHat className="w-5 h-5 text-primary-600" />
             </div>
             <div>
-              <h2 className="font-display text-lg font-semibold text-oven-800">
+              <h2 className="font-display text-lg font-semibold text-dark-800">
                 {existing ? 'Edit Resep' : 'Buat Resep'}
               </h2>
-              <p className="font-body text-xs text-crust-400">{product.name}</p>
+              <p className="font-body text-xs text-muted-400">{product.name}</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -120,7 +120,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
           <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5 scrollbar-thin">
             {/* Batch size */}
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 Resep ini menghasilkan berapa pcs?
               </label>
               <div className="flex items-center gap-3">
@@ -131,19 +131,19 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
                   min="1"
                   className="input w-28 text-center font-mono text-lg"
                 />
-                <span className="font-body text-sm text-crust-500">pcs per batch</span>
+                <span className="font-body text-sm text-muted-500">pcs per batch</span>
               </div>
             </div>
 
             {/* Ingredients */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-body font-medium text-crust-700">
+                <label className="block text-sm font-body font-medium text-primary-700">
                   Bahan-bahan
                 </label>
                 <button
                   onClick={() => setItems((prev) => [...prev, emptyItem()])}
-                  className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Tambah bahan
@@ -154,7 +154,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
                 {items.map((item, index) => {
                   const ing = ingredients.find((g) => g.id === item.ingredientId)
                   return (
-                    <div key={index} className="bg-dough-50 rounded-xl p-4 space-y-3">
+                    <div key={index} className="bg-surface-50 rounded-xl p-4 space-y-3">
                       <div className="flex items-center justify-between">
                         <select
                           value={item.ingredientId}
@@ -168,7 +168,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
                         </select>
                         <button
                           onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
-                          className="text-crust-300 hover:text-red-400 transition-colors flex-shrink-0"
+                          className="text-surface-300 hover:text-red-400 transition-colors flex-shrink-0"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -177,7 +177,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
                       <div className="grid grid-cols-3 gap-3">
                         {/* Amount */}
                         <div>
-                          <label className="block text-xs font-body text-crust-500 mb-1">Jumlah</label>
+                          <label className="block text-xs font-body text-muted-500 mb-1">Jumlah</label>
                           <input
                             type="number"
                             value={item.amount}
@@ -191,7 +191,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
 
                         {/* Unit */}
                         <div>
-                          <label className="block text-xs font-body text-crust-500 mb-1">Satuan</label>
+                          <label className="block text-xs font-body text-muted-500 mb-1">Satuan</label>
                           <input
                             type="text"
                             value={item.unit}
@@ -203,7 +203,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
 
                         {/* Unit factor */}
                         <div>
-                          <label className="block text-xs font-body text-crust-500 mb-1">
+                          <label className="block text-xs font-body text-muted-500 mb-1">
                             ke {ing?.baseUnit ?? 'satuan dasar'}
                           </label>
                           <input
@@ -220,12 +220,12 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
 
                       {/* Cost contribution */}
                       {ing && item.amount && (
-                        <div className="flex justify-between font-body text-xs text-crust-400">
+                        <div className="flex justify-between font-body text-xs text-muted-400">
                           <span>
                             {item.amount} {item.unit}
                             {item.unitFactor !== '1' && ` = ${(parseFloat(item.amount) * parseFloat(item.unitFactor)).toFixed(1)} ${ing.baseUnit}`}
                           </span>
-                          <span className="text-crust-600 font-medium">
+                          <span className="text-primary-600 font-medium">
                             {formatCurrency(
                               ing.currentPrice *
                               (parseFloat(item.amount) || 0) *
@@ -242,7 +242,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 Catatan Singkat (opsional)
               </label>
               <textarea
@@ -255,10 +255,10 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
 
             {/* Instructions */}
             <div>
-              <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
                 Instruksi Pembuatan (opsional)
               </label>
-              <p className="font-body text-xs text-crust-400 mb-2">
+              <p className="font-body text-xs text-muted-400 mb-2">
                 Tulis langkah-langkah pembuatan secara rinci. Gunakan angka (1. 2. 3.) atau enter untuk tiap langkah.
               </p>
               <textarea
@@ -278,33 +278,33 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
           </div>
 
           {/* Right — live food cost summary */}
-          <div className="w-56 flex-shrink-0 border-l border-dough-100 px-5 py-5 space-y-4 bg-dough-50">
-            <p className="font-body text-sm font-medium text-crust-700">Kalkulasi live</p>
+          <div className="w-56 flex-shrink-0 border-l border-surface-200 px-5 py-5 space-y-4 bg-surface-50">
+            <p className="font-body text-sm font-medium text-primary-700">Kalkulasi live</p>
 
             <div className="space-y-3">
               <div>
-                <p className="font-body text-xs text-crust-400">Total biaya batch</p>
-                <p className="font-display text-lg font-semibold text-oven-800">
+                <p className="font-body text-xs text-muted-400">Total biaya batch</p>
+                <p className="font-display text-lg font-semibold text-dark-800">
                   {formatCurrency(Math.round(foodCost))}
                 </p>
               </div>
 
               <div>
-                <p className="font-body text-xs text-crust-400">Biaya per pcs</p>
-                <p className="font-display text-base font-semibold text-oven-800">
+                <p className="font-body text-xs text-muted-400">Biaya per pcs</p>
+                <p className="font-display text-base font-semibold text-dark-800">
                   {formatCurrency(Math.round(costPerPcs))}
                 </p>
               </div>
 
-              <div className="border-t border-dough-200 pt-3">
-                <p className="font-body text-xs text-crust-400">Harga jual</p>
-                <p className="font-body text-sm font-medium text-oven-700">
+              <div className="border-t border-surface-200 pt-3">
+                <p className="font-body text-xs text-muted-400">Harga jual</p>
+                <p className="font-body text-sm font-medium text-dark-700">
                   {formatCurrency(product.price)}
                 </p>
               </div>
 
               <div>
-                <p className="font-body text-xs text-crust-400 mb-1">Margin</p>
+                <p className="font-body text-xs text-muted-400 mb-1">Margin</p>
                 <p className={cn(
                   'font-display text-xl font-bold',
                   marginPct >= 30 ? 'text-green-600' :
@@ -312,7 +312,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
                 )}>
                   {Math.round(marginPct)}%
                 </p>
-                <div className="w-full h-1.5 bg-dough-200 rounded-full mt-1.5 overflow-hidden">
+                <div className="w-full h-1.5 bg-surface-200 rounded-full mt-1.5 overflow-hidden">
                   <div
                     className={cn(
                       'h-full rounded-full transition-all duration-300',
@@ -334,7 +334,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
               </div>
 
               {foodCost === 0 && (
-                <p className="font-body text-xs text-crust-400 italic">
+                <p className="font-body text-xs text-muted-400 italic">
                   Tambah bahan untuk melihat kalkulasi
                 </p>
               )}
@@ -343,7 +343,7 @@ export default function RecipeFormModal({ product, onClose }: RecipeFormModalPro
         </div>
 
         {/* Footer */}
-        <div className="px-6 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-6 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Batal</button>
           <button
             onClick={() => mutation.mutate()}

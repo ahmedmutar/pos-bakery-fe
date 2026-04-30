@@ -53,17 +53,17 @@ export default function ShiftConflictModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
-            <h2 className="font-display text-base font-semibold text-oven-800">
+            <h2 className="font-display text-base font-semibold text-dark-800">
               Shift Sebelumnya Masih Terbuka
             </h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -86,22 +86,22 @@ export default function ShiftConflictModal({
             </p>
           </div>
 
-          <p className="font-body text-sm text-crust-600">
+          <p className="font-body text-sm text-primary-600">
             Pilih tindakan:
           </p>
 
           {/* Option 1: Resume */}
           <button
             onClick={resumeShift}
-            className="w-full flex items-start gap-3 p-4 rounded-xl border border-dough-200
-                       hover:border-crust-300 hover:bg-dough-50 transition-all text-left"
+            className="w-full flex items-start gap-3 p-4 rounded-xl border border-surface-200
+                       hover:border-surface-300 hover:bg-surface-50 transition-all text-left"
           >
-            <RefreshCw className="w-5 h-5 text-crust-500 flex-shrink-0 mt-0.5" />
+            <RefreshCw className="w-5 h-5 text-muted-500 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-body text-sm font-semibold text-oven-800">
+              <p className="font-body text-sm font-semibold text-dark-800">
                 Lanjutkan shift sebelumnya
               </p>
-              <p className="font-body text-xs text-crust-400 mt-0.5">
+              <p className="font-body text-xs text-muted-400 mt-0.5">
                 Gunakan shift yang sudah terbuka. Cocok jika Anda kasir yang sama dan lupa menutup shift.
               </p>
             </div>

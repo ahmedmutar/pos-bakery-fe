@@ -44,17 +44,17 @@ export default function BankSection() {
   return (
     <div className="card space-y-5">
       <div className="flex items-center gap-2">
-        <Landmark className="w-5 h-5 text-crust-600" />
-        <h2 className="font-display text-base font-semibold text-oven-800">Info Rekening Bank</h2>
+        <Landmark className="w-5 h-5 text-primary-600" />
+        <h2 className="font-display text-base font-semibold text-dark-800">Info Rekening Bank</h2>
       </div>
-      <p className="font-body text-sm text-crust-400">
+      <p className="font-body text-sm text-muted-400">
         Ditampilkan kepada pelanggan saat memilih metode pembayaran Transfer Bank.
       </p>
 
       <div className="space-y-4">
         {/* Bank name */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nama Bank
           </label>
           <select
@@ -80,7 +80,7 @@ export default function BankSection() {
 
         {/* Account number */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nomor Rekening
           </label>
           <input
@@ -95,7 +95,7 @@ export default function BankSection() {
 
         {/* Account holder */}
         <div>
-          <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">
+          <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
             Nama Pemilik Rekening
           </label>
           <input
@@ -123,7 +123,7 @@ export default function BankSection() {
           {saved ? 'Tersimpan!' : 'Simpan'}
         </button>
         {bank?.bankAccount && (
-          <p className="font-body text-xs text-crust-400">
+          <p className="font-body text-xs text-muted-400">
             Saat ini: {bank.bankName} · {bank.bankAccount} · {bank.bankHolder}
           </p>
         )}

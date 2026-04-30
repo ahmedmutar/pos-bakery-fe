@@ -137,25 +137,25 @@ export default function ExcelImportModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-[95vw] sm:max-w-xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200 flex-shrink-0">
           <div className="flex items-center gap-2">
             <FileSpreadsheet className="w-5 h-5 text-green-600" />
-            <h2 className="font-display text-base font-semibold text-oven-800">{title}</h2>
+            <h2 className="font-display text-base font-semibold text-dark-800">{title}</h2>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
           {/* Step 1: Download template */}
-          <div className="flex items-center justify-between bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
+          <div className="flex items-center justify-between bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
             <div>
-              <p className="font-body text-sm font-semibold text-oven-800">1. Download template</p>
-              <p className="font-body text-xs text-crust-400 mt-0.5">
+              <p className="font-body text-sm font-semibold text-dark-800">1. Download template</p>
+              <p className="font-body text-xs text-muted-400 mt-0.5">
                 Isi data di template, lalu upload kembali
               </p>
             </div>
@@ -170,17 +170,17 @@ export default function ExcelImportModal({
           </div>
 
           {/* Column info */}
-          <div className="border border-dough-200 rounded-xl overflow-hidden">
-            <div className="bg-dough-50 px-4 py-2 border-b border-dough-200">
-              <p className="font-body text-xs font-semibold text-crust-500 uppercase tracking-widest">
+          <div className="border border-surface-200 rounded-xl overflow-hidden">
+            <div className="bg-surface-50 px-4 py-2 border-b border-surface-200">
+              <p className="font-body text-xs font-semibold text-muted-500 uppercase tracking-widest">
                 Kolom yang dibutuhkan
               </p>
             </div>
-            <div className="divide-y divide-dough-100">
+            <div className="divide-y divide-surface-100">
               {columns.map((col) => (
                 <div key={col.key} className="flex items-center justify-between px-4 py-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-body text-sm text-oven-800">{col.label}</span>
+                    <span className="font-body text-sm text-dark-800">{col.label}</span>
                     {col.required && (
                       <span className="text-[10px] font-body font-semibold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
                         wajib
@@ -188,7 +188,7 @@ export default function ExcelImportModal({
                     )}
                   </div>
                   {col.example && (
-                    <span className="font-mono text-xs text-crust-400">contoh: {col.example}</span>
+                    <span className="font-mono text-xs text-muted-400">contoh: {col.example}</span>
                   )}
                 </div>
               ))}
@@ -197,13 +197,13 @@ export default function ExcelImportModal({
 
           {/* Step 2: Upload */}
           <div>
-            <p className="font-body text-sm font-semibold text-oven-800 mb-2">2. Upload file</p>
+            <p className="font-body text-sm font-semibold text-dark-800 mb-2">2. Upload file</p>
             <div
               className={cn(
                 'border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all',
-                dragOver ? 'border-crust-500 bg-dough-100' :
+                dragOver ? 'border-primary-500 bg-surface-100' :
                 preview ? 'border-green-400 bg-green-50' :
-                'border-dough-300 hover:border-crust-400 hover:bg-dough-50'
+                'border-surface-300 hover:border-primary-400 hover:bg-surface-50'
               )}
               onClick={() => inputRef.current?.click()}
               onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
@@ -217,19 +217,19 @@ export default function ExcelImportModal({
                   <p className="font-body text-xs text-green-600">{preview.length} baris siap diimport</p>
                   <button
                     onClick={(e) => { e.stopPropagation(); setPreview(null); setFilename('') }}
-                    className="text-xs text-crust-400 underline mt-1"
+                    className="text-xs text-muted-400 underline mt-1"
                   >
                     Ganti file
                   </button>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2">
-                  <Upload className="w-8 h-8 text-crust-300" />
-                  <p className="font-body text-sm text-crust-500">
+                  <Upload className="w-8 h-8 text-surface-300" />
+                  <p className="font-body text-sm text-muted-500">
                     Drag & drop file .xlsx ke sini, atau{' '}
-                    <span className="text-crust-700 font-medium underline">pilih file</span>
+                    <span className="text-primary-700 font-medium underline">pilih file</span>
                   </p>
-                  <p className="font-body text-xs text-crust-400">Format: .xlsx atau .xls</p>
+                  <p className="font-body text-xs text-muted-400">Format: .xlsx atau .xls</p>
                 </div>
               )}
             </div>
@@ -246,25 +246,25 @@ export default function ExcelImportModal({
           {/* Preview table */}
           {preview && preview.length > 0 && (
             <div>
-              <p className="font-body text-xs text-crust-500 mb-2">
+              <p className="font-body text-xs text-muted-500 mb-2">
                 Preview {Math.min(3, preview.length)} dari {preview.length} baris:
               </p>
-              <div className="overflow-x-auto rounded-xl border border-dough-200">
+              <div className="overflow-x-auto rounded-xl border border-surface-200">
                 <table className="w-full text-xs">
-                  <thead className="bg-dough-50">
+                  <thead className="bg-surface-50">
                     <tr>
                       {columns.map((col) => (
-                        <th key={col.key} className="text-left px-3 py-2 font-body font-semibold text-crust-500 uppercase tracking-wide whitespace-nowrap">
+                        <th key={col.key} className="text-left px-3 py-2 font-body font-semibold text-muted-500 uppercase tracking-wide whitespace-nowrap">
                           {col.label}
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-dough-100">
+                  <tbody className="divide-y divide-surface-100">
                     {preview.slice(0, 3).map((row, i) => (
-                      <tr key={i} className="hover:bg-dough-50">
+                      <tr key={i} className="hover:bg-surface-50">
                         {columns.map((col) => (
-                          <td key={col.key} className="px-3 py-2 font-body text-oven-700 whitespace-nowrap">
+                          <td key={col.key} className="px-3 py-2 font-body text-dark-700 whitespace-nowrap">
                             {String(row[col.key] ?? '—')}
                           </td>
                         ))}
@@ -287,7 +287,7 @@ export default function ExcelImportModal({
                 : <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
               }
               <div>
-                <p className="font-body text-sm font-semibold text-oven-800">
+                <p className="font-body text-sm font-semibold text-dark-800">
                   {result.success} berhasil diimport
                   {result.failed > 0 && `, ${result.failed} gagal`}
                 </p>
@@ -304,7 +304,7 @@ export default function ExcelImportModal({
         </div>
 
         {/* Footer */}
-        <div className="px-5 pb-5 pt-3 border-t border-dough-100 flex gap-3 flex-shrink-0">
+        <div className="px-5 pb-5 pt-3 border-t border-surface-200 flex gap-3 flex-shrink-0">
           <button onClick={onClose} className="btn-secondary flex-1">Tutup</button>
           <button
             onClick={handleImport}

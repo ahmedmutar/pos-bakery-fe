@@ -18,7 +18,7 @@ type Tab = 'ingredients' | 'purchases'
 
 
 const TYPE_CONFIG = {
-  INGREDIENT: { label: 'Bahan Baku', color: 'bg-dough-100 text-crust-700' },
+  INGREDIENT: { label: 'Bahan Baku', color: 'bg-surface-100 text-primary-700' },
   EQUIPMENT:  { label: 'Alat',       color: 'bg-blue-100 text-blue-700' },
   PACKAGING:  { label: 'Kemasan',    color: 'bg-purple-100 text-purple-700' },
 }
@@ -133,7 +133,7 @@ export default function InventoryPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex bg-dough-100 rounded-xl p-1 gap-1 w-fit">
+      <div className="flex bg-surface-100 rounded-xl p-1 gap-1 w-fit">
         {([
           { key: 'ingredients', label: t('inventory.title'), icon: Package },
           { key: 'purchases', label: 'Riwayat Pembelian', icon: History },
@@ -144,8 +144,8 @@ export default function InventoryPage() {
             className={cn(
               'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-body font-medium transition-all',
               tab === key
-                ? 'bg-white text-oven-800 shadow-warm'
-                : 'text-crust-500 hover:text-crust-700'
+                ? 'bg-white text-dark-800 shadow-warm'
+                : 'text-muted-500 hover:text-primary-700'
             )}
           >
             <Icon className="w-4 h-4" />
@@ -171,14 +171,14 @@ export default function InventoryPage() {
                 className={cn(
                   'flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-body font-medium border transition-all',
                   ingredientType === key
-                    ? 'bg-crust-600 text-cream border-crust-600 shadow-warm'
-                    : 'bg-white text-crust-600 border-dough-200 hover:bg-dough-50'
+                    ? 'bg-primary-600 text-white border-primary-600 shadow-warm'
+                    : 'bg-white text-primary-600 border-surface-200 hover:bg-surface-50'
                 )}
               >
                 {label}
                 <span className={cn(
                   'text-[10px] font-semibold px-1.5 py-0.5 rounded-full',
-                  ingredientType === key ? 'bg-white/20 text-cream' : 'bg-dough-100 text-crust-500'
+                  ingredientType === key ? 'bg-white/20 text-white' : 'bg-surface-100 text-muted-500'
                 )}>
                   {countByType[key]}
                 </span>
@@ -189,7 +189,7 @@ export default function InventoryPage() {
           {/* Filters */}
           <div className="flex gap-3">
             <div className="relative flex-1 max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
               <input
                 type="text"
                 value={search}
@@ -204,7 +204,7 @@ export default function InventoryPage() {
                 'flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-body font-medium border transition-all',
                 showLowOnly
                   ? 'bg-amber-500 text-white border-amber-500'
-                  : 'bg-white text-crust-600 border-dough-200 hover:bg-dough-50'
+                  : 'bg-white text-primary-600 border-surface-200 hover:bg-surface-50'
               )}
             >
               <AlertTriangle className="w-4 h-4" />
@@ -214,36 +214,36 @@ export default function InventoryPage() {
 
           {loadingIngredients ? (
             <div className="flex items-center justify-center h-48">
-              <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+            <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
               <Package className="w-10 h-10" />
               <p className="font-body text-sm">Belum ada bahan baku</p>
             </div>
           ) : (
             <div className="card p-0 overflow-hidden">
-              <table className="w-full">
+              <table className="w-full min-w-[640px]">
                 <thead>
-                  <tr className="border-b border-dough-100 bg-dough-50">
-                    <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">
+                  <tr className="border-b border-surface-200 bg-surface-50">
+                    <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">
                       Bahan
                     </th>
-                    <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest hidden lg:table-cell">
+                    <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest hidden lg:table-cell">
                       Stok
                     </th>
-                    <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest hidden md:table-cell">
+                    <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest hidden md:table-cell">
                       Harga/satuan
                     </th>
                     <th className="px-4 py-3 w-32" />
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-dough-100">
+                <tbody className="divide-y divide-surface-100">
                   {filtered.map((ingredient) => {
                     const status = stockStatus(ingredient)
                     const pct = stockPercent(ingredient)
                     return (
-                      <tr key={ingredient.id} className="hover:bg-dough-50 transition-colors group">
+                      <tr key={ingredient.id} className="hover:bg-surface-50 transition-colors group">
                         {/* Name + status */}
                         <td className="px-5 py-3">
                           <div className="flex items-center gap-2 flex-wrap">
@@ -253,10 +253,10 @@ export default function InventoryPage() {
                               status === 'low' ? 'bg-amber-400' : 'bg-green-400'
                             )} />
                             <div>
-                              <p className="font-body text-sm font-medium text-oven-800">
+                              <p className="font-body text-sm font-medium text-dark-800">
                                 {ingredient.name}
                               </p>
-                              <p className="font-body text-xs text-crust-400">
+                              <p className="font-body text-xs text-muted-400">
                                 Satuan: {ingredient.baseUnit}
                               </p>
                             </div>
@@ -267,7 +267,7 @@ export default function InventoryPage() {
                         <td className="px-4 py-3 hidden sm:table-cell">
                           <TypeBadge type={ingredient.type} />
                           {ingredient.notes && (
-                            <p className="font-body text-[10px] text-crust-400 mt-1 truncate max-w-28">{ingredient.notes}</p>
+                            <p className="font-body text-[10px] text-muted-400 mt-1 truncate max-w-28">{ingredient.notes}</p>
                           )}
                         </td>
 
@@ -278,17 +278,17 @@ export default function InventoryPage() {
                               <span className={cn(
                                 'font-medium',
                                 status === 'empty' ? 'text-red-600' :
-                                status === 'low' ? 'text-amber-600' : 'text-oven-700'
+                                status === 'low' ? 'text-amber-600' : 'text-dark-700'
                               )}>
                                 {ingredient.currentStock} {ingredient.baseUnit}
                               </span>
                               {ingredient.minimumStock > 0 && (
-                                <span className="text-crust-400">
+                                <span className="text-muted-400">
                                   min {ingredient.minimumStock}
                                 </span>
                               )}
                             </div>
-                            <div className="w-full h-1.5 bg-dough-100 rounded-full overflow-hidden">
+                            <div className="w-full h-1.5 bg-surface-100 rounded-full overflow-hidden">
                               <div
                                 className={cn(
                                   'h-full rounded-full transition-all',
@@ -303,10 +303,10 @@ export default function InventoryPage() {
 
                         {/* Price */}
                         <td className="px-4 py-3 text-right hidden md:table-cell">
-                          <span className="font-body text-sm text-oven-700">
+                          <span className="font-body text-sm text-dark-700">
                             {ingredient.currentPrice > 0
                               ? `${formatCurrency(ingredient.currentPrice)} / ${ingredient.baseUnit}`
-                              : <span className="text-crust-300">—</span>
+                              : <span className="text-surface-300">—</span>
                             }
                           </span>
                         </td>
@@ -317,16 +317,16 @@ export default function InventoryPage() {
                             <button
                               onClick={() => setAdjustIngredient(ingredient)}
                               title="Stok opname"
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                                         hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                              className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                                         hover:bg-surface-100 hover:text-primary-600 transition-colors"
                             >
                               <ClipboardCheck className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => { setEditIngredient(ingredient); setShowForm(true) }}
                               title="Edit bahan"
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                                         hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                              className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                                         hover:bg-surface-100 hover:text-primary-600 transition-colors"
                             >
                               <Pencil className="w-3.5 h-3.5" />
                             </button>
@@ -347,10 +347,10 @@ export default function InventoryPage() {
         <>
           {loadingPurchases ? (
             <div className="flex items-center justify-center h-48">
-              <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
             </div>
           ) : purchases.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+            <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
               <History className="w-10 h-10" />
               <p className="font-body text-sm">Belum ada riwayat pembelian</p>
             </div>
@@ -371,19 +371,19 @@ export default function InventoryPage() {
                 <div key={purchase.id} className="card">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="font-body text-sm font-medium text-oven-800">
+                      <p className="font-body text-sm font-medium text-dark-800">
                         {new Date(purchase.date).toLocaleDateString('id-ID', {
                           day: 'numeric', month: 'long', year: 'numeric'
                         })}
                       </p>
                       {purchase.supplier && (
-                        <p className="font-body text-xs text-crust-400">{purchase.supplier.name}</p>
+                        <p className="font-body text-xs text-muted-400">{purchase.supplier.name}</p>
                       )}
                       {purchase.notes && (
-                        <p className="font-body text-xs text-crust-400 mt-0.5">{purchase.notes}</p>
+                        <p className="font-body text-xs text-muted-400 mt-0.5">{purchase.notes}</p>
                       )}
                     </div>
-                    <span className="font-display text-base font-semibold text-crust-600">
+                    <span className="font-display text-base font-semibold text-primary-600">
                       {formatCurrency(
                         purchase.items.reduce((sum: number, i: typeof purchase.items[number]) =>
                           sum + i.quantity * i.pricePerUnit, 0)
@@ -393,11 +393,11 @@ export default function InventoryPage() {
                   <div className="space-y-1.5">
                     {purchase.items.map((item: typeof purchase.items[number], i: number) => (
                       <div key={i} className="flex justify-between text-sm font-body">
-                        <span className="text-oven-700">{item.ingredient.name}</span>
-                        <div className="flex items-center gap-4 text-crust-500">
+                        <span className="text-dark-700">{item.ingredient.name}</span>
+                        <div className="flex items-center gap-4 text-muted-500">
                           <span>{item.quantity} {item.unit}</span>
                           <span>{formatCurrency(item.pricePerUnit)} / {item.unit}</span>
-                          <span className="font-medium text-oven-700">
+                          <span className="font-medium text-dark-700">
                             {formatCurrency(item.quantity * item.pricePerUnit)}
                           </span>
                         </div>

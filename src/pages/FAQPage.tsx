@@ -8,8 +8,8 @@ const FAQS = [
     category: 'Umum',
     items: [
       {
-        q: 'Apa itu Roti POS?',
-        a: 'Roti POS adalah sistem kasir dan manajemen bakery berbasis web yang dirancang khusus untuk usaha bakery dan toko roti. Fiturnya mencakup kasir harian, manajemen produksi, inventaris bahan baku, resep & food cost, pre-order pelanggan, hingga laporan penjualan.',
+        q: 'Apa itu Sajiin?',
+        a: 'Sajiin adalah sistem manajemen bisnis kuliner berbasis web yang dirancang khusus untuk usaha bisnis kuliner dan bisnis kuliner. Fiturnya mencakup kasir harian, manajemen produksi, inventaris bahan baku, resep & food cost, pre-order pelanggan, hingga laporan penjualan.',
       },
       {
         q: 'Apakah bisa digunakan tanpa internet?',
@@ -17,7 +17,7 @@ const FAQS = [
       },
       {
         q: 'Perangkat apa saja yang didukung?',
-        a: 'Roti POS berbasis web sehingga bisa diakses dari browser di laptop, tablet, maupun smartphone. Tidak perlu install aplikasi. Direkomendasikan menggunakan Chrome atau Safari versi terbaru.',
+        a: 'Sajiin berbasis web sehingga bisa diakses dari browser di laptop, tablet, maupun smartphone. Tidak perlu install aplikasi. Direkomendasikan menggunakan Chrome atau Safari versi terbaru.',
       },
       {
         q: 'Apakah data saya aman?',
@@ -34,7 +34,7 @@ const FAQS = [
       },
       {
         q: 'Apa perbedaan paket Basic, Pro, dan Enterprise?',
-        a: 'Basic cocok untuk 1 outlet dengan hingga 3 staff dan 50 produk. Pro mendukung hingga 5 outlet, 10 staff, produk tak terbatas, fitur forecast produksi, dan import Excel. Enterprise untuk jaringan bakery besar dengan outlet dan staff tak terbatas, white label, dan akses API.',
+        a: 'Basic cocok untuk 1 outlet dengan hingga 3 staff dan 50 produk. Pro mendukung hingga 5 outlet, 10 staff, produk tak terbatas, fitur forecast produksi, dan import Excel. Enterprise untuk jaringan bisnis kuliner besar dengan outlet dan staff tak terbatas, white label, dan akses API.',
       },
       {
         q: 'Bagaimana cara upgrade paket?',
@@ -55,7 +55,7 @@ const FAQS = [
     items: [
       {
         q: 'Apakah bisa mencetak struk?',
-        a: 'Ya. Roti POS mendukung cetak struk termal 58mm dan 80mm melalui browser. Anda bisa mencetak langsung setelah transaksi atau dari riwayat transaksi shift.',
+        a: 'Ya. Sajiin mendukung cetak struk termal 58mm dan 80mm melalui browser. Anda bisa mencetak langsung setelah transaksi atau dari riwayat transaksi shift.',
       },
       {
         q: 'Metode pembayaran apa saja yang didukung?',
@@ -101,7 +101,7 @@ const FAQS = [
       },
       {
         q: 'Apakah ada API untuk integrasi dengan sistem lain?',
-        a: 'Akses API tersedia untuk paket Enterprise. Dengan API, Anda bisa mengintegrasikan Roti POS dengan sistem akuntansi, e-commerce, atau marketplace. Hubungi kami untuk dokumentasi API.',
+        a: 'Akses API tersedia untuk paket Enterprise. Dengan API, Anda bisa mengintegrasikan Sajiin dengan sistem akuntansi, e-commerce, atau marketplace. Hubungi kami untuk dokumentasi API.',
       },
     ],
   },
@@ -111,19 +111,19 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="border-b border-dough-100 last:border-0">
+    <div className="border-b border-surface-200 last:border-0">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-start justify-between gap-4 py-4 text-left"
       >
-        <span className="font-body text-sm font-semibold text-oven-800">{q}</span>
+        <span className="font-body text-sm font-semibold text-dark-800">{q}</span>
         <ChevronDown className={cn(
-          'w-4 h-4 text-crust-400 flex-shrink-0 mt-0.5 transition-transform duration-200',
+          'w-4 h-4 text-muted-400 flex-shrink-0 mt-0.5 transition-transform duration-200',
           open && 'rotate-180'
         )} />
       </button>
       {open && (
-        <p className="font-body text-sm text-crust-500 leading-relaxed pb-4">
+        <p className="font-body text-sm text-muted-500 leading-relaxed pb-4">
           {a}
         </p>
       )}
@@ -136,13 +136,13 @@ export default function FAQPage() {
   const [activeCategory, setActiveCategory] = useState(FAQS[0].category)
 
   return (
-    <div className="min-h-screen bg-dough-50">
+    <div className="min-h-screen bg-surface-50">
       {/* Header */}
-      <div className="bg-white border-b border-dough-100 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="bg-white border-b border-surface-200 sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Kembali
@@ -150,21 +150,21 @@ export default function FAQPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Title */}
-        <div className="text-center mb-12">
-          <h1 className="font-display text-3xl font-bold text-oven-800 mb-3">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-dark-800 mb-3">
             Pertanyaan yang Sering Ditanyakan
           </h1>
-          <p className="font-body text-sm text-crust-400 max-w-md mx-auto">
+          <p className="font-body text-sm text-muted-400 max-w-md mx-auto">
             Tidak menemukan jawaban yang Anda cari? Hubungi kami langsung via WhatsApp.
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-6 sm:gap-8">
           {/* Category tabs */}
-          <div className="md:w-48 flex-shrink-0">
-            <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
+          <div className="md:w-48 flex-shrink-0 w-full">
+            <div className="flex md:flex-col gap-2 flex-wrap overflow-x-auto md:overflow-visible pb-2 md:pb-0">
               {FAQS.map(({ category }) => (
                 <button
                   key={category}
@@ -172,8 +172,8 @@ export default function FAQPage() {
                   className={cn(
                     'px-4 py-2 rounded-xl text-sm font-body font-medium whitespace-nowrap transition-all text-left',
                     activeCategory === category
-                      ? 'bg-crust-600 text-cream shadow-warm'
-                      : 'bg-white text-crust-500 hover:bg-dough-100 border border-dough-200'
+                      ? 'bg-accent-400 text-white shadow-warm'
+                      : 'bg-white text-muted-500 hover:bg-surface-100 border border-surface-200'
                   )}
                 >
                   {category}
@@ -185,7 +185,7 @@ export default function FAQPage() {
           {/* FAQ items */}
           <div className="flex-1">
             {FAQS.filter(f => f.category === activeCategory).map(({ category, items }) => (
-              <div key={category} className="bg-white rounded-2xl border border-dough-200 px-6">
+              <div key={category} className="bg-white rounded-2xl border border-surface-200 px-6">
                 {items.map((item) => (
                   <FAQItem key={item.q} {...item} />
                 ))}
@@ -195,19 +195,19 @@ export default function FAQPage() {
         </div>
 
         {/* CTA */}
-        <div className="mt-12 bg-crust-600 rounded-2xl p-8 text-center">
-          <h2 className="font-display text-xl font-bold text-cream mb-2">
+        <div className="mt-12 bg-primary-600 rounded-2xl p-8 text-center">
+          <h2 className="font-display text-xl font-bold text-white mb-2">
             Masih ada pertanyaan?
           </h2>
-          <p className="font-body text-sm text-crust-200 mb-6">
+          <p className="font-body text-sm text-primary-100 mb-6">
             Tim kami siap membantu Anda setiap hari
           </p>
           <a
-            href="https://wa.me/6285947566558?text=Halo, saya ingin bertanya tentang Roti POS"
+            href="https://wa.me/6285947566558?text=Halo, saya ingin bertanya tentang Sajiin"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-crust-700 font-body font-semibold
-                       text-sm px-6 py-3 rounded-xl hover:bg-dough-50 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-primary-700 font-body font-semibold
+                       text-sm px-6 py-3 rounded-xl hover:bg-surface-50 transition-colors"
           >
             <MessageCircle className="w-4 h-4" />
             Chat via WhatsApp

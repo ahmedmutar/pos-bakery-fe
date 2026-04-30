@@ -52,12 +52,12 @@ export default function OutletsSection() {
     <div className="card space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-crust-100 rounded-xl flex items-center justify-center">
-            <MapPin className="w-5 h-5 text-crust-600" />
+          <div className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center">
+            <MapPin className="w-5 h-5 text-primary-600" />
           </div>
           <div>
-            <h3 className="font-display text-base font-semibold text-oven-800">Outlet / Cabang</h3>
-            <p className="font-body text-xs text-crust-400">{outlets.filter(o => o.isActive).length} outlet aktif</p>
+            <h3 className="font-display text-base font-semibold text-dark-800">Outlet / Cabang</h3>
+            <p className="font-body text-xs text-muted-400">{outlets.filter(o => o.isActive).length} outlet aktif</p>
           </div>
         </div>
         <button
@@ -71,27 +71,27 @@ export default function OutletsSection() {
 
       {/* Add form */}
       {showAdd && (
-        <div className="bg-dough-50 rounded-xl p-4 space-y-3 border border-dough-200">
+        <div className="bg-surface-50 rounded-xl p-4 space-y-3 border border-surface-200">
           <div className="flex items-center justify-between">
-            <p className="font-body text-sm font-medium text-oven-800">Outlet Baru</p>
-            <button onClick={() => setShowAdd(false)} className="text-crust-400 hover:text-crust-600">
+            <p className="font-body text-sm font-medium text-dark-800">Outlet Baru</p>
+            <button onClick={() => setShowAdd(false)} className="text-muted-400 hover:text-primary-600">
               <X className="w-4 h-4" />
             </button>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Nama Outlet</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Nama Outlet</label>
               <input
                 type="text"
                 value={addName}
                 onChange={(e) => setAddName(e.target.value)}
-                placeholder="Bakery Sejahtera - Pusat"
+                placeholder="Sajiin - Pusat"
                 className="input text-sm bg-white"
                 autoFocus
               />
             </div>
             <div>
-              <label className="block text-xs font-body text-crust-600 mb-1">Alamat (opsional)</label>
+              <label className="block text-xs font-body text-primary-600 mb-1">Alamat (opsional)</label>
               <input
                 type="text"
                 value={addAddress}
@@ -118,17 +118,17 @@ export default function OutletsSection() {
       {/* Outlet list */}
       {isLoading ? (
         <div className="flex items-center justify-center h-24">
-          <Loader2 className="w-5 h-5 text-crust-400 animate-spin" />
+          <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
         </div>
       ) : (
-        <div className="divide-y divide-dough-100">
+        <div className="divide-y divide-surface-100">
           {outlets.map((outlet) => (
             <div key={outlet.id} className="py-3 flex items-start gap-3">
               <div className={cn(
                 'w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5',
-                outlet.isActive ? 'bg-green-100' : 'bg-dough-100'
+                outlet.isActive ? 'bg-green-100' : 'bg-surface-100'
               )}>
-                <MapPin className={cn('w-4 h-4', outlet.isActive ? 'text-green-600' : 'text-crust-300')} />
+                <MapPin className={cn('w-4 h-4', outlet.isActive ? 'text-green-600' : 'text-surface-300')} />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -174,12 +174,12 @@ export default function OutletsSection() {
                   <>
                     <p className={cn(
                       'font-body text-sm font-medium',
-                      outlet.isActive ? 'text-oven-800' : 'text-crust-400'
+                      outlet.isActive ? 'text-dark-800' : 'text-muted-400'
                     )}>
                       {outlet.name}
                     </p>
                     {outlet.address && (
-                      <p className="font-body text-xs text-crust-400 mt-0.5">{outlet.address}</p>
+                      <p className="font-body text-xs text-muted-400 mt-0.5">{outlet.address}</p>
                     )}
                   </>
                 )}
@@ -189,8 +189,8 @@ export default function OutletsSection() {
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     onClick={() => startEdit(outlet)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                               hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                               hover:bg-surface-100 hover:text-primary-600 transition-colors"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
@@ -200,7 +200,7 @@ export default function OutletsSection() {
                   >
                     {outlet.isActive
                       ? <ToggleRight className="w-5 h-5 text-green-500 hover:text-green-600" />
-                      : <ToggleLeft className="w-5 h-5 text-crust-300 hover:text-crust-500" />
+                      : <ToggleLeft className="w-5 h-5 text-surface-300 hover:text-muted-500" />
                     }
                   </button>
                 </div>

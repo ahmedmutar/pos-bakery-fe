@@ -67,12 +67,12 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-12 w-80 bg-white rounded-2xl shadow-warm-lg border border-dough-200 z-50 overflow-hidden"
+      className="absolute right-0 top-12 w-72 sm:w-80 bg-white rounded-2xl shadow-warm-lg border border-surface-200 z-50 overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-dough-100">
-        <p className="font-display text-sm font-semibold text-oven-800">Notifikasi</p>
-        <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-surface-200">
+        <p className="font-display text-sm font-semibold text-dark-800">Notifikasi</p>
+        <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
           <X className="w-4 h-4" />
         </button>
       </div>
@@ -80,7 +80,7 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
       {/* Content */}
       <div className="max-h-96 overflow-y-auto scrollbar-thin">
         {notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10 gap-2 text-crust-300">
+          <div className="flex flex-col items-center justify-center py-10 gap-2 text-surface-300">
             <CheckCircle className="w-8 h-8" />
             <p className="font-body text-sm">Semua aman</p>
           </div>
@@ -88,7 +88,7 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
           <div className="py-2">
             {groups.map(({ label, items }) => (
               <div key={label}>
-                <p className="font-body text-xs font-semibold text-crust-400 uppercase tracking-wide px-4 py-2">
+                <p className="font-body text-xs font-semibold text-muted-400 uppercase tracking-wide px-4 py-2">
                   {label}
                 </p>
                 {items.map((notif) => {
@@ -100,7 +100,7 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
                       onClick={() => handleClick(config.route)}
                       className={cn(
                         'w-full flex items-start gap-3 px-4 py-3 text-left transition-colors',
-                        'hover:bg-dough-50 border-b border-dough-50 last:border-0'
+                        'hover:bg-surface-50 border-b border-surface-50 last:border-0'
                       )}
                     >
                       <div className={cn(
@@ -112,11 +112,11 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
                       <div className="flex-1 min-w-0">
                         <p className={cn(
                           'font-body text-xs font-semibold',
-                          notif.urgent ? 'text-red-600' : 'text-oven-800'
+                          notif.urgent ? 'text-red-600' : 'text-dark-800'
                         )}>
                           {notif.title}
                         </p>
-                        <p className="font-body text-xs text-crust-500 mt-0.5 truncate">
+                        <p className="font-body text-xs text-muted-500 mt-0.5 truncate">
                           {notif.message}
                         </p>
                       </div>
@@ -134,8 +134,8 @@ export default function NotificationPanel({ notifications, onClose }: Notificati
 
       {/* Footer */}
       {notifications.length > 0 && (
-        <div className="px-4 py-2.5 border-t border-dough-100 bg-dough-50">
-          <p className="font-body text-xs text-crust-400 text-center">
+        <div className="px-4 py-2.5 border-t border-surface-200 bg-surface-50">
+          <p className="font-body text-xs text-muted-400 text-center">
             {notifications.length} notifikasi aktif · diperbarui tiap 2 menit
           </p>
         </div>

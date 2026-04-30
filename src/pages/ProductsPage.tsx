@@ -1,3 +1,4 @@
+import { SajiinIcon } from '../components/ui/SajiinLogo'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
@@ -69,7 +70,7 @@ export default function ProductsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-body text-sm text-crust-400">
+          <p className="font-body text-sm text-muted-400">
             {activeCount} produk aktif · {products.length} total
           </p>
         </div>
@@ -97,7 +98,7 @@ export default function ProductsPage() {
       <div className="flex flex-wrap gap-3">
         {/* Search */}
         <div className="relative flex-1 min-w-48">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
           <input
             type="text"
             value={search}
@@ -120,7 +121,7 @@ export default function ProductsPage() {
         </select>
 
         {/* Status filter */}
-        <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+        <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
           {(['all', 'active', 'inactive'] as FilterStatus[]).map((s) => (
             <button
               key={s}
@@ -128,8 +129,8 @@ export default function ProductsPage() {
               className={cn(
                 'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
                 statusFilter === s
-                  ? 'bg-white text-oven-800 shadow-warm'
-                  : 'text-crust-500 hover:text-crust-700'
+                  ? 'bg-white text-dark-800 shadow-warm'
+                  : 'text-muted-500 hover:text-primary-700'
               )}
             >
               {s === 'all' ? 'Semua' : s === 'active' ? 'Aktif' : 'Nonaktif'}
@@ -141,16 +142,16 @@ export default function ProductsPage() {
       {/* Product table */}
       {isLoading ? (
         <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+          <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 gap-3 text-crust-300">
+        <div className="flex flex-col items-center justify-center h-48 gap-3 text-surface-300">
           <PackageX className="w-10 h-10" />
           <p className="font-body text-sm">Tidak ada produk ditemukan</p>
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="font-body text-sm text-crust-500 underline"
+              className="font-body text-sm text-muted-500 underline"
             >
               Reset pencarian
             </button>
@@ -160,39 +161,39 @@ export default function ProductsPage() {
         <div className="card p-0 overflow-hidden overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-dough-100 bg-dough-50">
-                <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">
+              <tr className="border-b border-surface-200 bg-surface-50">
+                <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">
                   Produk
                 </th>
-                <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest hidden md:table-cell">
+                <th className="text-left px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest hidden md:table-cell">
                   Kategori
                 </th>
-                <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">
+                <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">
                   Harga
                 </th>
-                <th className="text-center px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">
+                <th className="text-center px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">
                   Status
                 </th>
                 <th className="px-4 py-3 w-36" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-dough-100">
+            <tbody className="divide-y divide-surface-100">
               {filtered.map((product) => (
-                <tr key={product.id} className="hover:bg-dough-50 transition-colors group">
+                <tr key={product.id} className="hover:bg-surface-50 transition-colors group">
                   {/* Product name + image */}
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-dough-100 overflow-hidden flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-surface-100 overflow-hidden flex items-center justify-center flex-shrink-0">
                         {product.imageUrl ? (
                           <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-lg">🥐</span>
+                          <SajiinIcon size={28} className="opacity-25" />
                         )}
                       </div>
                       <div>
-                        <p className="font-body text-sm font-medium text-oven-800">{product.name}</p>
+                        <p className="font-body text-sm font-medium text-dark-800">{product.name}</p>
                         {product.recipe && (
-                          <p className="font-body text-xs text-crust-400">Ada resep</p>
+                          <p className="font-body text-xs text-muted-400">Ada resep</p>
                         )}
                       </div>
                     </div>
@@ -201,17 +202,17 @@ export default function ProductsPage() {
                   {/* Category */}
                   <td className="px-4 py-3 hidden md:table-cell">
                     {product.category ? (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-body font-medium bg-dough-100 text-crust-600">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-body font-medium bg-surface-100 text-primary-600">
                         {product.category.name}
                       </span>
                     ) : (
-                      <span className="text-crust-300 text-xs font-body">—</span>
+                      <span className="text-surface-300 text-xs font-body">—</span>
                     )}
                   </td>
 
                   {/* Price */}
                   <td className="px-4 py-3 text-right">
-                    <span className="font-mono text-sm font-medium text-oven-800">
+                    <span className="font-mono text-sm font-medium text-dark-800">
                       {formatCurrency(product.price)}
                     </span>
                   </td>
@@ -230,13 +231,13 @@ export default function ProductsPage() {
                           </>
                         ) : (
                           <>
-                            <ToggleLeft className="w-5 h-5 text-crust-300" />
-                            <span className="font-body text-xs text-crust-400 hidden sm:inline">Nonaktif</span>
+                            <ToggleLeft className="w-5 h-5 text-surface-300" />
+                            <span className="font-body text-xs text-muted-400 hidden sm:inline">Nonaktif</span>
                           </>
                         )}
                       </button>
                     ) : (
-                      <span className={product.isActive ? 'text-green-500 text-xs font-body' : 'text-crust-300 text-xs font-body'}>
+                      <span className={product.isActive ? 'text-green-500 text-xs font-body' : 'text-surface-300 text-xs font-body'}>
                         {product.isActive ? 'Aktif' : 'Nonaktif'}
                       </span>
                     )}
@@ -249,8 +250,8 @@ export default function ProductsPage() {
                       <button
                         onClick={() => setFoodCostProduct(product)}
                         title="Lihat food cost"
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                                   hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                                   hover:bg-surface-100 hover:text-primary-600 transition-colors"
                       >
                         <TrendingUp className="w-3.5 h-3.5" />
                       </button>
@@ -259,8 +260,8 @@ export default function ProductsPage() {
                       <button
                         onClick={() => { setEditProduct(product); setShowForm(true) }}
                         title="Edit produk"
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
-                                   hover:bg-dough-100 hover:text-crust-600 transition-colors"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
+                                   hover:bg-surface-100 hover:text-primary-600 transition-colors"
                       >
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
@@ -269,7 +270,7 @@ export default function ProductsPage() {
                       <button
                         onClick={() => setDeleteProduct(product)}
                         title="Hapus produk"
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-crust-400
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-400
                                    hover:bg-red-50 hover:text-red-500 transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />

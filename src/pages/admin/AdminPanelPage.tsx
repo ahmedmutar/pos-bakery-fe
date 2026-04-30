@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
-  Croissant, Shield, Search, ToggleLeft, ToggleRight,
+  Shield, Search, ToggleLeft, ToggleRight,
   Loader2, Users, Package, ShoppingBag, MapPin,
   TrendingUp, AlertTriangle, RefreshCw, LogOut,
 } from 'lucide-react'
 import { adminService, type TenantSummary } from '../../services/adminService'
+import { SajiinIcon } from '../../components/ui/SajiinLogo'
 import { formatCurrency, cn } from '../../lib/utils'
 
 const PLANS = ['basic', 'pro', 'enterprise']
@@ -60,18 +61,18 @@ export default function AdminPanelPage() {
   // ── Login screen ──────────────────────────────────────────────────────────
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-oven-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-dark-800 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 space-y-6">
           <div className="text-center">
-            <div className="w-14 h-14 bg-crust-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-7 h-7 text-crust-600" />
+            <div className="w-14 h-14 bg-surface-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-7 h-7 text-primary-600" />
             </div>
-            <h1 className="font-display text-xl font-semibold text-oven-800">Admin Panel</h1>
-            <p className="font-body text-sm text-crust-400 mt-1">Roti POS Platform</p>
+            <h1 className="font-display text-xl font-semibold text-dark-800">Admin Panel</h1>
+            <p className="font-body text-sm text-muted-400 mt-1">Sajiin Platform</p>
           </div>
 
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Admin Key
             </label>
             <input
@@ -100,10 +101,10 @@ export default function AdminPanelPage() {
   // ── Error — wrong key ─────────────────────────────────────────────────────
   if (isError) {
     return (
-      <div className="min-h-screen bg-oven-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-dark-800 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 space-y-4 text-center">
           <AlertTriangle className="w-10 h-10 text-red-400 mx-auto" />
-          <h2 className="font-display text-lg font-semibold text-oven-800">Admin key salah</h2>
+          <h2 className="font-display text-lg font-semibold text-dark-800">Admin key salah</h2>
           <button onClick={handleLogout} className="btn-primary w-full">Coba lagi</button>
         </div>
       </div>
@@ -112,29 +113,27 @@ export default function AdminPanelPage() {
 
   // ── Main panel ────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-crust-50">
+    <div className="min-h-screen bg-surface-50">
       {/* Top bar */}
-      <div className="bg-oven-800 px-6 py-4 flex items-center justify-between">
+      <div className="bg-dark-800 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-crust-600 rounded-xl flex items-center justify-center">
-            <Croissant className="w-4 h-4 text-cream" />
-          </div>
+          <SajiinIcon size={32} />
           <div>
-            <p className="font-display text-base font-semibold text-cream">Roti POS</p>
-            <p className="font-body text-xs text-crust-300">Admin Panel</p>
+            <p className="font-display text-base font-semibold text-white">Sajiin</p>
+            <p className="font-body text-xs text-surface-300">Admin Panel</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => refetch()}
-            className="flex items-center gap-1.5 text-crust-300 hover:text-cream text-sm font-body transition-colors"
+            className="flex items-center gap-1.5 text-surface-300 hover:text-white text-sm font-body transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
             Refresh
           </button>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 text-crust-300 hover:text-red-400 text-sm font-body transition-colors"
+            className="flex items-center gap-1.5 text-surface-300 hover:text-red-400 text-sm font-body transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Keluar
@@ -146,19 +145,19 @@ export default function AdminPanelPage() {
         {/* Platform stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Total Tenant', value: tenants.length, icon: Users, color: 'bg-crust-100 text-crust-600' },
+            { label: 'Total Tenant', value: tenants.length, icon: Users, color: 'bg-surface-100 text-primary-600' },
             { label: 'Tenant Aktif', value: activeTenants, icon: ToggleRight, color: 'bg-green-100 text-green-600' },
-            { label: 'Revenue Bulan Ini', value: formatCurrency(totalRevenue), icon: TrendingUp, color: 'bg-dough-100 text-dough-600' },
+            { label: 'Revenue Bulan Ini', value: formatCurrency(totalRevenue), icon: TrendingUp, color: 'bg-surface-100 text-surface-600' },
             { label: 'Total Transaksi', value: tenants.reduce((s, t) => s + t.transactionCount, 0).toLocaleString(), icon: ShoppingBag, color: 'bg-blue-100 text-blue-600' },
           ].map(({ label, value, icon: Icon, color }) => (
             <div key={label} className="card">
               <div className="flex items-center justify-between mb-2">
-                <p className="font-body text-xs text-crust-400">{label}</p>
+                <p className="font-body text-xs text-muted-400">{label}</p>
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${color}`}>
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
-              <p className="font-display text-xl font-semibold text-oven-800">{value}</p>
+              <p className="font-display text-xl font-semibold text-dark-800">{value}</p>
             </div>
           ))}
         </div>
@@ -166,7 +165,7 @@ export default function AdminPanelPage() {
         {/* Filters */}
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-48">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
             <input
               type="text"
               value={search}
@@ -179,14 +178,14 @@ export default function AdminPanelPage() {
             <option value="">Semua paket</option>
             {PLANS.map((p) => <option key={p} value={p}>{p}</option>)}
           </select>
-          <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+          <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
             {(['all', 'active', 'inactive'] as const).map((s) => (
               <button
                 key={s}
                 onClick={() => setFilterActive(s)}
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
-                  filterActive === s ? 'bg-white text-oven-800 shadow-warm' : 'text-crust-500 hover:text-crust-700'
+                  filterActive === s ? 'bg-white text-dark-800 shadow-warm' : 'text-muted-500 hover:text-primary-700'
                 )}
               >
                 {s === 'all' ? 'Semua' : s === 'active' ? 'Aktif' : 'Nonaktif'}
@@ -198,21 +197,21 @@ export default function AdminPanelPage() {
         {/* Tenant table */}
         {isLoading ? (
           <div className="flex items-center justify-center h-48">
-            <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+            <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
           </div>
         ) : (
           <div className="card p-0 overflow-hidden">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-dough-100 bg-dough-50">
+                <tr className="border-b border-surface-200 bg-surface-50">
                   {['Tenant', 'Paket', 'Statistik', 'Revenue (bulan ini)', 'Terakhir aktif', 'Status'].map((h) => (
-                    <th key={h} className="text-left px-5 py-3 font-body text-xs font-semibold text-crust-500 uppercase tracking-wide">
+                    <th key={h} className="text-left px-5 py-3 font-body text-xs font-semibold text-muted-500 uppercase tracking-wide">
                       {h}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-dough-100">
+              <tbody className="divide-y divide-surface-100">
                 {filtered.map((tenant) => (
                   <TenantRow
                     key={tenant.id}
@@ -225,7 +224,7 @@ export default function AdminPanelPage() {
               </tbody>
             </table>
             {filtered.length === 0 && (
-              <div className="flex items-center justify-center h-32 text-crust-300">
+              <div className="flex items-center justify-center h-32 text-surface-300">
                 <p className="font-body text-sm">Tidak ada tenant ditemukan</p>
               </div>
             )}
@@ -251,11 +250,11 @@ function TenantRow({ tenant, onToggleActive, onChangePlan, isPending }: {
     : null
 
   return (
-    <tr className="hover:bg-dough-50 transition-colors">
+    <tr className="hover:bg-surface-50 transition-colors">
       <td className="px-5 py-3">
-        <p className="font-body text-sm font-semibold text-oven-800">{tenant.name}</p>
-        <p className="font-mono text-xs text-crust-400">{tenant.slug}</p>
-        <p className="font-body text-xs text-crust-400 mt-0.5">
+        <p className="font-body text-sm font-semibold text-dark-800">{tenant.name}</p>
+        <p className="font-mono text-xs text-muted-400">{tenant.slug}</p>
+        <p className="font-body text-xs text-muted-400 mt-0.5">
           Bergabung {new Date(tenant.createdAt).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
         </p>
       </td>
@@ -273,29 +272,29 @@ function TenantRow({ tenant, onToggleActive, onChangePlan, isPending }: {
 
       <td className="px-5 py-3">
         <div className="space-y-1">
-          <div className="flex items-center gap-1.5 font-body text-xs text-crust-600">
+          <div className="flex items-center gap-1.5 font-body text-xs text-primary-600">
             <Users className="w-3 h-3" /> {tenant.userCount} user
           </div>
-          <div className="flex items-center gap-1.5 font-body text-xs text-crust-600">
+          <div className="flex items-center gap-1.5 font-body text-xs text-primary-600">
             <Package className="w-3 h-3" /> {tenant.productCount} produk
           </div>
-          <div className="flex items-center gap-1.5 font-body text-xs text-crust-600">
+          <div className="flex items-center gap-1.5 font-body text-xs text-primary-600">
             <MapPin className="w-3 h-3" /> {tenant.outletCount} outlet
           </div>
-          <div className="flex items-center gap-1.5 font-body text-xs text-crust-600">
+          <div className="flex items-center gap-1.5 font-body text-xs text-primary-600">
             <ShoppingBag className="w-3 h-3" /> {tenant.transactionCount} transaksi
           </div>
         </div>
       </td>
 
       <td className="px-5 py-3">
-        <p className="font-display text-base font-semibold text-oven-800">
+        <p className="font-display text-base font-semibold text-dark-800">
           {formatCurrency(tenant.monthlyRevenue)}
         </p>
       </td>
 
       <td className="px-5 py-3">
-        <p className="font-body text-sm text-oven-700">{lastActive}</p>
+        <p className="font-body text-sm text-dark-700">{lastActive}</p>
         {daysSinceActivity !== null && daysSinceActivity > 7 && (
           <span className="font-body text-xs text-amber-600 flex items-center gap-1 mt-0.5">
             <AlertTriangle className="w-3 h-3" />
@@ -317,8 +316,8 @@ function TenantRow({ tenant, onToggleActive, onChangePlan, isPending }: {
             </>
           ) : (
             <>
-              <ToggleLeft className="w-5 h-5 text-crust-300" />
-              <span className="font-body text-xs text-crust-400">Nonaktif</span>
+              <ToggleLeft className="w-5 h-5 text-surface-300" />
+              <span className="font-body text-xs text-muted-400">Nonaktif</span>
             </>
           )}
         </button>

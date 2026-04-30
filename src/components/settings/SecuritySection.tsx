@@ -85,12 +85,12 @@ export default function SecuritySection() {
   return (
     <div className="card space-y-5 max-w-sm">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-crust-100 rounded-xl flex items-center justify-center">
-          <Shield className="w-5 h-5 text-crust-600" />
+        <div className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center">
+          <Shield className="w-5 h-5 text-primary-600" />
         </div>
         <div>
-          <h3 className="font-display text-base font-semibold text-oven-800">Ubah Kata Sandi</h3>
-          <p className="font-body text-xs text-crust-400">Verifikasi via OTP ke email Anda</p>
+          <h3 className="font-display text-base font-semibold text-dark-800">Ubah Kata Sandi</h3>
+          <p className="font-body text-xs text-muted-400">Verifikasi via OTP ke email Anda</p>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export default function SecuritySection() {
       {step === 'form' && (
         <div className="space-y-3">
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Kata Sandi Saat Ini</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Kata Sandi Saat Ini</label>
             <div className="relative">
               <input
                 type={showCurrent ? 'text' : 'password'}
@@ -122,14 +122,14 @@ export default function SecuritySection() {
                 autoFocus
               />
               <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-crust-400">
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400">
                 {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Kata Sandi Baru</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Kata Sandi Baru</label>
             <div className="relative">
               <input
                 type={showNew ? 'text' : 'password'}
@@ -139,14 +139,14 @@ export default function SecuritySection() {
                 className="input pr-10"
               />
               <button type="button" onClick={() => setShowNew(!showNew)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-crust-400">
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400">
                 {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-1.5">Konfirmasi Kata Sandi Baru</label>
+            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Konfirmasi Kata Sandi Baru</label>
             <input
               type="password"
               value={confirmPassword}
@@ -178,18 +178,18 @@ export default function SecuritySection() {
       {/* ── STEP 2: OTP ── */}
       {step === 'otp' && (
         <div className="space-y-4">
-          <div className="bg-dough-50 rounded-xl px-4 py-3 flex items-start gap-3">
-            <Mail className="w-4 h-4 text-crust-500 flex-shrink-0 mt-0.5" />
+          <div className="bg-surface-50 rounded-xl px-4 py-3 flex items-start gap-3">
+            <Mail className="w-4 h-4 text-muted-500 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-body text-sm font-semibold text-oven-800">Cek email Anda</p>
-              <p className="font-body text-xs text-crust-400 mt-0.5">
+              <p className="font-body text-sm font-semibold text-dark-800">Cek email Anda</p>
+              <p className="font-body text-xs text-muted-400 mt-0.5">
                 Kode OTP 6 digit dikirim ke <strong>{user?.email}</strong>. Berlaku 10 menit.
               </p>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-body font-medium text-crust-700 mb-3 text-center">
+            <label className="block text-xs font-body font-medium text-primary-700 mb-3 text-center">
               Masukkan Kode OTP
             </label>
             <div className="flex gap-2 justify-center" onPaste={handleOtpPaste}>
@@ -205,8 +205,8 @@ export default function SecuritySection() {
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
                   className={cn(
                     'w-10 h-11 text-center font-mono text-xl font-bold border-2 rounded-xl',
-                    'focus:outline-none focus:ring-2 focus:ring-crust-400 transition-all',
-                    digit ? 'border-crust-500 bg-dough-50' : 'border-dough-300 bg-white',
+                    'focus:outline-none focus:ring-2 focus:ring-primary-400 transition-all',
+                    digit ? 'border-primary-500 bg-surface-50' : 'border-surface-300 bg-white',
                     error && 'border-red-400'
                   )}
                 />
@@ -217,7 +217,7 @@ export default function SecuritySection() {
           {error && <p className="text-red-600 text-sm font-body bg-red-50 px-3 py-2 rounded-xl text-center">{error}</p>}
 
           {changeMutation.isPending && (
-            <div className="flex items-center justify-center gap-2 text-crust-500">
+            <div className="flex items-center justify-center gap-2 text-muted-500">
               <Loader2 className="w-4 h-4 animate-spin" />
               <span className="font-body text-sm">Mengubah kata sandi...</span>
             </div>
@@ -231,7 +231,7 @@ export default function SecuritySection() {
             <button
               onClick={() => sendOtpMutation.mutate()}
               disabled={sendOtpMutation.isPending}
-              className="flex-1 text-sm font-body text-crust-500 hover:text-crust-700 transition-colors"
+              className="flex-1 text-sm font-body text-muted-500 hover:text-primary-700 transition-colors"
             >
               Kirim ulang OTP
             </button>

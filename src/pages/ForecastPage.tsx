@@ -1,3 +1,4 @@
+import { SajiinIcon } from '../components/ui/SajiinLogo'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
@@ -19,13 +20,13 @@ const LOOKBACK_OPTIONS = [
 const CONFIDENCE_CONFIG = {
   high:   { labelKey: 'forecast.confidenceHigh',   color: 'text-green-600  bg-green-50  border-green-200' },
   medium: { labelKey: 'forecast.confidenceMedium', color: 'text-amber-600  bg-amber-50  border-amber-200' },
-  low:    { labelKey: 'forecast.confidenceLow',    color: 'text-crust-500  bg-dough-100 border-dough-200' },
+  low:    { labelKey: 'forecast.confidenceLow',    color: 'text-muted-500  bg-surface-100 border-surface-200' },
 }
 
 const TREND_CONFIG = {
   naik:   { icon: TrendingUp,   color: 'text-green-600', labelKey: 'forecast.trendUp' },
   turun:  { icon: TrendingDown, color: 'text-red-500',   labelKey: 'forecast.trendDown' },
-  stabil: { icon: Minus,        color: 'text-crust-500', labelKey: 'forecast.trendStable' },
+  stabil: { icon: Minus,        color: 'text-muted-500', labelKey: 'forecast.trendStable' },
 }
 
 export default function ForecastPage() {
@@ -86,7 +87,7 @@ export default function ForecastPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+        <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
       </div>
     )
   }
@@ -97,12 +98,12 @@ export default function ForecastPage() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Sparkles className="w-5 h-5 text-crust-500" />
-            <h2 className="font-display text-lg font-semibold text-oven-800">
+            <Sparkles className="w-5 h-5 text-muted-500" />
+            <h2 className="font-display text-lg font-semibold text-dark-800">
               Forecast Produksi
             </h2>
           </div>
-          <p className="font-body text-sm text-crust-500">
+          <p className="font-body text-sm text-muted-500">
             Saran jumlah produksi berdasarkan histori penjualan
             {data && ` · Hari ini: ${data.dayOfWeek}`}
           </p>
@@ -110,8 +111,8 @@ export default function ForecastPage() {
 
         {/* Lookback selector */}
         <div className="flex items-center gap-2">
-          <span className="font-body text-xs text-crust-400">Data dari</span>
-          <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+          <span className="font-body text-xs text-muted-400">Data dari</span>
+          <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
             {LOOKBACK_OPTIONS.map(({ value, label }) => (
               <button
                 key={value}
@@ -119,20 +120,20 @@ export default function ForecastPage() {
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
                   lookback === value
-                    ? 'bg-white text-oven-800 shadow-warm'
-                    : 'text-crust-500 hover:text-crust-700'
+                    ? 'bg-white text-dark-800 shadow-warm'
+                    : 'text-muted-500 hover:text-primary-700'
                 )}
               >
                 {label}
               </button>
             ))}
           </div>
-          {isFetching && <Loader2 className="w-4 h-4 text-crust-400 animate-spin" />}
+          {isFetching && <Loader2 className="w-4 h-4 text-muted-400 animate-spin" />}
         </div>
       </div>
 
       {!hasData ? (
-        <div className="flex flex-col items-center justify-center h-64 gap-3 text-crust-300">
+        <div className="flex flex-col items-center justify-center h-64 gap-3 text-surface-300">
           <BarChart3 className="w-12 h-12" />
           <p className="font-body text-sm text-center">
             Belum ada data penjualan yang cukup untuk forecast.
@@ -145,10 +146,10 @@ export default function ForecastPage() {
           {/* Day selector + create plan */}
           <div className="card flex items-center gap-4 flex-wrap">
             <div>
-              <p className="font-body text-sm font-medium text-oven-800 mb-2">
+              <p className="font-body text-sm font-medium text-dark-800 mb-2">
                 Buat rencana produksi untuk:
               </p>
-              <div className="flex bg-dough-100 rounded-xl p-1 gap-1">
+              <div className="flex bg-surface-100 rounded-xl p-1 gap-1">
                 {[
                   { key: 'today' as const, label: t('forecast.todayTarget') },
                   { key: 'tomorrow' as const, label: t('forecast.tomorrowTarget') },
@@ -159,8 +160,8 @@ export default function ForecastPage() {
                     className={cn(
                       'px-4 py-2 rounded-lg text-sm font-body font-medium transition-all',
                       selectedDay === key
-                        ? 'bg-white text-oven-800 shadow-warm'
-                        : 'text-crust-500 hover:text-crust-700'
+                        ? 'bg-white text-dark-800 shadow-warm'
+                        : 'text-muted-500 hover:text-primary-700'
                     )}
                   >
                     {label}
@@ -170,14 +171,14 @@ export default function ForecastPage() {
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="font-body text-xs text-crust-400 mb-1">
+              <p className="font-body text-xs text-muted-400 mb-1">
                 {selectedProducts.size === 0
                   ? `Semua ${forecasts.length} produk akan dimasukkan`
                   : `${selectedProducts.size} produk dipilih`}
               </p>
-              <p className="font-body text-xs text-crust-400">
+              <p className="font-body text-xs text-muted-400">
                 Total target:{' '}
-                <span className="font-semibold text-oven-800">
+                <span className="font-semibold text-dark-800">
                   {forecasts
                     .filter((f) => selectedProducts.size === 0 || selectedProducts.has(f.product.id))
                     .reduce((s, f) => s + (selectedDay === 'today' ? f.todaySuggested : f.tomorrowSuggested), 0)}{' '}
@@ -192,7 +193,7 @@ export default function ForecastPage() {
                 <span className="font-body text-sm font-medium">Rencana dibuat!</span>
                 <a
                   href="/production"
-                  className="font-body text-sm underline text-crust-600 flex items-center gap-1"
+                  className="font-body text-sm underline text-primary-600 flex items-center gap-1"
                 >
                   Lihat <ArrowRight className="w-3.5 h-3.5" />
                 </a>
@@ -213,9 +214,9 @@ export default function ForecastPage() {
           </div>
 
           {/* Info note */}
-          <div className="flex items-start gap-2 bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-            <Info className="w-4 h-4 text-crust-400 flex-shrink-0 mt-0.5" />
-            <p className="font-body text-xs text-crust-500">
+          <div className="flex items-start gap-2 bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+            <Info className="w-4 h-4 text-muted-400 flex-shrink-0 mt-0.5" />
+            <p className="font-body text-xs text-muted-500">
               Angka forecast dihitung dari rata-rata penjualan per hari dalam minggu berdasarkan {lookback} hari terakhir,
               disesuaikan dengan tren terkini dan buffer stok 10%. Centang produk tertentu jika ingin membuat rencana parsial.
             </p>
@@ -268,20 +269,20 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
           className={cn(
             'w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all',
             isSelected
-              ? 'bg-crust-600 border-crust-600'
+              ? 'bg-primary-600 border-primary-600'
               : allSelected
-              ? 'border-dough-300 bg-white'
-              : 'border-dough-300 bg-white'
+              ? 'border-surface-300 bg-white'
+              : 'border-surface-300 bg-white'
           )}
         >
           {isSelected && <CheckCircle className="w-3 h-3 text-white" />}
         </button>
 
         {/* Product image */}
-        <div className="w-12 h-12 rounded-xl bg-dough-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+        <div className="w-12 h-12 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0">
           {forecast.product.imageUrl
             ? <img src={forecast.product.imageUrl} alt={forecast.product.name} className="w-full h-full object-cover" />
-            : <span className="text-xl">🥐</span>
+            : <SajiinIcon size={32} className="opacity-25" />
           }
         </div>
 
@@ -289,7 +290,7 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-3 mb-2">
             <div>
-              <p className="font-body text-sm font-semibold text-oven-800">{forecast.product.name}</p>
+              <p className="font-body text-sm font-semibold text-dark-800">{forecast.product.name}</p>
               <div className="flex items-center gap-3 mt-0.5">
                 <span className={cn('flex items-center gap-1 font-body text-xs', trendColor)}>
                   <TrendIcon className="w-3 h-3" />
@@ -298,7 +299,7 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
                     <span>({forecast.trendFactor > 1 ? '+' : ''}{Math.round((forecast.trendFactor - 1) * 100)}%)</span>
                   )}
                 </span>
-                <span className="font-body text-xs text-crust-400">
+                <span className="font-body text-xs text-muted-400">
                   Rata-rata {forecast.avgPerDay} pcs/hari
                 </span>
               </div>
@@ -306,12 +307,12 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
 
             {/* Today/tomorrow target */}
             <div className="text-right flex-shrink-0">
-              <p className="font-body text-xs text-crust-400 mb-0.5">
+              <p className="font-body text-xs text-muted-400 mb-0.5">
                 {selectedDay === 'today' ? t('forecast.todayTarget') : t('forecast.tomorrowTarget')}
               </p>
-              <p className="font-display text-2xl font-semibold text-crust-700">
+              <p className="font-display text-2xl font-semibold text-primary-700">
                 {targetQty}
-                <span className="font-body text-sm text-crust-400 ml-1">pcs</span>
+                <span className="font-body text-sm text-muted-400 ml-1">pcs</span>
               </p>
               {todayForecast && (
                 <span className={cn(
@@ -327,7 +328,7 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
           {/* 7-day mini chart */}
           <button
             onClick={() => setShowWeek((v) => !v)}
-            className="flex items-center gap-1.5 text-xs font-body text-crust-400 hover:text-crust-600 transition-colors mb-2"
+            className="flex items-center gap-1.5 text-xs font-body text-muted-400 hover:text-primary-600 transition-colors mb-2"
           >
             <Calendar className="w-3 h-3" />
             {showWeek ? t('forecast.hide7Days') : t('forecast.next7Days')}
@@ -344,20 +345,20 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
                       <div
                         className={cn(
                           'w-full rounded-t-md transition-all',
-                          day.isToday ? 'bg-crust-600' :
-                          day.isTomorrow ? 'bg-crust-400' :
-                          'bg-dough-300'
+                          day.isToday ? 'bg-primary-600' :
+                          day.isTomorrow ? 'bg-muted-400' :
+                          'bg-surface-300'
                         )}
                         style={{ height: `${Math.max(heightPct, 8)}%` }}
                       />
                     </div>
                     <p className={cn(
                       'font-body text-[10px] leading-tight',
-                      day.isToday ? 'text-crust-700 font-semibold' : 'text-crust-400'
+                      day.isToday ? 'text-primary-700 font-semibold' : 'text-muted-400'
                     )}>
                       {day.dayName.slice(0, 3)}
                     </p>
-                    <p className="font-mono text-[10px] font-semibold text-oven-800">
+                    <p className="font-mono text-[10px] font-semibold text-dark-800">
                       {day.suggested}
                     </p>
                   </div>
@@ -368,14 +369,14 @@ function ForecastCard({ forecast, selectedDay, isSelected, onToggle, allSelected
 
           {/* Stats row */}
           <div className="flex gap-4 mt-2">
-            <span className="font-body text-xs text-crust-400">
-              Terjual {lookback} hari: <span className="font-medium text-oven-700">{forecast.totalSold} pcs</span>
+            <span className="font-body text-xs text-muted-400">
+              Terjual {lookback} hari: <span className="font-medium text-dark-700">{forecast.totalSold} pcs</span>
             </span>
-            <span className="font-body text-xs text-crust-400">
-              Hari terbaik: <span className="font-medium text-oven-700">{forecast.bestDay}</span>
+            <span className="font-body text-xs text-muted-400">
+              Hari terbaik: <span className="font-medium text-dark-700">{forecast.bestDay}</span>
             </span>
-            <span className="font-body text-xs text-crust-400">
-              Est. revenue: <span className="font-medium text-oven-700">{formatCurrency(targetQty * forecast.product.price)}</span>
+            <span className="font-body text-xs text-muted-400">
+              Est. revenue: <span className="font-medium text-dark-700">{formatCurrency(targetQty * forecast.product.price)}</span>
             </span>
           </div>
         </div>

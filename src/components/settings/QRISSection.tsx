@@ -48,10 +48,10 @@ export default function QRISSection() {
   return (
     <div className="card space-y-5">
       <div className="flex items-center gap-2">
-        <QrCode className="w-5 h-5 text-crust-600" />
-        <h2 className="font-display text-base font-semibold text-oven-800">QR Code QRIS</h2>
+        <QrCode className="w-5 h-5 text-primary-600" />
+        <h2 className="font-display text-base font-semibold text-dark-800">QR Code QRIS</h2>
       </div>
-      <p className="font-body text-sm text-crust-400">
+      <p className="font-body text-sm text-muted-400">
         Upload foto QR code QRIS toko Anda. Akan ditampilkan ke pelanggan saat memilih metode QRIS di kasir.
       </p>
 
@@ -62,7 +62,7 @@ export default function QRISSection() {
               <img
                 src={data.qrisImageUrl}
                 alt="QR Code QRIS"
-                className="w-48 h-48 object-contain border-2 border-dough-200 rounded-2xl p-2 bg-white"
+                className="w-48 h-48 object-contain border-2 border-surface-200 rounded-2xl p-2 bg-white"
               />
               {saved && (
                 <div className="absolute inset-0 bg-green-500/10 rounded-2xl flex items-center justify-center">
@@ -96,25 +96,25 @@ export default function QRISSection() {
       ) : (
         <div
           onClick={() => inputRef.current?.click()}
-          className="border-2 border-dashed border-dough-300 rounded-2xl p-8 text-center cursor-pointer hover:border-crust-400 hover:bg-dough-50 transition-all"
+          className="border-2 border-dashed border-surface-300 rounded-2xl p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-surface-50 transition-all"
         >
           {uploadMutation.isPending ? (
             <div className="flex flex-col items-center gap-2">
-              <Loader2 className="w-8 h-8 text-crust-400 animate-spin" />
-              <p className="font-body text-sm text-crust-400">Menyimpan...</p>
+              <Loader2 className="w-8 h-8 text-muted-400 animate-spin" />
+              <p className="font-body text-sm text-muted-400">Menyimpan...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
-              <QrCode className="w-10 h-10 text-crust-300" />
-              <p className="font-body text-sm font-medium text-crust-600">Upload QR Code QRIS</p>
-              <p className="font-body text-xs text-crust-400">PNG, JPG, atau JPEG · Maks 500KB</p>
+              <QrCode className="w-10 h-10 text-surface-300" />
+              <p className="font-body text-sm font-medium text-primary-600">Upload QR Code QRIS</p>
+              <p className="font-body text-xs text-muted-400">PNG, JPG, atau JPEG · Maks 500KB</p>
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-        <p className="font-body text-xs text-crust-500">
+      <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+        <p className="font-body text-xs text-muted-500">
           <strong>Tips:</strong> Pastikan QR code jelas dan tidak terpotong. Ambil foto langsung dari stiker QRIS atau screenshot dari aplikasi bank Anda.
         </p>
       </div>

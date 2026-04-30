@@ -40,7 +40,7 @@ export const PLAN_LABELS: Record<string, string> = {
 }
 
 export const PLAN_COLORS: Record<string, string> = {
-  basic: 'bg-dough-100 text-crust-700 border-dough-300',
-  pro: 'bg-crust-100 text-crust-700 border-crust-300',
-  enterprise: 'bg-oven-100 text-oven-700 border-oven-300',
+  basic: 'bg-surface-100 text-primary-700 border-surface-300',
+  pro: 'bg-surface-100 text-primary-700 border-surface-300',
+  enterprise: 'bg-dark-100 text-dark-700 border-dark-300',
 }

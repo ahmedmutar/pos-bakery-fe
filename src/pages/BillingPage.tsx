@@ -53,8 +53,8 @@ export default function BillingPage() {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
-        <h1 className="font-display text-xl font-bold text-oven-800">Billing & Langganan</h1>
-        <p className="font-body text-sm text-crust-400 mt-0.5">
+        <h1 className="font-display text-xl font-bold text-dark-800">Billing & Langganan</h1>
+        <p className="font-body text-sm text-muted-400 mt-0.5">
           Kelola paket dan riwayat pembayaran Anda
         </p>
       </div>
@@ -62,12 +62,12 @@ export default function BillingPage() {
       {/* Current plan */}
       <div className="card flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-crust-100 rounded-xl flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-crust-600" />
+          <div className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center">
+            <CreditCard className="w-5 h-5 text-primary-600" />
           </div>
           <div>
-            <p className="font-body text-xs text-crust-400">Paket aktif</p>
-            <p className="font-display text-lg font-bold text-oven-800">
+            <p className="font-body text-xs text-muted-400">Paket aktif</p>
+            <p className="font-display text-lg font-bold text-dark-800">
               {PLAN_LABELS[plan?.plan ?? 'basic']}
             </p>
           </div>
@@ -89,21 +89,21 @@ export default function BillingPage() {
               key={key}
               className={cn(
                 'card flex flex-col border-2 transition-all',
-                isCurrent ? 'border-green-400' : selectedPlan === key ? 'border-crust-500' : 'border-transparent',
+                isCurrent ? 'border-green-400' : selectedPlan === key ? 'border-primary-500' : 'border-transparent',
               )}
             >
               {badge && (
-                <span className="self-start bg-crust-600 text-cream text-xs font-body font-semibold px-3 py-1 rounded-full mb-3">
+                <span className="self-start bg-primary-600 text-white text-xs font-body font-semibold px-3 py-1 rounded-full mb-3">
                   {badge}
                 </span>
               )}
-              <p className="font-display text-lg font-bold text-oven-800">{name}</p>
-              <p className="font-display text-2xl font-bold text-oven-800 mt-1 mb-3">
-                {formatRp(price)}<span className="font-body text-sm font-normal text-crust-400">/bln</span>
+              <p className="font-display text-lg font-bold text-dark-800">{name}</p>
+              <p className="font-display text-2xl font-bold text-dark-800 mt-1 mb-3">
+                {formatRp(price)}<span className="font-body text-sm font-normal text-muted-400">/bln</span>
               </p>
               <ul className="space-y-1.5 flex-1 mb-4">
                 {features.map(f => (
-                  <li key={f} className="flex items-center gap-2 font-body text-xs text-crust-600">
+                  <li key={f} className="flex items-center gap-2 font-body text-xs text-primary-600">
                     <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                     {f}
                   </li>
@@ -137,7 +137,7 @@ export default function BillingPage() {
       {/* Payment history */}
       {history.length > 0 && (
         <div className="card">
-          <p className="font-body text-sm font-semibold text-oven-800 mb-4">Riwayat Pembayaran</p>
+          <p className="font-body text-sm font-semibold text-dark-800 mb-4">Riwayat Pembayaran</p>
           <div className="space-y-3">
             {history.map((sub: {
               id: string
@@ -147,22 +147,22 @@ export default function BillingPage() {
               paidAt: string | null
               periodEnd: string | null
             }) => (
-              <div key={sub.id} className="flex items-center justify-between py-2 border-b border-dough-100 last:border-0">
+              <div key={sub.id} className="flex items-center justify-between py-2 border-b border-surface-200 last:border-0">
                 <div>
-                  <p className="font-body text-sm font-semibold text-oven-800">
+                  <p className="font-body text-sm font-semibold text-dark-800">
                     Paket {PLAN_LABELS[sub.plan] ?? sub.plan}
                   </p>
-                  <p className="font-body text-xs text-crust-400">
+                  <p className="font-body text-xs text-muted-400">
                     {sub.paidAt ? new Date(sub.paidAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Menunggu pembayaran'}
                     {sub.periodEnd && ` · Aktif hingga ${new Date(sub.periodEnd).toLocaleDateString('id-ID', { day: 'numeric', month: 'long' })}`}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-body text-sm font-semibold text-oven-800">{formatRp(sub.amount)}</p>
+                  <p className="font-body text-sm font-semibold text-dark-800">{formatRp(sub.amount)}</p>
                   <span className={cn(
                     'font-body text-xs px-2 py-0.5 rounded-full',
                     sub.status === 'PAID' ? 'bg-green-100 text-green-700' :
-                    sub.status === 'PENDING' ? 'bg-amber-100 text-amber-700' :
+                    sub.status === 'PENDING' ? 'bg-gold-200 text-accent-600' :
                     'bg-red-100 text-red-600'
                   )}>
                     {sub.status === 'PAID' ? 'Lunas' : sub.status === 'PENDING' ? 'Menunggu' : 'Gagal'}

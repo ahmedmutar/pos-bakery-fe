@@ -16,14 +16,14 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
   })
 
   return (
-    <div className="fixed inset-0 bg-oven-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+    <div className="fixed inset-0 bg-dark-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-md max-h-[80vh] flex flex-col">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-dough-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200 flex-shrink-0">
           <div>
-            <h2 className="font-display text-lg font-semibold text-oven-800">Food Cost</h2>
-            <p className="font-body text-xs text-crust-400">{productName}</p>
+            <h2 className="font-display text-lg font-semibold text-dark-800">Food Cost</h2>
+            <p className="font-body text-xs text-muted-400">{productName}</p>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -31,12 +31,12 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
         <div className="overflow-y-auto flex-1 scrollbar-thin">
           {isLoading && (
             <div className="flex items-center justify-center h-40">
-              <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
             </div>
           )}
 
           {error && (
-            <div className="px-6 py-8 flex flex-col items-center gap-2 text-crust-400">
+            <div className="px-6 py-8 flex flex-col items-center gap-2 text-muted-400">
               <AlertCircle className="w-8 h-8" />
               <p className="font-body text-sm text-center">
                 Produk ini belum punya resep. Tambah resep terlebih dahulu untuk melihat food cost.
@@ -48,15 +48,15 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
             <div className="px-6 py-5 space-y-5">
               {/* Summary cards */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-dough-50 rounded-xl p-3 text-center">
-                  <p className="font-body text-xs text-crust-400 mb-1">Harga Jual</p>
-                  <p className="font-display text-base font-semibold text-oven-800">
+                <div className="bg-surface-50 rounded-xl p-3 text-center">
+                  <p className="font-body text-xs text-muted-400 mb-1">Harga Jual</p>
+                  <p className="font-display text-base font-semibold text-dark-800">
                     {formatCurrency(data.sellingPrice)}
                   </p>
                 </div>
-                <div className="bg-dough-50 rounded-xl p-3 text-center">
-                  <p className="font-body text-xs text-crust-400 mb-1">Food Cost/pcs</p>
-                  <p className="font-display text-base font-semibold text-oven-800">
+                <div className="bg-surface-50 rounded-xl p-3 text-center">
+                  <p className="font-body text-xs text-muted-400 mb-1">Food Cost/pcs</p>
+                  <p className="font-display text-base font-semibold text-dark-800">
                     {formatCurrency(data.costPerPcs)}
                   </p>
                 </div>
@@ -64,7 +64,7 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
                   'rounded-xl p-3 text-center',
                   data.marginPercent >= 30 ? 'bg-green-50' : 'bg-amber-50'
                 )}>
-                  <p className="font-body text-xs text-crust-400 mb-1">Margin</p>
+                  <p className="font-body text-xs text-muted-400 mb-1">Margin</p>
                   <p className={cn(
                     'font-display text-base font-semibold',
                     data.marginPercent >= 30 ? 'text-green-700' : 'text-amber-700'
@@ -76,11 +76,11 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
 
               {/* Margin indicator */}
               <div>
-                <div className="flex justify-between font-body text-xs text-crust-400 mb-1.5">
+                <div className="flex justify-between font-body text-xs text-muted-400 mb-1.5">
                   <span>Food Cost Ratio</span>
                   <span>{100 - data.marginPercent}%</span>
                 </div>
-                <div className="w-full h-2 bg-dough-100 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-surface-100 rounded-full overflow-hidden">
                   <div
                     className={cn(
                       'h-full rounded-full transition-all',
@@ -98,14 +98,14 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
               </div>
 
               {/* Profit per pcs */}
-              <div className="flex items-center gap-3 bg-dough-50 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-3 bg-surface-50 rounded-xl px-4 py-3">
                 {data.margin >= 0 ? (
                   <TrendingUp className="w-5 h-5 text-green-500 flex-shrink-0" />
                 ) : (
                   <TrendingDown className="w-5 h-5 text-red-400 flex-shrink-0" />
                 )}
                 <div>
-                  <p className="font-body text-xs text-crust-500">Keuntungan per pcs</p>
+                  <p className="font-body text-xs text-muted-500">Keuntungan per pcs</p>
                   <p className={cn(
                     'font-display text-lg font-semibold',
                     data.margin >= 0 ? 'text-green-700' : 'text-red-600'
@@ -114,8 +114,8 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
                   </p>
                 </div>
                 <div className="ml-auto text-right">
-                  <p className="font-body text-xs text-crust-500">Per batch ({data.batchSize} pcs)</p>
-                  <p className="font-body text-sm font-medium text-crust-600">
+                  <p className="font-body text-xs text-muted-500">Per batch ({data.batchSize} pcs)</p>
+                  <p className="font-body text-sm font-medium text-primary-600">
                     {formatCurrency(data.margin * data.batchSize)}
                   </p>
                 </div>
@@ -123,27 +123,27 @@ export default function FoodCostDrawer({ productId, productName, onClose }: Food
 
               {/* Ingredient breakdown */}
               <div>
-                <p className="font-body text-sm font-medium text-crust-700 mb-2">
+                <p className="font-body text-sm font-medium text-primary-700 mb-2">
                   Rincian Bahan ({data.batchSize} pcs)
                 </p>
                 <div className="space-y-2">
                   {data.items.map((item, i) => (
-                    <div key={i} className="flex items-center justify-between py-2 border-b border-dough-100 last:border-0">
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-surface-200 last:border-0">
                       <div>
-                        <p className="font-body text-sm text-oven-700">{item.ingredient}</p>
-                        <p className="font-body text-xs text-crust-400">
+                        <p className="font-body text-sm text-dark-700">{item.ingredient}</p>
+                        <p className="font-body text-xs text-muted-400">
                           {item.amount} {item.unit}
                         </p>
                       </div>
-                      <p className="font-body text-sm font-medium text-crust-600">
+                      <p className="font-body text-sm font-medium text-primary-600">
                         {formatCurrency(item.costContribution)}
                       </p>
                     </div>
                   ))}
                 </div>
                 <div className="flex justify-between pt-2 mt-1">
-                  <span className="font-body text-sm font-semibold text-oven-800">Total biaya batch</span>
-                  <span className="font-body text-sm font-semibold text-oven-800">
+                  <span className="font-body text-sm font-semibold text-dark-800">Total biaya batch</span>
+                  <span className="font-body text-sm font-semibold text-dark-800">
                     {formatCurrency(data.totalBatchCost)}
                   </span>
                 </div>

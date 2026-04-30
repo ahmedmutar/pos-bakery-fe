@@ -1,6 +1,6 @@
 // Native IndexedDB — no external dependencies
 
-const DB_NAME = 'pos-bakery-offline'
+const DB_NAME = 'sajiin-offline'
 const DB_VERSION = 1
 const TX_STORE = 'offlineTransactions'
 

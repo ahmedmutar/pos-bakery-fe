@@ -48,26 +48,26 @@ function TransactionRow({ tx, onRefresh }: {
   const { print } = useThermalReceipt({ transactionId: tx.id, change: tx.changeAmount })
 
   return (
-    <div className="border border-dough-200 rounded-xl overflow-hidden">
+    <div className="border border-surface-200 rounded-xl overflow-hidden">
       {/* Row header */}
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-center gap-3 px-4 py-3 bg-white hover:bg-dough-50 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-3 bg-white hover:bg-surface-50 transition-colors text-left"
       >
-        <div className="w-8 h-8 bg-crust-100 rounded-lg flex items-center justify-center flex-shrink-0">
-          <Receipt className="w-4 h-4 text-crust-600" />
+        <div className="w-8 h-8 bg-surface-100 rounded-lg flex items-center justify-center flex-shrink-0">
+          <Receipt className="w-4 h-4 text-primary-600" />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="font-body text-sm font-medium text-oven-800">
+            <span className="font-body text-sm font-medium text-dark-800">
               #{tx.id.slice(-6).toUpperCase()}
             </span>
-            <span className="font-body text-xs bg-dough-100 text-crust-600 px-2 py-0.5 rounded-full">
+            <span className="font-body text-xs bg-surface-100 text-primary-600 px-2 py-0.5 rounded-full">
               {PAYMENT_LABELS[tx.paymentMethod] ?? tx.paymentMethod}
             </span>
           </div>
-          <span className="font-body text-xs text-crust-400">
+          <span className="font-body text-xs text-muted-400">
             {new Date(tx.createdAt).toLocaleTimeString('id-ID', {
               hour: '2-digit', minute: '2-digit',
             })}
@@ -77,50 +77,50 @@ function TransactionRow({ tx, onRefresh }: {
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="font-display text-sm font-semibold text-oven-800">
+          <span className="font-display text-sm font-semibold text-dark-800">
             {formatCurrency(tx.total)}
           </span>
           {expanded
-            ? <ChevronUp className="w-4 h-4 text-crust-400" />
-            : <ChevronDown className="w-4 h-4 text-crust-400" />
+            ? <ChevronUp className="w-4 h-4 text-muted-400" />
+            : <ChevronDown className="w-4 h-4 text-muted-400" />
           }
         </div>
       </button>
 
       {/* Expanded detail */}
       {expanded && (
-        <div className="px-4 pb-4 bg-dough-50 border-t border-dough-100 space-y-3">
+        <div className="px-4 pb-4 bg-surface-50 border-t border-surface-200 space-y-3">
           {/* Items */}
           <div className="pt-3 space-y-1.5">
             {tx.items.map((item) => (
               <div key={item.id} className="flex justify-between font-body text-sm">
-                <span className="text-oven-700">
+                <span className="text-dark-700">
                   {item.product.name}
-                  <span className="text-crust-400 ml-1">×{item.quantity}</span>
+                  <span className="text-muted-400 ml-1">×{item.quantity}</span>
                 </span>
-                <span className="text-oven-700">{formatCurrency(item.subtotal)}</span>
+                <span className="text-dark-700">{formatCurrency(item.subtotal)}</span>
               </div>
             ))}
           </div>
 
           {/* Payment summary */}
-          <div className="border-t border-dough-200 pt-2 space-y-1">
+          <div className="border-t border-surface-200 pt-2 space-y-1">
             {tx.discount > 0 && (
-              <div className="flex justify-between font-body text-xs text-crust-500">
+              <div className="flex justify-between font-body text-xs text-muted-500">
                 <span>Diskon</span>
                 <span>- {formatCurrency(tx.discount)}</span>
               </div>
             )}
-            <div className="flex justify-between font-body text-sm font-semibold text-oven-800">
+            <div className="flex justify-between font-body text-sm font-semibold text-dark-800">
               <span>Total</span>
               <span>{formatCurrency(tx.total)}</span>
             </div>
-            <div className="flex justify-between font-body text-xs text-crust-500">
+            <div className="flex justify-between font-body text-xs text-muted-500">
               <span>{PAYMENT_LABELS[tx.paymentMethod] ?? tx.paymentMethod}</span>
               <span>{formatCurrency(tx.paidAmount)}</span>
             </div>
             {tx.changeAmount > 0 && (
-              <div className="flex justify-between font-body text-xs text-crust-500">
+              <div className="flex justify-between font-body text-xs text-muted-500">
                 <span>Kembalian</span>
                 <span>{formatCurrency(tx.changeAmount)}</span>
               </div>
@@ -132,7 +132,7 @@ function TransactionRow({ tx, onRefresh }: {
             <button
               onClick={print}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-body
-                         font-medium text-crust-600 border border-dough-200 bg-white hover:bg-dough-100 transition-colors"
+                         font-medium text-primary-600 border border-surface-200 bg-white hover:bg-surface-100 transition-colors"
             >
               <Printer className="w-3.5 h-3.5" />
               Cetak Ulang
@@ -160,7 +160,7 @@ function TransactionRow({ tx, onRefresh }: {
                 <span className="font-body text-xs text-red-600">{t('cashier.voidTransaction')}</span>
                 <button
                   onClick={() => setConfirmVoid(false)}
-                  className="px-2.5 py-1 rounded-lg text-xs font-body border border-dough-200 bg-white hover:bg-dough-50"
+                  className="px-2.5 py-1 rounded-lg text-xs font-body border border-surface-200 bg-white hover:bg-surface-50"
                 >
                   Batal
                 </button>
@@ -218,34 +218,34 @@ export default function TransactionHistoryPanel({ onClose }: TransactionHistoryP
     <div className="fixed inset-0 z-40 flex justify-end">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-oven-900/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-dark-900/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Panel */}
       <div className="relative w-full max-w-[95vw] sm:max-w-md bg-white h-full flex flex-col shadow-warm-lg">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-dough-200 flex-shrink-0">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200 flex-shrink-0">
           <div>
-            <h2 className="font-display text-lg font-semibold text-oven-800">
+            <h2 className="font-display text-lg font-semibold text-dark-800">
               Transaksi Hari Ini
             </h2>
-            <p className="font-body text-xs text-crust-400">
+            <p className="font-body text-xs text-muted-400">
               {visible.length} transaksi · {formatCurrency(totalSales)}
             </p>
           </div>
-          <button onClick={onClose} className="text-crust-400 hover:text-crust-600 transition-colors">
+          <button onClick={onClose} className="text-muted-400 hover:text-primary-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Summary strip */}
         {visible.length > 0 && (
-          <div className="px-5 py-3 bg-dough-50 border-b border-dough-100 flex gap-4 flex-wrap flex-shrink-0">
+          <div className="px-5 py-3 bg-surface-50 border-b border-surface-200 flex gap-4 flex-wrap flex-shrink-0">
             {Object.entries(byMethod).map(([method, total]) => (
               <div key={method} className="text-center">
-                <p className="font-body text-xs text-crust-400">{PAYMENT_LABELS[method] ?? method}</p>
-                <p className="font-body text-sm font-semibold text-oven-800">{formatCurrency(total)}</p>
+                <p className="font-body text-xs text-muted-400">{PAYMENT_LABELS[method] ?? method}</p>
+                <p className="font-body text-sm font-semibold text-dark-800">{formatCurrency(total)}</p>
               </div>
             ))}
           </div>
@@ -255,10 +255,10 @@ export default function TransactionHistoryPanel({ onClose }: TransactionHistoryP
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 scrollbar-thin">
           {isLoading ? (
             <div className="flex items-center justify-center h-40">
-              <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
             </div>
           ) : visible.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-40 gap-2 text-crust-300">
+            <div className="flex flex-col items-center justify-center h-40 gap-2 text-surface-300">
               <Receipt className="w-10 h-10" />
               <p className="font-body text-sm">{t('common.noData')}</p>
             </div>
@@ -274,8 +274,8 @@ export default function TransactionHistoryPanel({ onClose }: TransactionHistoryP
         </div>
 
         {/* Void disclaimer */}
-        <div className="px-5 py-3 border-t border-dough-100 bg-dough-50 flex-shrink-0">
-          <p className="font-body text-xs text-crust-400 text-center">
+        <div className="px-5 py-3 border-t border-surface-200 bg-surface-50 flex-shrink-0">
+          <p className="font-body text-xs text-muted-400 text-center">
             Void hanya tersedia untuk Owner · Data transaksi tetap tersimpan di laporan
           </p>
         </div>

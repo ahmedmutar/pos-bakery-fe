@@ -59,7 +59,7 @@ export function useOrderReceipt(order: PreOrder) {
         <div>Harap tunjukkan struk ini saat pengambilan</div>
         <div>Pelunasan dilakukan saat pengambilan</div>
         <div class="receipt-stars">* * * * * * * * * *</div>
-        <div class="receipt-powered">Powered by Roti POS</div>
+        <div class="receipt-powered">Powered by Sajiin</div>
       </div>
     `
 

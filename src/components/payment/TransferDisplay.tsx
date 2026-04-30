@@ -26,7 +26,7 @@ export default function TransferDisplay({ amount, onConfirm }: TransferDisplayPr
   const hasBankInfo = bank?.bankAccount && bank?.bankName
 
   if (isLoading) {
-    return <div className="py-8 text-center font-body text-sm text-crust-400">Memuat info rekening...</div>
+    return <div className="py-8 text-center font-body text-sm text-muted-400">Memuat info rekening...</div>
   }
 
   return (
@@ -42,26 +42,26 @@ export default function TransferDisplay({ amount, onConfirm }: TransferDisplayPr
           </div>
         </div>
       ) : (
-        <div className="bg-dough-50 rounded-xl p-4 space-y-3">
+        <div className="bg-surface-50 rounded-xl p-4 space-y-3">
           <div className="flex items-center gap-2 mb-1">
-            <Building2 className="w-4 h-4 text-crust-500" />
-            <p className="font-body text-sm font-medium text-oven-800">{bank.bankName}</p>
+            <Building2 className="w-4 h-4 text-muted-500" />
+            <p className="font-body text-sm font-medium text-dark-800">{bank.bankName}</p>
           </div>
 
           {/* Account number */}
-          <div className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-dough-200">
+          <div className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-surface-200">
             <div>
-              <p className="font-body text-xs text-crust-400">Nomor Rekening</p>
-              <p className="font-mono text-base font-semibold text-oven-800 tracking-wider mt-0.5">
+              <p className="font-body text-xs text-muted-400">Nomor Rekening</p>
+              <p className="font-mono text-base font-semibold text-dark-800 tracking-wider mt-0.5">
                 {bank.bankAccount}
               </p>
               {bank.bankHolder && (
-                <p className="font-body text-xs text-crust-400 mt-0.5">a/n {bank.bankHolder}</p>
+                <p className="font-body text-xs text-muted-400 mt-0.5">a/n {bank.bankHolder}</p>
               )}
             </div>
             <button
               onClick={() => copy(bank.bankAccount!, 'number')}
-              className="flex items-center gap-1.5 text-xs font-body font-medium text-crust-500 hover:text-crust-700 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-body font-medium text-muted-500 hover:text-primary-700 transition-colors"
             >
               {copied === 'number'
                 ? <><Check className="w-3.5 h-3.5 text-green-500" /> Disalin</>
@@ -70,16 +70,16 @@ export default function TransferDisplay({ amount, onConfirm }: TransferDisplayPr
           </div>
 
           {/* Amount */}
-          <div className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-dough-200">
+          <div className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-surface-200">
             <div>
-              <p className="font-body text-xs text-crust-400">Jumlah Transfer</p>
-              <p className="font-display text-base font-semibold text-oven-800 mt-0.5">
+              <p className="font-body text-xs text-muted-400">Jumlah Transfer</p>
+              <p className="font-display text-base font-semibold text-dark-800 mt-0.5">
                 {formatCurrency(amount)}
               </p>
             </div>
             <button
               onClick={() => copy(String(amount), 'amount')}
-              className="flex items-center gap-1.5 text-xs font-body font-medium text-crust-500 hover:text-crust-700 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-body font-medium text-muted-500 hover:text-primary-700 transition-colors"
             >
               {copied === 'amount'
                 ? <><Check className="w-3.5 h-3.5 text-green-500" /> Disalin</>
@@ -91,10 +91,10 @@ export default function TransferDisplay({ amount, onConfirm }: TransferDisplayPr
 
       {/* Bukti pembayaran */}
       <div>
-        <label className="block text-xs font-body font-medium text-crust-700 mb-1.5 flex items-center gap-1.5">
+        <label className="block text-xs font-body font-medium text-primary-700 mb-1.5 flex items-center gap-1.5">
           <FileText className="w-3.5 h-3.5" />
           Bukti Pembayaran
-          <span className="text-crust-400 font-normal">(opsional)</span>
+          <span className="text-muted-400 font-normal">(opsional)</span>
         </label>
         <input
           type="text"
@@ -103,7 +103,7 @@ export default function TransferDisplay({ amount, onConfirm }: TransferDisplayPr
           placeholder="Nomor referensi, nama pengirim, dll"
           className="input text-sm"
         />
-        <p className="font-body text-xs text-crust-400 mt-1">
+        <p className="font-body text-xs text-muted-400 mt-1">
           Contoh: TRF-20240423, Budi Santoso
         </p>
       </div>

@@ -1,3 +1,4 @@
+import { SajiinIcon } from '../ui/SajiinLogo'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
@@ -79,11 +80,11 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
   })
 
   return (
-    <div className="flex flex-col h-full bg-crust-50">
+    <div className="flex flex-col h-full bg-surface-50">
       {/* Search + filter bar */}
-      <div className="px-3 sm:px-5 py-3 sm:py-4 bg-white border-b border-dough-200 space-y-2 sm:space-y-3">
+      <div className="px-3 sm:px-5 py-3 sm:py-4 bg-white border-b border-surface-200 space-y-2 sm:space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-crust-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-400" />
           <input
             type="text"
             value={search}
@@ -101,8 +102,8 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
               className={cn(
                 'px-3 py-1.5 rounded-lg text-sm font-body font-medium whitespace-nowrap transition-all flex-shrink-0',
                 selectedCategory === CATEGORY_ALL
-                  ? 'bg-crust-600 text-cream'
-                  : 'bg-dough-100 text-crust-600 hover:bg-dough-200'
+                  ? 'bg-primary-600 text-white'
+                  : 'bg-surface-100 text-primary-600 hover:bg-surface-200'
               )}
             >
               Semua
@@ -114,8 +115,8 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-sm font-body font-medium whitespace-nowrap transition-all flex-shrink-0',
                   selectedCategory === cat.id
-                    ? 'bg-crust-600 text-cream'
-                    : 'bg-dough-100 text-crust-600 hover:bg-dough-200'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-surface-100 text-primary-600 hover:bg-surface-200'
                 )}
               >
                 {cat.name}
@@ -129,10 +130,10 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
       <div className="flex-1 overflow-y-auto scrollbar-thin p-4">
         {isLoading ? (
           <div className="flex items-center justify-center h-48">
-            <Loader2 className="w-6 h-6 text-crust-400 animate-spin" />
+            <Loader2 className="w-6 h-6 text-muted-400 animate-spin" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-48 gap-2 text-crust-300">
+          <div className="flex flex-col items-center justify-center h-48 gap-2 text-surface-300">
             <PackageX className="w-10 h-10" />
             <p className="font-body text-sm">{t('cashier.noProduct')}</p>
           </div>
@@ -142,12 +143,12 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
               <button
                 key={product.id}
                 onClick={() => addItem({ id: product.id, name: product.name, price: product.price, categoryId: product.category?.id ?? null, imageUrl: product.imageUrl })}
-                className="bg-white rounded-2xl border border-dough-200 p-3 text-left
-                           hover:border-crust-400 hover:shadow-warm transition-all duration-150
+                className="bg-white rounded-2xl border border-surface-200 p-3 text-left
+                           hover:border-primary-400 hover:shadow-warm transition-all duration-150
                            active:scale-[0.97] group"
               >
                 {/* Image / placeholder */}
-                <div className="w-full aspect-square rounded-xl bg-dough-100 mb-3 overflow-hidden flex items-center justify-center">
+                <div className="w-full aspect-square rounded-xl bg-surface-100 mb-3 overflow-hidden flex items-center justify-center">
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
@@ -155,28 +156,28 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <span className="text-3xl">🥐</span>
+                    <SajiinIcon size={40} className="opacity-20" />
                   )}
                 </div>
 
-                <p className="font-body text-sm font-semibold text-oven-700 leading-snug line-clamp-2 mb-1">
+                <p className="font-body text-sm font-semibold text-dark-700 leading-snug line-clamp-2 mb-1">
                   {product.name}
                 </p>
 
                 {product.stock !== null && product.stock !== undefined && (
                   <span className={cn(
                     'font-body text-[10px] font-medium px-1.5 py-0.5 rounded-md',
-                    product.stock <= 5 ? 'bg-red-100 text-red-600' : 'bg-dough-100 text-crust-500'
+                    product.stock <= 5 ? 'bg-red-100 text-red-600' : 'bg-surface-100 text-muted-500'
                   )}>
                     Stok: {product.stock}
                   </span>
                 )}
 
                 {product.category && (
-                  <p className="font-body text-xs text-crust-400 mb-1.5">{product.category.name}</p>
+                  <p className="font-body text-xs text-muted-400 mb-1.5">{product.category.name}</p>
                 )}
 
-                <p className="font-mono text-base font-medium text-crust-600">
+                <p className="font-mono text-base font-medium text-primary-600">
                   {formatCurrency(product.price)}
                 </p>
               </button>

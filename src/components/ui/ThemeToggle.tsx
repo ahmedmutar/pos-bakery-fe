@@ -14,7 +14,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useThemeStore()
 
   return (
-    <div className="flex bg-dough-100 dark:bg-dark-50 rounded-xl p-1 gap-1">
+    <div className="flex bg-surface-100 dark:bg-dark-50 rounded-xl p-1 gap-1">
       {OPTIONS.map(({ key, icon: Icon, label }) => (
         <button
           key={key}
@@ -23,8 +23,8 @@ export default function ThemeToggle() {
           className={cn(
             'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-all',
             theme === key
-              ? 'bg-white dark:bg-dark-200 text-oven-800 dark:text-dough-100 shadow-warm dark:shadow-dark'
-              : 'text-crust-500 dark:text-dough-400 hover:text-crust-700 dark:hover:text-dough-200'
+              ? 'bg-white dark:bg-dark-200 text-dark-800 dark:text-surface-100 shadow-warm dark:shadow-dark'
+              : 'text-muted-500 dark:text-surface-400 hover:text-primary-700 dark:hover:text-surface-200'
           )}
         >
           <Icon className="w-3.5 h-3.5" />

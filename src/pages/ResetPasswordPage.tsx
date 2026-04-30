@@ -28,11 +28,11 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 text-center space-y-4">
           <AlertTriangle className="w-10 h-10 text-red-400 mx-auto" />
-          <h1 className="font-display text-xl font-bold text-oven-800">Link Tidak Valid</h1>
-          <p className="font-body text-sm text-crust-400">Token reset tidak ditemukan. Minta link reset baru.</p>
+          <h1 className="font-display text-xl font-bold text-dark-800">Link Tidak Valid</h1>
+          <p className="font-body text-sm text-muted-400">Token reset tidak ditemukan. Minta link reset baru.</p>
           <button onClick={() => navigate('/forgot-password')} className="btn-primary w-full">
             Minta Link Baru
           </button>
@@ -43,13 +43,13 @@ export default function ResetPasswordPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 text-center space-y-4">
           <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle className="w-7 h-7 text-green-600" />
           </div>
-          <h1 className="font-display text-xl font-bold text-oven-800">Password Berhasil Direset</h1>
-          <p className="font-body text-sm text-crust-500">Silakan login dengan password baru Anda.</p>
+          <h1 className="font-display text-xl font-bold text-dark-800">Password Berhasil Direset</h1>
+          <p className="font-body text-sm text-muted-500">Silakan login dengan password baru Anda.</p>
           <button onClick={() => navigate('/login')} className="btn-primary w-full">
             Login Sekarang
           </button>
@@ -59,20 +59,20 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dough-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-warm-lg w-full max-w-sm p-8 space-y-6">
         <div>
-          <div className="w-12 h-12 bg-crust-100 rounded-2xl flex items-center justify-center mb-4">
-            <KeyRound className="w-6 h-6 text-crust-600" />
+          <div className="w-12 h-12 bg-surface-100 rounded-2xl flex items-center justify-center mb-4">
+            <KeyRound className="w-6 h-6 text-primary-600" />
           </div>
-          <h1 className="font-display text-2xl font-bold text-oven-800">Reset Password</h1>
-          <p className="font-body text-sm text-crust-400 mt-1">Buat password baru untuk akun Anda.</p>
+          <h1 className="font-display text-2xl font-bold text-dark-800">Reset Password</h1>
+          <p className="font-body text-sm text-muted-400 mt-1">Buat password baru untuk akun Anda.</p>
         </div>
 
         <div className="space-y-4">
           {/* New password */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Password Baru
             </label>
             <div className="relative">
@@ -87,7 +87,7 @@ export default function ResetPasswordPage() {
               <button
                 type="button"
                 onClick={() => setShowPw(!showPw)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-crust-400 hover:text-crust-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400 hover:text-primary-600"
               >
                 {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -99,7 +99,7 @@ export default function ResetPasswordPage() {
 
           {/* Confirm password */}
           <div>
-            <label className="block text-sm font-body font-medium text-crust-700 mb-1.5">
+            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
               Konfirmasi Password
             </label>
             <input
@@ -131,7 +131,7 @@ export default function ResetPasswordPage() {
 
           <button
             onClick={() => navigate('/forgot-password')}
-            className="w-full text-center font-body text-xs text-crust-400 hover:text-crust-600 transition-colors"
+            className="w-full text-center font-body text-xs text-muted-400 hover:text-primary-600 transition-colors"
           >
             Minta link reset baru
           </button>

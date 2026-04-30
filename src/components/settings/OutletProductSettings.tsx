@@ -90,14 +90,14 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <Loader2 className="w-5 h-5 text-crust-400 animate-spin" />
+        <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
       </div>
     )
   }
 
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-32 gap-2 text-crust-300">
+      <div className="flex flex-col items-center justify-center h-32 gap-2 text-surface-300">
         <PackageX className="w-8 h-8" />
         <p className="font-body text-sm">Belum ada produk. Tambah produk terlebih dahulu.</p>
       </div>
@@ -108,8 +108,8 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-body text-sm font-medium text-oven-800">{outletName}</p>
-          <p className="font-body text-xs text-crust-400">
+          <p className="font-body text-sm font-medium text-dark-800">{outletName}</p>
+          <p className="font-body text-xs text-muted-400">
             {availableCount} dari {products.length} produk tersedia
           </p>
         </div>
@@ -133,8 +133,8 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
         </div>
       </div>
 
-      <div className="bg-dough-50 border border-dough-200 rounded-xl px-4 py-3">
-        <p className="font-body text-xs text-crust-500">
+      <div className="bg-surface-50 border border-surface-200 rounded-xl px-4 py-3">
+        <p className="font-body text-xs text-muted-500">
           Kosongkan harga untuk pakai harga default. Kosongkan stok jika tidak tracking stok per outlet.
           Produk nonaktif tidak muncul di kasir outlet ini.
         </p>
@@ -143,19 +143,19 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
       <div className="card p-0 overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="bg-dough-50 border-b border-dough-100">
-              <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">Produk</th>
-              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest">Harga Default</th>
-              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest w-36">Override Harga</th>
-              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest w-28">Stok</th>
-              <th className="text-center px-4 py-3 font-body text-[10px] font-semibold text-crust-500 uppercase tracking-widest w-24">Tersedia</th>
+            <tr className="bg-surface-50 border-b border-surface-200">
+              <th className="text-left px-5 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">Produk</th>
+              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest">Harga Default</th>
+              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest w-36">Override Harga</th>
+              <th className="text-right px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest w-28">Stok</th>
+              <th className="text-center px-4 py-3 font-body text-[10px] font-semibold text-muted-500 uppercase tracking-widest w-24">Tersedia</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-dough-100">
+          <tbody className="divide-y divide-surface-100">
             {Object.entries(grouped).map(([cat, items]) => (
               <>
-                <tr key={`cat-${cat}`} className="bg-dough-50/50">
-                  <td colSpan={5} className="px-5 py-2 font-body text-[10px] uppercase tracking-widest text-crust-400 font-semibold">
+                <tr key={`cat-${cat}`} className="bg-surface-50/50">
+                  <td colSpan={5} className="px-5 py-2 font-body text-[10px] uppercase tracking-widest text-muted-400 font-semibold">
                     {cat}
                   </td>
                 </tr>
@@ -163,16 +163,16 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
                   const cfg = localConfigs[p.productId]
                   const isAvailable = cfg?.isAvailable ?? true
                   return (
-                    <tr key={p.productId} className={cn('transition-colors', isAvailable ? 'hover:bg-dough-50' : 'opacity-50 bg-crust-50')}>
+                    <tr key={p.productId} className={cn('transition-colors', isAvailable ? 'hover:bg-surface-50' : 'opacity-50 bg-surface-50')}>
                       <td className="px-5 py-3">
-                        <p className="font-body text-sm font-semibold text-oven-800">{p.name}</p>
+                        <p className="font-body text-sm font-semibold text-dark-800">{p.name}</p>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="font-mono text-sm text-crust-500">{formatCurrency(p.defaultPrice)}</span>
+                        <span className="font-mono text-sm text-muted-500">{formatCurrency(p.defaultPrice)}</span>
                       </td>
                       <td className="px-4 py-3">
                         <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-xs text-crust-400">Rp</span>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 font-body text-xs text-muted-400">Rp</span>
                           <input
                             type="number"
                             value={cfg?.priceOverride ?? ''}
@@ -196,7 +196,7 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={() => updateConfig(p.productId, 'isAvailable', !isAvailable)}
-                          className={cn('w-10 h-6 rounded-full transition-all relative', isAvailable ? 'bg-crust-600' : 'bg-crust-200')}
+                          className={cn('w-10 h-6 rounded-full transition-all relative', isAvailable ? 'bg-primary-600' : 'bg-surface-200')}
                         >
                           <span className={cn('absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all', isAvailable ? 'left-5' : 'left-1')} />
                         </button>
