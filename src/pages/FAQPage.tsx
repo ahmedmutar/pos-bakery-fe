@@ -203,7 +203,7 @@ export default function FAQPage() {
             Tim kami siap membantu Anda setiap hari
           </p>
           <a
-            href="https://wa.me/6285947566558?text=Halo, saya ingin bertanya tentang Sajiin"
+            href="https://wa.me/6208970120687?text=Halo, saya ingin bertanya tentang Sajiin"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 bg-white text-primary-700 font-body font-semibold

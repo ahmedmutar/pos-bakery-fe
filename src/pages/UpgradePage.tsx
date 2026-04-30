@@ -70,9 +70,9 @@ export default function UpgradePage() {
 
   const handleUpgrade = (planKey: string) => {
     if (planKey === 'enterprise') {
-      window.open('https://wa.me/6285947566558?text=Halo, saya ingin upgrade ke paket Enterprise', '_blank')
+      window.open('https://wa.me/6208970120687?text=Halo, saya ingin upgrade ke paket Enterprise', '_blank')
     } else {
-      window.open('https://wa.me/6285947566558?text=Halo, saya ingin upgrade ke paket ' + planKey, '_blank')
+      window.open('https://wa.me/6208970120687?text=Halo, saya ingin upgrade ke paket ' + planKey, '_blank')
     }
   }
 
@@ -193,7 +193,7 @@ export default function UpgradePage() {
             hello@sajiin.com
           </a>{' '}
           atau WhatsApp{' '}
-          <a href="https://wa.me/6285947566558" className="text-primary-700 font-medium underline" target="_blank">
+          <a href="https://wa.me/6208970120687" className="text-primary-700 font-medium underline" target="_blank">
             0812-3456-7890
           </a>
         </p>

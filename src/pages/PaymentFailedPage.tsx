@@ -27,7 +27,7 @@ export default function PaymentFailedPage() {
             Coba Lagi
           </button>
           <a
-            href="https://wa.me/6285947566558?text=Halo, saya mengalami masalah saat pembayaran. Bisa minta bantuan?"
+            href="https://wa.me/6208970120687?text=Halo, saya mengalami masalah saat pembayaran. Bisa minta bantuan?"
             target="_blank"
             rel="noreferrer"
             className="btn-secondary w-full flex items-center justify-center gap-2"

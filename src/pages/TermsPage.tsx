@@ -4,7 +4,7 @@ import { ArrowLeft, FileText } from 'lucide-react'
 const LAST_UPDATED = '25 April 2026'
 const COMPANY = 'Sajiin'
 const EMAIL = 'support@sajiin.com'
-const WA = 'https://wa.me/6285947566558'
+const WA = 'https://wa.me/6208970120687'
 
 export default function TermsPage() {
   const navigate = useNavigate()
@@ -138,7 +138,7 @@ export default function TermsPage() {
             <p className="text-sm">Pertanyaan tentang syarat ini dapat disampaikan ke:</p>
             <div className="mt-3 bg-surface-50 rounded-xl px-4 py-3 space-y-1 text-sm">
               <p>Email: <a href={`mailto:${EMAIL}`} className="text-primary-700 font-medium">{EMAIL}</a></p>
-              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-primary-700 font-medium">085947566558</a></p>
+              <p>WhatsApp: <a href={WA} target="_blank" rel="noreferrer" className="text-primary-700 font-medium">08970120687</a></p>
             </div>
           </Section>
         </div>

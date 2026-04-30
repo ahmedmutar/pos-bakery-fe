@@ -46,7 +46,7 @@ export default function PaymentSuccessPage() {
 
         <div className="space-y-3">
           <a
-            href={`https://wa.me/6285947566558?text=Halo, saya baru saja melakukan pembayaran paket ${PLAN_LABELS[plan]} untuk ${store}. Email: ${email}. Mohon bantu aktivasi akun saya.`}
+            href={`https://wa.me/6208970120687?text=Halo, saya baru saja melakukan pembayaran paket ${PLAN_LABELS[plan]} untuk ${store}. Email: ${email}. Mohon bantu aktivasi akun saya.`}
             target="_blank"
             rel="noreferrer"
             className="btn-primary w-full flex items-center justify-center gap-2"

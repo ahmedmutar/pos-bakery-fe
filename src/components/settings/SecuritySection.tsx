@@ -22,7 +22,7 @@ export default function SecuritySection() {
 
   // Step 1 — send OTP to email
   const sendOtpMutation = useMutation({
-    mutationFn: () => api.post('/auth/send-otp', { email: user?.email, name: user?.name ?? 'User' }),
+    mutationFn: () => api.post('/auth/send-otp-auth', {}),
     onSuccess: () => {
       setStep('otp')
       setError('')

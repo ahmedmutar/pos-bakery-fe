@@ -276,7 +276,7 @@ export default function LandingPage() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => window.open('https://wa.me/6285947566558?text=Halo, saya ingin tahu lebih lanjut tentang Sajiin', '_blank')}
+                onClick={() => window.open('https://wa.me/6208970120687?text=Halo, saya ingin tahu lebih lanjut tentang Sajiin', '_blank')}
                 className="flex items-center gap-2.5 text-primary-600 font-semibold px-4 sm:px-6 py-3.5 sm:py-4 rounded-2xl border-2 border-primary-100 hover:border-primary-300 hover:bg-primary-50 transition-all text-sm sm:text-base"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -591,7 +591,7 @@ export default function LandingPage() {
                     </button>
                   )}
                   {plan.key === 'enterprise' ? (
-                    <button onClick={() => window.open('https://wa.me/6285947566558?text=Halo, saya ingin info paket Enterprise Sajiin', '_blank')}
+                    <button onClick={() => window.open('https://wa.me/6208970120687?text=Halo, saya ingin info paket Enterprise Sajiin', '_blank')}
                       className="btn-shine w-full py-3.5 rounded-2xl font-bold text-sm bg-dark-800 text-white hover:bg-dark-700 transition-all hover:scale-[1.02]">
                       Hubungi Sales
                     </button>
@@ -678,7 +678,7 @@ export default function LandingPage() {
             Masih ada pertanyaan?{' '}
             <a href="/faq" className="text-primary-600 font-medium hover:underline">Lihat semua FAQ</a>
             {' '} atau {' '}
-            <button onClick={() => window.open('https://wa.me/6285947566558', '_blank')} className="text-primary-600 font-medium hover:underline">
+            <button onClick={() => window.open('https://wa.me/6208970120687', '_blank')} className="text-primary-600 font-medium hover:underline">
               chat kami via WhatsApp
             </button>
           </p>
@@ -707,7 +707,7 @@ export default function LandingPage() {
               Mulai Trial 14 Hari Gratis
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button onClick={() => window.open('https://wa.me/6285947566558?text=Halo Sajiin, saya ingin tahu lebih lanjut', '_blank')}
+            <button onClick={() => window.open('https://wa.me/6208970120687?text=Halo Sajiin, saya ingin tahu lebih lanjut', '_blank')}
               className="flex items-center gap-2.5 text-white border-2 border-white/30 hover:border-white font-semibold px-7 py-4 rounded-2xl transition-all">
               <MessageCircle className="w-5 h-5" />
               Tanya Dulu via WA
@@ -735,10 +735,10 @@ export default function LandingPage() {
               <p className="text-surface-400 text-sm leading-relaxed max-w-xs mb-5">
                 Dari pesanan ke sajian, semua jadi mudah. Solusi manajemen bisnis kuliner yang mudah, andal, dan terjangkau untuk UMKM Indonesia.
               </p>
-              <button onClick={() => window.open('https://wa.me/6285947566558', '_blank')}
+              <button onClick={() => window.open('https://wa.me/6208970120687', '_blank')}
                 className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors">
                 <MessageCircle className="w-4 h-4" />
-                085947566558
+                08970120687
               </button>
             </div>
             <div>
