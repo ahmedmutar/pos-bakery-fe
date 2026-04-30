@@ -69,7 +69,7 @@ export default function CheckoutModal({ plan, onClose }: CheckoutModalProps) {
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
-                placeholder="Ahmad Mukhtar"
+                placeholder="Nama Lengkap"
                 className="input"
                 autoFocus
               />

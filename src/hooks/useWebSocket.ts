@@ -21,7 +21,6 @@ export function useWebSocket() {
     wsRef.current = ws
 
     ws.onopen = () => {
-      console.log('🔌 WebSocket terhubung')
     }
 
     ws.onmessage = (event) => {

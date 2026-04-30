@@ -312,7 +312,7 @@ export default function LandingPage() {
                 <span className="text-xs text-muted-400">dari kemarin</span>
               </div>
               <div className="space-y-1.5">
-                {[['Croissant Butter', '48 pcs', 72],['Kopi Susu', '36 gls', 58],['Brownies', '24 pcs', 45]].map(([name, qty, pct]) => (
+                {[['Nasi Goreng', '48 pcs', 72],['Kopi Susu', '36 gls', 58],['Brownies', '24 pcs', 45]].map(([name, qty, pct]) => (
                   <div key={name as string}>
                     <div className="flex justify-between text-xs text-muted-500 mb-0.5">
                       <span>{name}</span><span>{qty}</span>

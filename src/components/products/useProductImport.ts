@@ -4,7 +4,7 @@ import { categoryApi } from '../../services/categoryService'
 import type { ImportRow, ImportResult, ImportColumn } from '../ui/ExcelImportModal'
 
 export const PRODUCT_IMPORT_COLUMNS: ImportColumn[] = [
-  { key: 'name',     label: 'Nama Produk', required: true,  example: 'Croissant Butter' },
+  { key: 'name',     label: 'Nama Produk', required: true,  example: 'Nasi Goreng Spesial' },
   { key: 'price',    label: 'Harga',       required: true,  example: '18000' },
   { key: 'category', label: 'Kategori',    required: false, example: 'Pastry' },
 ]

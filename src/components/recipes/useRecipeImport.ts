@@ -4,7 +4,7 @@ import { inventoryApi } from '../../services/inventoryService'
 import type { ImportRow, ImportResult, ImportColumn } from '../ui/ExcelImportModal'
 
 export const RECIPE_IMPORT_COLUMNS: ImportColumn[] = [
-  { key: 'productName',    label: 'Nama Produk',    required: true,  example: 'Croissant Butter' },
+  { key: 'productName',    label: 'Nama Produk',    required: true,  example: 'Nasi Goreng Spesial' },
   { key: 'ingredientName', label: 'Nama Bahan',     required: true,  example: 'Tepung Protein Tinggi' },
   { key: 'amount',         label: 'Jumlah',         required: true,  example: '500' },
   { key: 'unit',           label: 'Satuan',         required: true,  example: 'gram' },

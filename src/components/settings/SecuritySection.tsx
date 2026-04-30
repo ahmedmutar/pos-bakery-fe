@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { Shield, Eye, EyeOff, Loader2, Check, Mail } from 'lucide-react'
+import { Shield, Loader2, Check, Mail } from 'lucide-react'
 import { settingsApi } from '../../services/settingsService'
 import { useAuthStore } from '../../stores/authStore'
 import api from '../../lib/api'
+import PasswordInput, { validatePassword } from '../ui/PasswordInput'
 import { cn } from '../../lib/utils'
 
 type Step = 'form' | 'otp' | 'done'
@@ -14,8 +15,6 @@ export default function SecuritySection() {
   const [currentPassword, setCurrent] = useState('')
   const [newPassword, setNew]         = useState('')
   const [confirmPassword, setConfirm] = useState('')
-  const [showCurrent, setShowCurrent] = useState(false)
-  const [showNew, setShowNew]         = useState(false)
   const [otp, setOtp]                 = useState(['', '', '', '', '', ''])
   const [error, setError]             = useState('')
   const otpRefs = useRef<(HTMLInputElement | null)[]>([])
@@ -50,7 +49,8 @@ export default function SecuritySection() {
   const handleSubmitForm = () => {
     setError('')
     if (!currentPassword || !newPassword || !confirmPassword) return setError('Semua field wajib diisi')
-    if (newPassword.length < 6) return setError('Kata sandi baru minimal 6 karakter')
+    const pwError = validatePassword(newPassword)
+    if (pwError) return setError(pwError)
     if (newPassword !== confirmPassword) return setError('Konfirmasi kata sandi tidak cocok')
     sendOtpMutation.mutate()
   }
@@ -110,50 +110,31 @@ export default function SecuritySection() {
       {/* ── STEP 1: Form ── */}
       {step === 'form' && (
         <div className="space-y-3">
-          <div>
-            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Kata Sandi Saat Ini</label>
-            <div className="relative">
-              <input
-                type={showCurrent ? 'text' : 'password'}
-                value={currentPassword}
-                onChange={(e) => setCurrent(e.target.value)}
-                placeholder="••••••••"
-                className="input pr-10"
-                autoFocus
-              />
-              <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400">
-                {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
+          <PasswordInput
+            value={currentPassword}
+            onChange={setCurrent}
+            label="Kata Sandi Saat Ini"
+            placeholder="Kata sandi saat ini"
+            showRules={false}
+            autoFocus
+          />
+
+          <PasswordInput
+            value={newPassword}
+            onChange={setNew}
+            label="Kata Sandi Baru"
+            placeholder="Min 8 karakter, huruf besar, angka, simbol"
+            showRules={true}
+          />
 
           <div>
-            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Kata Sandi Baru</label>
-            <div className="relative">
-              <input
-                type={showNew ? 'text' : 'password'}
-                value={newPassword}
-                onChange={(e) => setNew(e.target.value)}
-                placeholder="Minimal 6 karakter"
-                className="input pr-10"
-              />
-              <button type="button" onClick={() => setShowNew(!showNew)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400">
-                {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">Konfirmasi Kata Sandi Baru</label>
-            <input
-              type="password"
+            <PasswordInput
               value={confirmPassword}
-              onChange={(e) => setConfirm(e.target.value)}
-              placeholder="••••••••"
-              className={cn('input', confirmPassword && confirmPassword !== newPassword && 'border-red-300')}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleSubmitForm() }}
+              onChange={setConfirm}
+              label="Konfirmasi Kata Sandi Baru"
+              placeholder="Ulangi kata sandi baru"
+              showRules={false}
+              onEnter={handleSubmitForm}
             />
             {confirmPassword && confirmPassword !== newPassword && (
               <p className="text-red-500 text-xs mt-1 font-body">Kata sandi tidak cocok</p>
@@ -175,7 +156,7 @@ export default function SecuritySection() {
         </div>
       )}
 
-      {/* ── STEP 2: OTP ── */}
+            {/* ── STEP 2: OTP ── */}
       {step === 'otp' && (
         <div className="space-y-4">
           <div className="bg-surface-50 rounded-xl px-4 py-3 flex items-start gap-3">

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { KeyRound, Eye, EyeOff, CheckCircle, Loader2, AlertTriangle } from 'lucide-react'
+import { KeyRound, CheckCircle, Loader2, AlertTriangle } from 'lucide-react'
 import api from '../lib/api'
+import PasswordInput, { validatePassword } from '../components/ui/PasswordInput'
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate()
@@ -11,7 +12,6 @@ export default function ResetPasswordPage() {
 
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
-  const [showPw, setShowPw] = useState(false)
   const [done, setDone] = useState(false)
 
   const mutation = useMutation({
@@ -23,7 +23,7 @@ export default function ResetPasswordPage() {
   })
 
   const pwMatch = password === confirm
-  const pwValid = password.length >= 8
+  const pwValid = !validatePassword(password)
   const canSubmit = pwValid && pwMatch && !!token
 
   if (!token) {
@@ -70,51 +70,29 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="space-y-4">
-          {/* New password */}
-          <div>
-            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
-              Password Baru
-            </label>
-            <div className="relative">
-              <input
-                type={showPw ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimal 8 karakter"
-                className="input pr-10"
-                autoFocus
-              />
-              <button
-                type="button"
-                onClick={() => setShowPw(!showPw)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400 hover:text-primary-600"
-              >
-                {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-            {password && !pwValid && (
-              <p className="font-body text-xs text-red-500 mt-1">Minimal 8 karakter</p>
-            )}
-          </div>
+          <PasswordInput
+            value={password}
+            onChange={setPassword}
+            label="Password Baru"
+            placeholder="Min 8 karakter, huruf besar, angka, simbol"
+            showRules={true}
+            autoFocus
+          />
 
-          {/* Confirm password */}
           <div>
-            <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
-              Konfirmasi Password
-            </label>
-            <input
-              type={showPw ? 'text' : 'password'}
+            <PasswordInput
               value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
+              onChange={setConfirm}
+              label="Konfirmasi Password"
               placeholder="Ulangi password baru"
-              className="input"
+              showRules={false}
             />
             {confirm && !pwMatch && (
               <p className="font-body text-xs text-red-500 mt-1">Password tidak cocok</p>
             )}
           </div>
 
-          {mutation.isError && (
+                    {mutation.isError && (
             <p className="font-body text-xs text-red-500 bg-red-50 px-3 py-2 rounded-xl">
               Token tidak valid atau sudah kadaluarsa. Minta link reset baru.
             </p>

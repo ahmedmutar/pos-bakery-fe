@@ -102,7 +102,7 @@ export default function BankSection() {
             type="text"
             value={bankHolder}
             onChange={(e) => setBankHolder(e.target.value)}
-            placeholder="Ahmad Mukhtar"
+            placeholder="Nama Lengkap"
             className="input"
           />
         </div>

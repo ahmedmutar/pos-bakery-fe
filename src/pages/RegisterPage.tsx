@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { Loader2, ArrowLeft, Eye, EyeOff, Mail, CheckCircle } from 'lucide-react'
+import { Loader2, ArrowLeft, Mail, CheckCircle } from 'lucide-react'
 import { authApi } from '../services/authService'
 import { useAuthStore } from '../stores/authStore'
 import api from '../lib/api'
 import { SajiinIcon } from '../components/ui/SajiinLogo'
+import PasswordInput, { validatePassword } from '../components/ui/PasswordInput'
 import { cn } from '../lib/utils'
 
 type Step = 'form' | 'otp' | 'done'
@@ -20,7 +21,6 @@ export default function RegisterPage() {
   const [ownerName, setOwnerName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [errors, setErrors] = useState<Record<string, string>>({})
   const otpRefs = useRef<(HTMLInputElement | null)[]>([])
@@ -42,7 +42,8 @@ export default function RegisterPage() {
     if (!slug.trim()) errs.slug = 'Slug wajib diisi'
     if (!ownerName.trim()) errs.ownerName = 'Nama Anda wajib diisi'
     if (!email.trim()) errs.email = 'Email wajib diisi'
-    if (!password || password.length < 8) errs.password = 'Password minimal 8 karakter'
+    const pwError = validatePassword(password)
+    if (pwError) errs.password = pwError
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -164,7 +165,7 @@ export default function RegisterPage() {
                     type="text"
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
-                    placeholder="Ahmad Mukhtar"
+                    placeholder="Nama Lengkap"
                     className={cn('input', errors.ownerName && 'border-red-400')}
                   />
                   {errors.ownerName && <p className="text-xs text-red-500 mt-1">{errors.ownerName}</p>}
@@ -199,25 +200,13 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-xs font-body font-medium text-primary-700 mb-1.5">
-                    Password *
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Minimal 8 karakter"
-                      className={cn('input pr-10', errors.password && 'border-red-400')}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-400"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
+                  <PasswordInput
+                    value={password}
+                    onChange={setPassword}
+                    label="Password *"
+                    placeholder="Min 8 karakter, huruf besar, angka, simbol"
+                    showRules={true}
+                  />
                   {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
                 </div>
               </div>
