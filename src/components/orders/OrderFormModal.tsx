@@ -53,7 +53,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
   }
 
   const subtotal = items.reduce((sum, item) => {
-    const qty = parseInt(item.quantity) || 0
+    const qty = parseInt(item.quantity) || 1 || 0
     const price = parseInt(item.unitPrice.replace(/\D/g, '')) || 0
     return sum + qty * price
   }, 0)
@@ -262,7 +262,7 @@ export default function OrderFormModal({ onClose }: OrderFormModalProps) {
                   {item.productId && item.quantity && item.unitPrice && (
                     <div className="flex justify-end">
                       <span className="font-body text-sm font-semibold text-primary-700">
-                        {formatCurrency((parseInt(item.quantity) || 0) * (parseInt(item.unitPrice.replace(/\D/g, '')) || 0))}
+                        {formatCurrency((parseInt(item.quantity) || 1 || 0) * (parseInt(item.unitPrice.replace(/\D/g, '')) || 0))}
                       </span>
                     </div>
                   )}

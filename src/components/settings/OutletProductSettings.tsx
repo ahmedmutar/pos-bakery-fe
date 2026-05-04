@@ -47,8 +47,8 @@ export default function OutletProductSettings({ outletId, outletName }: OutletPr
         return {
           productId: p.productId,
           isAvailable: cfg?.isAvailable ?? true,
-          priceOverride: cfg?.priceOverride ? parseInt(cfg.priceOverride) : null,
-          stock: cfg?.stock !== '' && cfg?.stock !== undefined ? parseInt(cfg.stock) : null,
+          priceOverride: cfg?.priceOverride ? parseInt(cfg.priceOverride) || 0 : null,
+          stock: cfg?.stock !== '' && cfg?.stock !== undefined ? parseInt(cfg.stock) || 0 : null,
         }
       })
       return outletProductApi.bulkUpdate(outletId, payload)

@@ -41,7 +41,7 @@ export default function CreatePlanModal({ onClose, onSuccess }: CreatePlanModalP
           .filter((i) => i.productId && i.targetQty)
           .map((i) => ({
             productId: i.productId,
-            targetQty: parseInt(i.targetQty),
+            targetQty: parseInt(i.targetQty) || 0,
           })),
       }),
     onSuccess: (plan) => {
