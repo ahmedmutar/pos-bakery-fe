@@ -29,8 +29,13 @@ export interface AuthResponse {
 }
 
 export const authApi = {
-  login: async (payload: LoginPayload): Promise<AuthResponse> => {
+  login: async (payload: LoginPayload): Promise<{ step: string; email: string }> => {
     const res = await api.post('/auth/login', payload)
+    return res.data
+  },
+
+  loginVerify: async (payload: { email: string; otp: string }): Promise<AuthResponse> => {
+    const res = await api.post('/auth/login/verify', payload)
     return res.data
   },
 
