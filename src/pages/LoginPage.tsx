@@ -6,7 +6,6 @@ import { useAuthStore } from '../stores/authStore'
 import { authApi } from '../services/authService'
 import { SajiinIcon } from '../components/ui/SajiinLogo'
 import { cn } from '../lib/utils'
-import api from '../lib/api'
 
 type Step = 'credentials' | 'otp'
 
@@ -42,7 +41,7 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      await api.post('/auth/login', { email, password })
+      await authApi.login({ email, password })
       setStep('otp')
       setResendCooldown(60)
       setTimeout(() => inputRefs.current[0]?.focus(), 100)
@@ -55,8 +54,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleVerifyOTP = async () => {
-    const code = otp.join('')
+  const handleVerifyOTP = async (code = otp.join('')) => {
     if (code.length < 6) return
     setError('')
     setLoading(true)
@@ -80,7 +78,7 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      await api.post('/auth/login', { email, password })
+      await authApi.login({ email, password })
       setResendCooldown(60)
       setOtp(['', '', '', '', '', ''])
       setTimeout(() => inputRefs.current[0]?.focus(), 100)
@@ -97,7 +95,10 @@ export default function LoginPage() {
     next[idx]   = digit
     setOtp(next)
     if (digit && idx < 5) inputRefs.current[idx + 1]?.focus()
-    if (next.every(d => d !== '')) setTimeout(handleVerifyOTP, 80)
+    if (next.every(d => d !== '')) {
+      const code = next.join('')
+      setTimeout(() => handleVerifyOTP(code), 80)
+    }
   }
 
   const handleOtpKeyDown = (idx: number, e: React.KeyboardEvent) => {
@@ -118,7 +119,7 @@ export default function LoginPage() {
     digits.split('').forEach((d, i) => { next[i] = d })
     setOtp(next)
     inputRefs.current[Math.min(digits.length, 5)]?.focus()
-    if (digits.length === 6) setTimeout(handleVerifyOTP, 80)
+    if (digits.length === 6) setTimeout(() => handleVerifyOTP(digits), 80)
   }
 
   return (
@@ -259,7 +260,7 @@ export default function LoginPage() {
               <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl mb-4">{error}</div>
             )}
 
-            <button onClick={handleVerifyOTP} disabled={loading || otp.join('').length < 6}
+            <button onClick={() => handleVerifyOTP()} disabled={loading || otp.join('').length < 6}
               className={cn('w-full flex items-center justify-center gap-2 btn-primary', (loading || otp.join('').length < 6) && 'opacity-70 cursor-not-allowed')}>
               {loading
                 ? <><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /><span>Memverifikasi...</span></>
