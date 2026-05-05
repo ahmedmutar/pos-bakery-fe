@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { MapPin, Plus, X, Loader2, ToggleLeft, ToggleRight, Pencil, Check } from 'lucide-react'
@@ -6,6 +7,7 @@ import { cn } from '../../lib/utils'
 
 export default function OutletsSection() {
   const qc = useQueryClient()
+  const navigate = useNavigate()
   const [showAdd, setShowAdd] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
   const [addName, setAddName] = useState('')
@@ -29,6 +31,15 @@ export default function OutletsSection() {
       setShowAdd(false)
       setAddName('')
       setAddAddress('')
+    },
+    onError: (err: unknown) => {
+      const msg = (err as { response?: { data?: { error?: string; code?: string } } })?.response?.data?.error
+      const code = (err as { response?: { data?: { code?: string } } })?.response?.data?.code
+      if (code === 'LIMIT_EXCEEDED') {
+        navigate('/app/upgrade')
+      } else {
+        alert(msg ?? 'Gagal menambah outlet')
+      }
     },
   })
 

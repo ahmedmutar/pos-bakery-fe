@@ -48,6 +48,7 @@ export default function UpgradePage() {
   const navigate    = useNavigate()
   const { data: plan } = usePlan()
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
+  const [billingAnnual, setBillingAnnual] = useState(false)
   const [error, setError] = useState('')
 
   const currentPlan = plan?.plan ?? 'basic'
@@ -75,9 +76,10 @@ export default function UpgradePage() {
       window.open('https://wa.me/6208970120687?text=Halo, saya ingin upgrade ke paket Enterprise Sajiin', '_blank')
       return
     }
+    const key = billingAnnual && planKey !== 'enterprise' ? `${planKey}_yearly` : planKey
     setError('')
     setLoadingPlan(planKey)
-    checkoutMutation.mutate(planKey)
+    checkoutMutation.mutate(key)
   }
 
   return (
@@ -95,6 +97,24 @@ export default function UpgradePage() {
             {isOnTrial && !isExpired && <span className="ml-2 text-accent-500 font-medium">· {daysLeft} hari trial tersisa</span>}
             {isExpired && <span className="ml-2 text-red-500 font-medium">· Trial sudah berakhir</span>}
           </p>
+        </div>
+      </div>
+
+      {/* Toggle bulanan/tahunan */}
+      <div className="flex justify-center">
+        <div className="inline-flex items-center bg-surface-100 border border-surface-200 rounded-xl p-1.5 gap-1">
+          {[['Bulanan', false], ['Tahunan', true]].map(([label, val]) => (
+            <button
+              key={label as string}
+              onClick={() => setBillingAnnual(val as boolean)}
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+                billingAnnual === val ? 'bg-primary-600 text-white shadow-warm' : 'text-muted-500 hover:text-dark-800'
+              }`}
+            >
+              {label}
+              {val && <span className="ml-1.5 text-[10px] font-bold text-green-400 bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">Hemat 20%</span>}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -157,7 +177,19 @@ export default function UpgradePage() {
 
               <div className="mb-5">
                 {price > 0
-                  ? <><span className="font-display text-2xl font-bold text-dark-800">{formatRp(price)}</span><span className="font-body text-sm text-muted-400">{period}</span></>
+                  ? <>
+                      <span className="font-display text-2xl font-bold text-dark-800">
+                        {formatRp(billingAnnual ? Math.round(price * 12 * 0.8) : price)}
+                      </span>
+                      <span className="font-body text-sm text-muted-400">
+                        {billingAnnual ? '/tahun' : period}
+                      </span>
+                      {billingAnnual && (
+                        <p className="text-xs text-green-600 font-medium mt-0.5">
+                          Hemat {formatRp(Math.round(price * 12 * 0.2))} vs bulanan
+                        </p>
+                      )}
+                    </>
                   : <span className="font-display text-2xl font-bold text-dark-800">Custom</span>
                 }
               </div>

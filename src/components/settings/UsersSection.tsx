@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Users, Plus, X, Loader2, ToggleLeft, ToggleRight, Pencil } from 'lucide-react'
@@ -30,6 +31,7 @@ const emptyForm = (): UserFormData => ({
 
 export default function UsersSection() {
   const qc = useQueryClient()
+  const navigate = useNavigate()
   const currentUser = useAuthStore((s) => s.user)
   const [showAdd, setShowAdd] = useState(false)
   const [editUser, setEditUser] = useState<StaffUser | null>(null)
@@ -49,8 +51,14 @@ export default function UsersSection() {
       setForm(emptyForm())
       setError('')
     },
-    onError: (err: { response?: { data?: { error?: string } } }) => {
-      setError(err.response?.data?.error ?? 'Gagal menambah staff')
+    onError: (err: unknown) => {
+      const code = (err as { response?: { data?: { code?: string } } })?.response?.data?.code
+      const msg  = (err as { response?: { data?: { error?: string } } })?.response?.data?.error
+      if (code === 'LIMIT_EXCEEDED') {
+        navigate('/app/upgrade')
+      } else {
+        setError(msg ?? 'Gagal menambah staff')
+      }
     },
   })
 

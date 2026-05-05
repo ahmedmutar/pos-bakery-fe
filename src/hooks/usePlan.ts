@@ -3,6 +3,13 @@ import api from '../lib/api'
 
 export interface PlanStatus {
   plan: string
+  subscription: {
+    id: string
+    plan: string
+    periodEnd: string | null
+    daysLeft: number | null
+    expired: boolean
+  } | null
   limits: {
     maxOutlets: number
     maxUsers: number

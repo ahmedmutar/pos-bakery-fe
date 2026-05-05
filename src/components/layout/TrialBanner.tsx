@@ -17,8 +17,46 @@ export default function TrialBanner() {
   if (dismissed) return null
 
   const { trial } = plan
+  const subDaysLeft = plan.subscription?.daysLeft ?? null
+  const subExpired  = plan.subscription?.expired ?? false
 
-  // Expired
+  // Subscription habis (bukan trial)
+  if (subExpired && !trial.isOnTrial) {
+    return (
+      <div className="bg-red-600 text-white px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-shrink-0">
+        <div className="flex items-center gap-2 text-sm font-body">
+          <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+          <span>Langganan Anda telah berakhir. Perpanjang sekarang agar toko tetap berjalan.</span>
+        </div>
+        <button onClick={() => navigate('/app/upgrade')}
+          className="flex-shrink-0 bg-white text-red-600 font-body font-semibold text-xs px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">
+          Perpanjang
+        </button>
+      </div>
+    )
+  }
+
+  // Subscription mau habis (7 hari lagi)
+  if (!trial.isOnTrial && subDaysLeft !== null && subDaysLeft <= 7 && !subExpired) {
+    const urgentSub = subDaysLeft <= 3
+    return (
+      <div className={cn(
+        'px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-shrink-0',
+        urgentSub ? 'bg-red-500 text-white' : 'bg-accent-400 text-white'
+      )}>
+        <div className="flex items-center gap-2 text-sm font-body">
+          <Zap className="w-4 h-4 flex-shrink-0" />
+          <span>Langganan berakhir dalam <strong>{subDaysLeft} hari</strong>. {urgentSub ? 'Segera perpanjang!' : 'Perpanjang sebelum terganggu.'}</span>
+        </div>
+        <button onClick={() => navigate('/app/upgrade')}
+          className="flex-shrink-0 bg-white text-dark-700 font-body font-semibold text-xs px-3 py-1.5 rounded-lg transition-colors">
+          Perpanjang
+        </button>
+      </div>
+    )
+  }
+
+  // Trial expired
   if (trial.expired) {
     return (
       <div className="bg-red-600 text-white px-4 py-2 flex items-center justify-between gap-4 flex-shrink-0">

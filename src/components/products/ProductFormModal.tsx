@@ -53,6 +53,16 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
       qc.invalidateQueries({ queryKey: ['products'] })
       onClose()
     },
+    onError: (err: unknown) => {
+      const code = (err as { response?: { data?: { code?: string } } })?.response?.data?.code
+      const msg  = (err as { response?: { data?: { error?: string } } })?.response?.data?.error
+      if (code === 'PLAN_LIMIT' || code === 'LIMIT_EXCEEDED') {
+        onClose()
+        window.location.href = '/app/upgrade'
+      } else {
+        setErrors({ submit: msg ?? 'Gagal menyimpan produk' })
+      }
+    },
   })
 
   const validate = () => {
