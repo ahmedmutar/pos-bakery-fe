@@ -17,8 +17,8 @@ export default function TrialBanner() {
   if (dismissed) return null
 
   const { trial } = plan
-  const subDaysLeft = plan.subscription?.daysLeft ?? null
-  const subExpired  = plan.subscription?.expired ?? false
+  const subDaysLeft = (plan as { subscription?: { daysLeft?: number | null; expired?: boolean } }).subscription?.daysLeft ?? null
+  const subExpired  = (plan as { subscription?: { expired?: boolean } }).subscription?.expired ?? false
 
   // Subscription habis (bukan trial)
   if (subExpired && !trial.isOnTrial) {

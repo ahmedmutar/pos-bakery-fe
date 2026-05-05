@@ -121,7 +121,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       <div className="px-3 py-4 border-t border-surface-200 space-y-1 flex-shrink-0">
         <div className="px-4 py-2">
           <p className="font-body text-xs font-medium text-dark-700 truncate">{typedUser?.name}</p>
-          <p className="font-body text-xs text-muted-400 truncate">{typedUser?.email}</p>
+          <p className="font-body text-xs text-muted-400 truncate">{typedUser?.tenantName}</p>
           <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-body font-medium bg-surface-100 text-primary-600">
             {ROLE_LABELS[role]}
           </span>
