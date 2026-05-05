@@ -38,21 +38,28 @@ export default function TrialBanner() {
     )
   }
 
-  // Trial active — only show if ≤ 7 days left
-  if (!trial.isOnTrial || trial.daysLeft > 7) return null
+  // Trial active — tampil selama masih trial
+  if (!trial.isOnTrial) return null
 
-  const urgent = trial.daysLeft <= 3
+  const urgent  = trial.daysLeft <= 3
+  const warning = trial.daysLeft <= 7
 
   return (
     <div className={cn(
       'px-4 py-2 flex items-center justify-between gap-4 flex-shrink-0',
-      urgent ? 'bg-red-500 text-white' : 'bg-gold-300 text-white'
+      urgent  ? 'bg-red-500 text-white' :
+      warning ? 'bg-accent-400 text-white' :
+                'bg-primary-600 text-white'
     )}>
       <div className="flex items-center gap-2 text-sm font-body">
         <Zap className="w-4 h-4 flex-shrink-0" />
         <span>
-          Trial berakhir dalam <strong>{trial.daysLeft} hari</strong>.
-          {urgent ? ' Segera upgrade agar data Anda tidak terhenti.' : ' Upgrade untuk melanjutkan tanpa gangguan.'}
+          {urgent
+            ? <>Trial berakhir dalam <strong>{trial.daysLeft} hari</strong>. Segera upgrade agar data tidak terhenti.</>
+            : warning
+            ? <>Trial berakhir dalam <strong>{trial.daysLeft} hari</strong>. Upgrade sebelum akses terbatas.</>
+            : <>Anda sedang dalam masa trial gratis. Sisa <strong>{trial.daysLeft} hari</strong>.</>
+          }
         </span>
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
