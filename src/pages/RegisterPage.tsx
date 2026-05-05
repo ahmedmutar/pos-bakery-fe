@@ -124,7 +124,7 @@ export default function RegisterPage() {
 
         <div className="bg-white rounded-2xl shadow-warm-lg p-8 space-y-6">
           {/* Header */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
             <SajiinIcon size={40} />
             <div>
               <h1 className="font-display text-xl font-bold text-dark-800">

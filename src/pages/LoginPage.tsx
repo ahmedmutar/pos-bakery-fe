@@ -129,7 +129,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `radial-gradient(circle at 25% 25%, #c98a38 0%, transparent 50%), radial-gradient(circle at 75% 75%, #e0c08a 0%, transparent 50%)` }} />
         <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-primary-600 opacity-20" />
         <div className="absolute -bottom-10 -left-10 w-60 h-60 rounded-full bg-surface-500 opacity-15" />
-        <div className="relative z-10 flex items-center gap-3">
+        <div className="relative z-10 flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
           <SajiinIcon size={32} white />
           <span className="font-display text-xl text-white font-semibold tracking-wide">Sajiin</span>
         </div>
@@ -157,7 +157,7 @@ export default function LoginPage() {
           {i18n.language === 'id' ? 'EN' : 'ID'}
         </button>
 
-        <div className="lg:hidden flex items-center gap-2 mb-10">
+        <div className="lg:hidden flex items-center gap-2 mb-10 cursor-pointer" onClick={() => navigate('/')}>
           <SajiinIcon size={36} />
           <span className="font-display text-xl text-dark-800 font-semibold">Sajiin</span>
         </div>
