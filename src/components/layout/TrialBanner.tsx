@@ -11,8 +11,9 @@ export default function TrialBanner() {
   const navigate = useNavigate()
   const [dismissed, setDismissed] = useState(false)
 
-  // Only show for OWNER
+  // Only show for OWNER, and never for exempt accounts
   if (user?.role !== 'OWNER') return null
+  if (user?.trialExempt) return null
   if (!plan) return null
   if (dismissed) return null
 

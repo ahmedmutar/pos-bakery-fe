@@ -5,8 +5,9 @@ import { useQuery } from '@tanstack/react-query'
 import { Search, Loader2, PackageX } from 'lucide-react'
 import { outletProductApi } from '../../services/outletProductService'
 import { productApi } from '../../services/productService'
+import type { ProductVariant } from '../../services/variantService'
 import { useCartStore } from '../../stores/cartStore'
-
+import VariantPickerModal from './VariantPickerModal'
 import { formatCurrency, cn } from '../../lib/utils'
 
 const CATEGORY_ALL = '__all__'
@@ -20,6 +21,7 @@ interface ProductGridProps {
 export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHandled }: ProductGridProps) {
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState(CATEGORY_ALL)
+  const [variantPickerProduct, setVariantPickerProduct] = useState<{ id: string; name: string; price: number; imageUrl?: string | null; category?: { id: string; name: string } | null } | null>(null)
   const addItem = useCartStore((s) => s.addItem)
 
   const searchRef = useRef<HTMLInputElement>(null)
@@ -40,6 +42,23 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
 
   const { t } = useTranslation()
   const activeOutletId = useCartStore((s) => s.activeOutletId)
+
+  function handleProductClick(product: { id: string; name: string; price: number; imageUrl?: string | null; category?: { id: string; name: string } | null }) {
+    // Always show variant picker — it will handle the no-variant case too
+    setVariantPickerProduct(product)
+  }
+
+  function handleVariantSelect(variant: ProductVariant | null) {
+    if (!variantPickerProduct) return
+    const { id, name, price, category, imageUrl } = variantPickerProduct
+    if (variant) {
+      addItem({ id, name, price, categoryId: category?.id ?? null, imageUrl: imageUrl ?? null },
+        { id: variant.id, name: variant.name, price: variant.price })
+    } else {
+      addItem({ id, name, price, categoryId: category?.id ?? null, imageUrl: imageUrl ?? null })
+    }
+    setVariantPickerProduct(null)
+  }
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['cashier-products', activeOutletId],
@@ -80,6 +99,7 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
   })
 
   return (
+    <>
     <div className="flex flex-col h-full bg-surface-50">
       {/* Search + filter bar */}
       <div className="px-3 sm:px-5 py-3 sm:py-4 bg-white border-b border-surface-200 space-y-2 sm:space-y-3">
@@ -142,7 +162,7 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
             {filtered.map((product) => (
               <button
                 key={product.id}
-                onClick={() => addItem({ id: product.id, name: product.name, price: product.price, categoryId: product.category?.id ?? null, imageUrl: product.imageUrl })}
+                onClick={() => handleProductClick(product)}
                 className="bg-white rounded-2xl border border-surface-200 p-3 text-left
                            hover:border-primary-400 hover:shadow-warm transition-all duration-150
                            active:scale-[0.97] group"
@@ -186,5 +206,13 @@ export default function ProductGrid({ triggerSearch, triggerNumeric, onNumericHa
         )}
       </div>
     </div>
+    {variantPickerProduct && (
+      <VariantPickerModal
+        product={variantPickerProduct}
+        onSelect={handleVariantSelect}
+        onClose={() => setVariantPickerProduct(null)}
+      />
+    )}
+  </>
   )
 }

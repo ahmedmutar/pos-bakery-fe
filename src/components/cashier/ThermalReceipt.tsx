@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { transactionApi } from '../../services/transactionService'
 import { useAuthStore, type AuthUser } from '../../stores/authStore'
 import { usePrint } from '../../hooks/usePrint'
+import { useBluetoothPrinter } from '../../hooks/useBluetoothPrinter'
+import { buildReceiptBytes } from '../../lib/escpos'
 import { formatCurrency } from '../../lib/utils'
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -20,6 +22,7 @@ interface UseThermalReceiptProps {
 export function useThermalReceipt({ transactionId, change }: UseThermalReceiptProps) {
   const user = useAuthStore((s) => s.user) as AuthUser | null
   const { printHTML } = usePrint()
+  const { isConnected, print: btPrint } = useBluetoothPrinter()
 
   const { data: tx } = useQuery({
     queryKey: ['transaction', transactionId],
@@ -29,9 +32,34 @@ export function useThermalReceipt({ transactionId, change }: UseThermalReceiptPr
     retryDelay: 1000,
   })
 
-  const print = () => {
+  const print = async () => {
     if (!tx) return
 
+    // --- Bluetooth direct print ---
+    if (isConnected) {
+      const bytes = buildReceiptBytes({
+        tenantName:    user?.tenantName ?? 'TOKO',
+        transactionId: tx.id,
+        date:          new Date(tx.createdAt),
+        cashierName:   tx.user?.name,
+        outletName:    tx.outlet?.name,
+        items:         tx.items.map((i) => ({
+          name:      i.product.name,
+          quantity:  i.quantity,
+          unitPrice: i.unitPrice,
+          subtotal:  i.subtotal,
+        })),
+        discount:      tx.discount,
+        total:         tx.total,
+        paymentMethod: tx.paymentMethod,
+        paidAmount:    tx.paidAmount,
+        change,
+      })
+      await btPrint(bytes)
+      return
+    }
+
+    // --- Fallback: browser print dialog ---
     const txDate = new Date(tx.createdAt)
 
     const itemsHTML = tx.items.map((item) => `

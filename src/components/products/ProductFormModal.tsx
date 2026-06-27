@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { X, ImagePlus, Loader2 } from 'lucide-react'
+import { X, ImagePlus, Loader2, Upload, Trash2 } from 'lucide-react'
+import api from '../../lib/api'
 import { productApi, type Product } from '../../services/productService'
 import { categoryApi } from '../../services/categoryService'
 import { formatCurrency, cn } from '../../lib/utils'
@@ -18,6 +19,8 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
   const [price, setPrice] = useState(product?.price ? String(product.price) : '')
   const [categoryId, setCategoryId] = useState(product?.categoryId ?? '')
   const [imageUrl, setImageUrl] = useState(product?.imageUrl ?? '')
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [newCategory, setNewCategory] = useState('')
   const [showNewCategory, setShowNewCategory] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -36,6 +39,23 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
       setShowNewCategory(false)
     },
   })
+
+  const handleFileUpload = async (file: File) => {
+    if (!file) return
+    setUploading(true)
+    try {
+      const form = new FormData()
+      form.append('file', file)
+      const res = await api.post('/upload/product-image', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      setImageUrl(res.data.url)
+    } catch {
+      alert('Gagal upload gambar. Coba lagi.')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const saveMutation = useMutation({
     mutationFn: () => {
@@ -97,26 +117,66 @@ export default function ProductFormModal({ product, onClose }: ProductFormModalP
 
         {/* Body */}
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-4 scrollbar-thin">
-          {/* Image preview */}
+          {/* Image */}
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-              {imageUrl ? (
-                <img src={imageUrl} alt="preview" className="w-full h-full object-cover" />
+            <div
+              className="w-20 h-20 rounded-xl bg-surface-100 flex items-center justify-center overflow-hidden flex-shrink-0 cursor-pointer hover:bg-surface-200 transition-colors relative group"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploading ? (
+                <Loader2 className="w-6 h-6 text-primary-500 animate-spin" />
+              ) : imageUrl ? (
+                <>
+                  <img src={imageUrl} alt="preview" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <Upload className="w-5 h-5 text-white" />
+                  </div>
+                </>
               ) : (
                 <ImagePlus className="w-7 h-7 text-surface-300" />
               )}
             </div>
-            <div className="flex-1">
-              <label className="block text-sm font-body font-medium text-primary-700 mb-1.5">
-                URL Gambar (opsional)
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                if (f) handleFileUpload(f)
+                e.target.value = ''
+              }}
+            />
+            <div className="flex-1 space-y-1.5">
+              <label className="block text-sm font-body font-medium text-primary-700">
+                URL atau Upload Foto (opsional)
               </label>
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="https://..."
+                placeholder="https://... (paste URL gambar)"
                 className="input text-sm"
               />
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="btn-outline text-xs px-3 py-1.5 flex items-center gap-1.5"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  Upload dari file
+                </button>
+                {imageUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setImageUrl('')}
+                    className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1"
+                  >
+                    <Trash2 className="w-3 h-3" /> Hapus
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 

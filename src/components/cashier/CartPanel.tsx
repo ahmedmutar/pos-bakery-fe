@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Trash2, Plus, Minus, Tag, ShoppingCart } from 'lucide-react'
+import { Trash2, Plus, Minus, Tag, ShoppingCart, Ticket, X, Loader2 } from 'lucide-react'
 import { useCartStore } from '../../stores/cartStore'
 import { formatCurrency, cn } from '../../lib/utils'
 import PaymentModal from './PaymentModal'
 import { useOnlineStatus } from '../../hooks/useOfflineSync'
 import SuccessModal from './SuccessModal'
+import { voucherApi } from '../../services/voucherService'
 
 interface CartPanelProps {
   triggerPay?: number
@@ -13,12 +14,16 @@ interface CartPanelProps {
 }
 
 export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProps) {
-  const { items, discount, setDiscount, updateQuantity, removeItem, subtotal: subtotalFn, total, activeShiftId } = useCartStore()
+  const { items, discount, voucher, setDiscount, applyVoucher, removeVoucher, updateQuantity, removeItem, subtotal: subtotalFn, total, activeShiftId } = useCartStore()
   const subtotal = subtotalFn()
   const [showPayment, setShowPayment] = useState(false)
-  const [successTx, setSuccessTx] = useState<{ id: string; total: number; change: number } | null>(null)
+  const [successTx, setSuccessTx] = useState<{ id: string; total: number; change: number; waReceiptSent?: boolean; pointsEarned?: number } | null>(null)
   const [discountInput, setDiscountInput] = useState('')
   const [showDiscount, setShowDiscount] = useState(false)
+  const [voucherInput, setVoucherInput] = useState('')
+  const [voucherLoading, setVoucherLoading] = useState(false)
+  const [voucherError, setVoucherError] = useState('')
+  const [showVoucherInput, setShowVoucherInput] = useState(false)
 
   const { t } = useTranslation()
   const isOnline = useOnlineStatus()
@@ -42,6 +47,29 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
     setDiscount(clamped)
     setDiscountInput(String(clamped))
     setShowDiscount(false)
+  }
+
+  const handleVoucherApply = async () => {
+    if (!voucherInput.trim()) return
+    setVoucherLoading(true)
+    setVoucherError('')
+    try {
+      const result = await voucherApi.validate(voucherInput.trim(), subtotal)
+      applyVoucher({
+        code: result.code,
+        description: result.description,
+        discountType: result.discountType,
+        discountValue: result.discountValue,
+        discountAmount: result.discountAmount,
+      })
+      setShowVoucherInput(false)
+      setVoucherInput('')
+    } catch (err: unknown) {
+      const message = (err as { response?: { data?: { error?: string } } })?.response?.data?.error ?? 'Kode voucher tidak valid'
+      setVoucherError(message)
+    } finally {
+      setVoucherLoading(false)
+    }
   }
 
   return (
@@ -68,14 +96,22 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
               <p className="font-body text-sm">Pilih produk untuk memulai</p>
             </div>
           ) : (
-            items.map((item) => (
-              <div key={item.product.id} className="bg-surface-50 rounded-xl px-3 py-2.5 space-y-2">
+            items.map((item) => {
+              const itemKey = item.variantId ? `${item.product.id}:${item.variantId}` : item.product.id
+              const unitPrice = item.variantPrice ?? item.product.price
+              return (
+              <div key={itemKey} className="bg-surface-50 rounded-xl px-3 py-2.5 space-y-2">
                 <div className="flex items-start justify-between gap-2">
-                  <p className="font-body text-sm font-semibold text-dark-700 leading-snug flex-1">
-                    {item.product.name}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-body text-sm font-semibold text-dark-700 leading-snug">
+                      {item.product.name}
+                    </p>
+                    {item.variantName && (
+                      <p className="font-body text-xs text-accent-500 font-medium mt-0.5">{item.variantName}</p>
+                    )}
+                  </div>
                   <button
-                    onClick={() => removeItem(item.product.id)}
+                    onClick={() => removeItem(item.product.id, item.variantId)}
                     className="text-surface-300 hover:text-red-400 transition-colors flex-shrink-0 mt-0.5"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -84,13 +120,13 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
 
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-muted-500">
-                    {formatCurrency(item.product.price)} / pcs
+                    {formatCurrency(unitPrice)} / pcs
                   </span>
 
                   {/* Quantity control */}
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variantId)}
                       className="w-6 h-6 rounded-lg bg-white border border-surface-300 flex items-center justify-center
                                  text-primary-600 hover:bg-surface-50 transition-colors"
                     >
@@ -100,7 +136,7 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variantId)}
                       className="w-6 h-6 rounded-lg bg-primary-600 flex items-center justify-center
                                  text-white hover:bg-primary-700 transition-colors"
                     >
@@ -111,27 +147,86 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
 
                 <div className="flex justify-end">
                   <span className="font-body text-sm font-semibold text-primary-700">
-                    {formatCurrency(item.product.price * item.quantity)}
+                    {formatCurrency(unitPrice * item.quantity)}
                   </span>
                 </div>
               </div>
-            ))
+              )
+            })
           )}
         </div>
 
         {/* Footer */}
         {!isEmpty && (
           <div className="px-4 py-4 border-t border-surface-200 space-y-3">
-            {/* Discount */}
-            <button
-              onClick={() => setShowDiscount(!showDiscount)}
-              className="flex items-center gap-1.5 text-muted-500 hover:text-primary-700 text-sm font-body transition-colors"
-            >
-              <Tag className="w-3.5 h-3.5" />
-              {discount > 0 ? `Diskon: ${formatCurrency(discount)}` : 'Tambah Diskon'}
-            </button>
+            {/* Voucher / Diskon row */}
+            <div className="flex items-center gap-2">
+              {/* Voucher */}
+              {voucher ? (
+                <div className="flex-1 flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-3 py-2">
+                  <div className="flex items-center gap-1.5">
+                    <Ticket className="w-3.5 h-3.5 text-green-600" />
+                    <span className="font-body text-xs font-semibold text-green-700">{voucher.code}</span>
+                    <span className="font-body text-xs text-green-600">- {formatCurrency(voucher.discountAmount)}</span>
+                  </div>
+                  <button onClick={removeVoucher} className="text-green-400 hover:text-red-400 transition-colors">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => { setShowVoucherInput(!showVoucherInput); setShowDiscount(false) }}
+                  className="flex items-center gap-1.5 text-muted-500 hover:text-primary-700 text-sm font-body transition-colors"
+                >
+                  <Ticket className="w-3.5 h-3.5" />
+                  Kode Voucher
+                </button>
+              )}
 
-            {showDiscount && (
+              {/* Manual discount (only when no voucher) */}
+              {!voucher && (
+                <button
+                  onClick={() => { setShowDiscount(!showDiscount); setShowVoucherInput(false) }}
+                  className={cn(
+                    'flex items-center gap-1.5 text-sm font-body transition-colors',
+                    discount > 0 ? 'text-primary-700' : 'text-muted-500 hover:text-primary-700'
+                  )}
+                >
+                  <Tag className="w-3.5 h-3.5" />
+                  {discount > 0 ? `Diskon: ${formatCurrency(discount)}` : 'Diskon Manual'}
+                </button>
+              )}
+            </div>
+
+            {/* Voucher input */}
+            {showVoucherInput && !voucher && (
+              <div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={voucherInput}
+                    onChange={(e) => { setVoucherInput(e.target.value.toUpperCase()); setVoucherError('') }}
+                    onKeyDown={(e) => e.key === 'Enter' && handleVoucherApply()}
+                    placeholder="Masukkan kode voucher"
+                    className="input text-sm py-2 flex-1 font-mono tracking-wider"
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleVoucherApply}
+                    disabled={voucherLoading || !voucherInput.trim()}
+                    className="btn-primary px-3 py-2 text-sm disabled:opacity-50"
+                  >
+                    {voucherLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Pakai'}
+                  </button>
+                </div>
+                {voucherError && (
+                  <p className="font-body text-xs text-red-500 mt-1">{voucherError}</p>
+                )}
+              </div>
+            )}
+
+            {/* Manual discount input */}
+            {showDiscount && !voucher && (
               <div>
                 <div className="flex gap-2">
                   <input
@@ -169,7 +264,7 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
               </div>
               {discount > 0 && (
                 <div className="flex justify-between font-body text-sm text-green-600">
-                  <span>Diskon</span>
+                  <span>{voucher ? `Voucher (${voucher.code})` : 'Diskon'}</span>
                   <span>- {formatCurrency(discount)}</span>
                 </div>
               )}
@@ -208,9 +303,9 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
       {showPayment && (
         <PaymentModal
           onClose={() => setShowPayment(false)}
-          onSuccess={(txId, changeAmount, txTotal) => {
+          onSuccess={(txId, changeAmount, txTotal, waReceiptSent, pointsEarned) => {
             setShowPayment(false)
-            setSuccessTx({ id: txId, total: txTotal ?? 0, change: changeAmount ?? 0 })
+            setSuccessTx({ id: txId, total: txTotal ?? 0, change: changeAmount ?? 0, waReceiptSent, pointsEarned })
           }}
         />
       )}
@@ -220,6 +315,8 @@ export default function CartPanel({ triggerPay, triggerDiscount }: CartPanelProp
           transactionId={successTx.id}
           total={successTx.total}
           change={successTx.change}
+          waReceiptSent={successTx.waReceiptSent}
+          pointsEarned={successTx.pointsEarned}
           onNewTransaction={() => setSuccessTx(null)}
         />
       )}

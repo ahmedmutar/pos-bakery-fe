@@ -1,11 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
 import TrialBanner from './TrialBanner'
 import { useWebSocket } from '../../hooks/useWebSocket'
 import { useOnboarding } from '../../hooks/useOnboarding'
 import OnboardingWizard from '../onboarding/OnboardingWizard'
+import { authApi } from '../../services/authService'
+import { useAuthStore } from '../../stores/authStore'
 
 const pageTitles: Record<string, string> = {
   '/app/dashboard':  'nav.dashboard',
@@ -24,6 +27,15 @@ export default function AppLayout() {
   const location = useLocation()
   const { t } = useTranslation()
   const { show, complete } = useOnboarding()
+  const login = useAuthStore((s) => s.login)
+  const token = useAuthStore((s) => s.token)
+
+  // Refresh user data on mount to pick up server-side changes (e.g. trialExempt)
+  useEffect(() => {
+    authApi.me().then(user => {
+      if (token) login(user, token)
+    }).catch(() => {})
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useWebSocket()
 

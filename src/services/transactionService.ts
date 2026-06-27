@@ -14,6 +14,7 @@ export interface Shift {
 
 export interface TransactionItem {
   productId: string
+  variantId?: string
   quantity: number
   unitPrice: number
   notes?: string
@@ -26,7 +27,12 @@ export interface CreateTransactionPayload {
   paymentMethod: 'CASH' | 'QRIS' | 'TRANSFER' | 'SPLIT'
   paidAmount: number
   discount?: number
+  voucherCode?: string
+  customerPhone?: string
+  customerId?: string
+  redeemPoints?: number
   notes?: string
+  paymentProof?: string
 }
 
 export interface Transaction {
@@ -36,6 +42,8 @@ export interface Transaction {
   paidAmount: number
   changeAmount: number
   discount: number
+  pointsEarned: number
+  pointsRedeemed: number
   isVoided: boolean
   notes: string | null
   paymentProof: string | null

@@ -21,14 +21,24 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Handle 401 globally — redirect to login
+// Handle 401 / 403 globally
 api.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) {
+    const url: string = error.config?.url ?? ''
+    const isAuthEndpoint = url.includes('/auth/')
+    const status = error.response?.status
+    const code = error.response?.data?.code
+
+    if (status === 401 && !isAuthEndpoint) {
       localStorage.removeItem('auth-storage')
       window.location.href = '/login'
     }
+
+    if (status === 403 && code === 'TRIAL_EXPIRED') {
+      window.location.href = '/app/upgrade?reason=trial_expired'
+    }
+
     return Promise.reject(error)
   }
 )

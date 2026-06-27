@@ -14,6 +14,12 @@ export default function LoginPage() {
   const { t, i18n } = useTranslation()
   const navigate     = useNavigate()
   const login        = useAuthStore((s) => s.login)
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+
+  // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (isAuthenticated) navigate('/app/dashboard', { replace: true })
+  }, [isAuthenticated, navigate])
 
   const [step, setStep]         = useState<Step>('credentials')
   const [email, setEmail]       = useState('')
@@ -42,7 +48,14 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      await api.post('/auth/login', { email, password })
+      const res = await api.post('/auth/login', { email, password })
+      // Dev/test mode: BE returns token directly (SKIP_OTP=true)
+      if (res.data?.token && res.data?.user) {
+        const { token, user } = res.data
+        login({ id: user.id, name: user.name, email: user.email, role: user.role, tenantId: user.tenantId, tenantName: user.tenantName, trialExempt: user.trialExempt ?? false }, token)
+        navigate('/app/dashboard')
+        return
+      }
       setStep('otp')
       setResendCooldown(60)
       setTimeout(() => inputRefs.current[0]?.focus(), 100)
@@ -62,7 +75,7 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const { token, user } = await authApi.loginVerify({ email, otp: code })
-      login({ id: user.id, name: user.name, email: user.email, role: user.role, tenantId: user.tenantId, tenantName: user.tenantName }, token)
+      login({ id: user.id, name: user.name, email: user.email, role: user.role, tenantId: user.tenantId, tenantName: user.tenantName, trialExempt: (user as { trialExempt?: boolean }).trialExempt ?? false }, token)
       navigate('/app/dashboard')
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { error?: string } } })

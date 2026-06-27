@@ -6,6 +6,7 @@ import AppLayout from './components/layout/AppLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 import RoleGuard from './components/RoleGuard'
 import SmartRedirect from './components/SmartRedirect'
+import PlanGate from './components/ui/PlanGate'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import CashierPage from './pages/CashierPage'
@@ -30,6 +31,13 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import StockOpnamePage from './pages/StockOpnamePage'
 import RegisterPage from './pages/RegisterPage'
 import ForecastPage from './pages/ForecastPage'
+import ExpensesPage from './pages/ExpensesPage'
+import VouchersPage from './pages/VouchersPage'
+import CustomersPage from './pages/CustomersPage'
+import BroadcastPage from './pages/BroadcastPage'
+import PurchaseOrdersPage from './pages/PurchaseOrdersPage'
+import ResellersPage from './pages/ResellersPage'
+import PublicOrderPage from './pages/PublicOrderPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,19 +59,22 @@ export default function App() {
       <BrowserRouter>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
+            {/* Public order page — no auth required */}
+            <Route path="/order/:slug" element={<PublicOrderPage />} />
+
             {/* Public */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
             {/* Auth */}
             <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/payment/success" element={<PaymentSuccessPage />} />
-        <Route path="/privacy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/payment/failed" element={<PaymentFailedPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/payment/failed" element={<PaymentFailedPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             {/* Admin panel — separate from main app */}
             <Route path="/admin" element={<AdminPanelPage />} />
@@ -72,13 +83,12 @@ export default function App() {
             <Route path="/app" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
               <Route index element={<SmartRedirect />} />
 
-              {/* All roles */}
+              {/* All roles — no plan gate */}
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="orders"    element={<OrdersPage />} />
               <Route path="settings"  element={<SettingsPage />} />
               <Route path="upgrade"   element={<UpgradePage />} />
               <Route path="billing"   element={<BillingPage />} />
-              <Route path="stock-opname" element={<StockOpnamePage />} />
 
               {/* OWNER + CASHIER */}
               <Route path="cashier" element={
@@ -88,21 +98,84 @@ export default function App() {
                 <RoleGuard allow={['OWNER', 'CASHIER']}><ReportsPage /></RoleGuard>
               } />
 
-              {/* OWNER + PRODUCTION */}
+              {/* ── PRO FEATURES ───────────────────────────────────── */}
+              <Route path="inventory" element={
+                <RoleGuard allow={['OWNER', 'PRODUCTION']}>
+                  <PlanGate feature="hasInventory" featureName="Inventori & Bahan Baku">
+                    <InventoryPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="stock-opname" element={
+                <PlanGate feature="hasExcelImport" featureName="Stock Opname">
+                  <StockOpnamePage />
+                </PlanGate>
+              } />
+              <Route path="recipes" element={
+                <RoleGuard allow={['OWNER', 'PRODUCTION']}>
+                  <PlanGate feature="hasRecipes" featureName="Resep & Food Cost">
+                    <RecipesPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="production" element={
+                <RoleGuard allow={['OWNER', 'PRODUCTION']}>
+                  <PlanGate feature="hasProduction" featureName="Manajemen Produksi">
+                    <ProductionPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="forecast" element={
+                <RoleGuard allow={['OWNER', 'PRODUCTION']}>
+                  <PlanGate feature="hasForecast" featureName="Forecast Produksi">
+                    <ForecastPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="expenses" element={
+                <RoleGuard allow={['OWNER']}>
+                  <PlanGate feature="hasExpenses" featureName="Pencatatan Pengeluaran">
+                    <ExpensesPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="vouchers" element={
+                <RoleGuard allow={['OWNER']}><VouchersPage /></RoleGuard>
+              } />
+              <Route path="customers" element={
+                <RoleGuard allow={['OWNER', 'CASHIER']}>
+                  <PlanGate feature="hasCustomers" featureName="Manajemen Pelanggan">
+                    <CustomersPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="broadcast" element={
+                <RoleGuard allow={['OWNER']}>
+                  <PlanGate feature="hasBroadcast" featureName="WA Broadcast">
+                    <BroadcastPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+              <Route path="purchase-orders" element={
+                <RoleGuard allow={['OWNER']}>
+                  <PlanGate feature="hasPurchaseOrders" featureName="Purchase Order">
+                    <PurchaseOrdersPage />
+                  </PlanGate>
+                </RoleGuard>
+              } />
+
+              {/* OWNER + PRODUCTION — no plan gate */}
               <Route path="products" element={
                 <RoleGuard allow={['OWNER', 'PRODUCTION']}><ProductsPage /></RoleGuard>
               } />
-              <Route path="inventory" element={
-                <RoleGuard allow={['OWNER', 'PRODUCTION']}><InventoryPage /></RoleGuard>
-              } />
-              <Route path="recipes" element={
-                <RoleGuard allow={['OWNER', 'PRODUCTION']}><RecipesPage /></RoleGuard>
-              } />
-              <Route path="production" element={
-                <RoleGuard allow={['OWNER', 'PRODUCTION']}><ProductionPage /></RoleGuard>
-              } />
-              <Route path="forecast" element={
-                <RoleGuard allow={['OWNER', 'PRODUCTION']}><ForecastPage /></RoleGuard>
+
+              {/* ── ENTERPRISE FEATURES ────────────────────────────── */}
+              <Route path="resellers" element={
+                <RoleGuard allow={['OWNER']}>
+                  <PlanGate feature="hasResellers" featureName="Manajemen Reseller & Agen">
+                    <ResellersPage />
+                  </PlanGate>
+                </RoleGuard>
               } />
 
               <Route path="*" element={<Navigate to="/app/dashboard" replace />} />

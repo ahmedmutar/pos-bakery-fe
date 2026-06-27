@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import {
   Plus, Search, Loader2, ClipboardList,
-  Calendar, AlertCircle,
+  Calendar, AlertCircle, Globe, Users,
 } from 'lucide-react'
 import { preOrderApi, type PreOrder, type OrderStatus } from '../services/preOrderService'
 import { formatCurrency, cn } from '../lib/utils'
@@ -189,16 +189,34 @@ export default function OrdersPage() {
                   {/* Main info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <p className="font-body text-sm font-semibold text-dark-800">
-                        {order.customerName}
-                      </p>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <p className="font-body text-sm font-semibold text-dark-800 truncate">
+                          {order.customerName}
+                        </p>
+                        {order.source === 'PUBLIC_LINK' && (
+                          <span className="flex items-center gap-1 text-[10px] font-body font-medium text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded-full flex-shrink-0">
+                            <Globe className="w-2.5 h-2.5" />Online
+                          </span>
+                        )}
+                        {order.source === 'RESELLER' && (
+                          <span className="flex items-center gap-1 text-[10px] font-body font-medium text-amber-600 bg-amber-50 border border-amber-100 px-1.5 py-0.5 rounded-full flex-shrink-0">
+                            <Users className="w-2.5 h-2.5" />Reseller
+                          </span>
+                        )}
+                      </div>
                       <span className={cn('text-xs font-body font-medium px-2.5 py-0.5 rounded-full flex-shrink-0', status.color)}>
                         {t(status.labelKey)}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs font-body text-muted-400 mb-2">
+                    <div className="flex items-center gap-3 text-xs font-body text-muted-400 mb-2 flex-wrap">
                       <span>{order.customerPhone}</span>
+                      {order.reseller && (
+                        <>
+                          <span>·</span>
+                          <span className="text-amber-600 font-medium">via {order.reseller.name}</span>
+                        </>
+                      )}
                       <span>·</span>
                       <span className={cn(
                         'flex items-center gap-1',

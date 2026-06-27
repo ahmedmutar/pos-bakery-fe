@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { TrendingUp, ShoppingBag, ChefHat, Trash2, AlertTriangle, Loader2 } from 'lucide-react'
+import { TrendingUp, ShoppingBag, ChefHat, Trash2, AlertTriangle, Loader2, BarChart2 } from 'lucide-react'
 import { reportApi } from '../services/reportService'
 import { useWebSocket } from '../hooks/useWebSocket'
 import { formatCurrency } from '../lib/utils'
+import SalesChart from '../components/charts/SalesChart'
+import api from '../lib/api'
 
 export default function DashboardPage() {
   const { t } = useTranslation()
@@ -29,6 +31,14 @@ export default function DashboardPage() {
   const { data: topProducts, isLoading: loadingProducts } = useQuery({
     queryKey: ['top-products'],
     queryFn: () => reportApi.topProducts({ limit: 5 }),
+  })
+
+  // Chart: tren 7 hari terakhir
+  const chartFrom = (() => { const d = new Date(); d.setDate(d.getDate() - 6); return d.toISOString().split('T')[0] })()
+  const chartTo   = new Date().toISOString().split('T')[0]
+  const { data: chartData } = useQuery({
+    queryKey: ['sales-chart', chartFrom, chartTo],
+    queryFn: () => api.get('/reports/sales-chart', { params: { from: chartFrom, to: chartTo } }).then(r => r.data),
   })
 
   const stats = summary
@@ -142,6 +152,23 @@ export default function DashboardPage() {
             <p className="font-body text-sm text-muted-400 text-center py-8">
               Belum ada data penjualan hari ini.
             </p>
+          )}
+        </div>
+
+        {/* Weekly sales trend chart */}
+        <div className="card xl:col-span-2">
+          <div className="flex items-center gap-2 mb-4">
+            <BarChart2 className="w-4 h-4 text-primary-600" />
+            <h2 className="font-display text-base font-bold tracking-tight text-dark-800">
+              Tren Penjualan 7 Hari
+            </h2>
+          </div>
+          {chartData ? (
+            <SalesChart data={chartData.daily} height={200} />
+          ) : (
+            <div className="flex items-center justify-center h-[200px]">
+              <Loader2 className="w-5 h-5 text-muted-400 animate-spin" />
+            </div>
           )}
         </div>
 

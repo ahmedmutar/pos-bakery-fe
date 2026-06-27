@@ -1,4 +1,4 @@
-import { CheckCircle, Printer, ShoppingCart } from 'lucide-react'
+import { CheckCircle, Printer, ShoppingCart, MessageCircle, Star } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { formatCurrency } from '../../lib/utils'
 import { useThermalReceipt } from './ThermalReceipt'
@@ -7,10 +7,12 @@ interface SuccessModalProps {
   transactionId: string
   total: number
   change: number
+  waReceiptSent?: boolean
+  pointsEarned?: number
   onNewTransaction: () => void
 }
 
-export default function SuccessModal({ transactionId, total, change, onNewTransaction }: SuccessModalProps) {
+export default function SuccessModal({ transactionId, total, change, waReceiptSent, pointsEarned, onNewTransaction }: SuccessModalProps) {
   const { t } = useTranslation()
   const { print, isReady, isLoading, isOffline } = useThermalReceipt({ transactionId, change })
 
@@ -59,6 +61,18 @@ export default function SuccessModal({ transactionId, total, change, onNewTransa
             Transaksi Baru
           </button>
         </div>
+        {pointsEarned != null && pointsEarned > 0 && (
+          <div className="mx-6 mb-2 flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
+            <Star className="w-4 h-4 text-amber-500 flex-shrink-0" />
+            <p className="font-body text-xs text-amber-700">+<strong>{pointsEarned}</strong> poin loyalty diperoleh</p>
+          </div>
+        )}
+        {waReceiptSent && (
+          <div className="mx-6 mb-4 flex items-center gap-2 bg-green-50 border border-green-100 rounded-xl px-3 py-2">
+            <MessageCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+            <p className="font-body text-xs text-green-700">Struk digital dikirim via WhatsApp</p>
+          </div>
+        )}
         {isOffline && (
           <p className="font-body text-xs text-amber-600 text-center pb-3 px-6">
             Transaksi offline — struk tersedia setelah tersinkronisasi

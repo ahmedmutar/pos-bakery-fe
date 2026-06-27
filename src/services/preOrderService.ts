@@ -28,6 +28,9 @@ export interface PreOrder {
   remainingAmount: number
   status: OrderStatus
   notes: string | null
+  source: 'MANUAL' | 'PUBLIC_LINK' | 'RESELLER'
+  resellerId: string | null
+  reseller: { id: string; name: string; phone: string; tier: string } | null
   createdAt: string
   items: {
     id: string

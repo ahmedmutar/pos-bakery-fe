@@ -11,6 +11,7 @@ export interface AuthUser {
   plan?: string
   logoUrl?: string | null
   avatarUrl?: string | null
+  trialExempt?: boolean
 }
 
 interface AuthState {

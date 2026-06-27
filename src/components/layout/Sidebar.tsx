@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { usePlan, PLAN_LABELS, PLAN_COLORS } from '../../hooks/usePlan'
+import { usePlan, PLAN_LABELS, PLAN_COLORS, type PlanLimits, FEATURE_REQUIRED_PLAN } from '../../hooks/usePlan'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutDashboard, ShoppingCart, ChefHat, Package, ClipboardCheck,
   BookOpen, ClipboardList, BarChart3, Settings,
-  LogOut, UtensilsCrossed, Sparkles, Menu, X,
+  LogOut, UtensilsCrossed, Sparkles, Menu, X, Receipt, Ticket, Users, Radio, ShoppingBag, Lock,
 } from 'lucide-react'
 import { useAuthStore, type AuthUser } from '../../stores/authStore'
 import { authApi } from '../../services/authService'
@@ -19,25 +19,33 @@ interface NavItem {
   icon: React.ElementType
   path: string
   allow: Role[]
+  planFeature?: keyof PlanLimits  // if set, show lock when feature not available
 }
 
 const navItems: NavItem[] = [
-  { key: 'dashboard',  icon: LayoutDashboard, path: '/app/dashboard',  allow: ['OWNER', 'CASHIER', 'PRODUCTION'] },
-  { key: 'cashier',    icon: ShoppingCart,    path: '/app/cashier',    allow: ['OWNER', 'CASHIER'] },
-  { key: 'products',   icon: UtensilsCrossed, path: '/app/products',   allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'inventory',    icon: Package,          path: '/app/inventory',     allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'stockOpname',  icon: ClipboardCheck,   path: '/app/stock-opname',  allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'recipes',    icon: BookOpen,        path: '/app/recipes',    allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'production', icon: ChefHat,         path: '/app/production', allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'forecast',   icon: Sparkles,        path: '/app/forecast',   allow: ['OWNER', 'PRODUCTION'] },
-  { key: 'orders',     icon: ClipboardList,   path: '/app/orders',     allow: ['OWNER', 'CASHIER', 'PRODUCTION'] },
-  { key: 'reports',    icon: BarChart3,       path: '/app/reports',    allow: ['OWNER', 'CASHIER'] },
+  { key: 'dashboard',      icon: LayoutDashboard, path: '/app/dashboard',      allow: ['OWNER', 'CASHIER', 'PRODUCTION'] },
+  { key: 'cashier',        icon: ShoppingCart,    path: '/app/cashier',         allow: ['OWNER', 'CASHIER'] },
+  { key: 'products',       icon: UtensilsCrossed, path: '/app/products',        allow: ['OWNER', 'PRODUCTION'] },
+  { key: 'inventory',      icon: Package,         path: '/app/inventory',       allow: ['OWNER', 'PRODUCTION'],  planFeature: 'hasInventory' },
+  { key: 'stockOpname',    icon: ClipboardCheck,  path: '/app/stock-opname',    allow: ['OWNER', 'PRODUCTION'],  planFeature: 'hasExcelImport' },
+  { key: 'recipes',        icon: BookOpen,        path: '/app/recipes',         allow: ['OWNER', 'PRODUCTION'],  planFeature: 'hasRecipes' },
+  { key: 'production',     icon: ChefHat,         path: '/app/production',      allow: ['OWNER', 'PRODUCTION'],  planFeature: 'hasProduction' },
+  { key: 'forecast',       icon: Sparkles,        path: '/app/forecast',        allow: ['OWNER', 'PRODUCTION'],  planFeature: 'hasForecast' },
+  { key: 'orders',         icon: ClipboardList,   path: '/app/orders',          allow: ['OWNER', 'CASHIER', 'PRODUCTION'] },
+  { key: 'reports',        icon: BarChart3,       path: '/app/reports',         allow: ['OWNER', 'CASHIER'] },
+  { key: 'expenses',       icon: Receipt,         path: '/app/expenses',        allow: ['OWNER'],               planFeature: 'hasExpenses' },
+  { key: 'vouchers',       icon: Ticket,          path: '/app/vouchers',        allow: ['OWNER'] },
+  { key: 'customers',      icon: Users,           path: '/app/customers',       allow: ['OWNER', 'CASHIER'],    planFeature: 'hasCustomers' },
+  { key: 'broadcast',      icon: Radio,           path: '/app/broadcast',       allow: ['OWNER'],               planFeature: 'hasBroadcast' },
+  { key: 'purchaseOrders', icon: ShoppingBag,     path: '/app/purchase-orders', allow: ['OWNER'],               planFeature: 'hasPurchaseOrders' },
+  { key: 'resellers',      icon: Users,           path: '/app/resellers',       allow: ['OWNER'],               planFeature: 'hasResellers' },
 ]
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
+  const { data: planData } = usePlan()
   const typedUser = user as AuthUser | null
 
   const role = (typedUser?.role ?? 'CASHIER') as Role
@@ -54,6 +62,20 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   }
 
   const handleNav = () => onClose?.()
+
+  // Check if a nav item's feature is locked
+  function isLocked(item: NavItem): boolean {
+    if (!item.planFeature || !planData) return false
+    const val = planData.limits[item.planFeature]
+    return typeof val === 'boolean' && !val
+  }
+
+  // Label for required plan on locked items
+  function lockedLabel(item: NavItem): string {
+    if (!item.planFeature) return ''
+    const req = FEATURE_REQUIRED_PLAN[item.planFeature]
+    return req ? PLAN_LABELS[req] : ''
+  }
 
   return (
     <>
@@ -82,17 +104,28 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto scrollbar-thin">
         {visibleItems.map((item) => {
           const Icon = item.icon
+          const locked = isLocked(item)
+          const reqLabel = lockedLabel(item)
+
           return (
             <NavLink
               key={item.key}
               to={item.path}
               onClick={handleNav}
               className={({ isActive }) =>
-                cn('sidebar-item', isActive && 'active')
+                cn('sidebar-item', isActive && 'active', locked && 'opacity-60')
               }
             >
               <Icon className="w-4 h-4 flex-shrink-0" />
-              <span>{t(`nav.${item.key}`)}</span>
+              <span className="flex-1 truncate">{t(`nav.${item.key}`)}</span>
+              {locked && (
+                <span className="flex items-center gap-0.5 ml-auto flex-shrink-0">
+                  <Lock className="w-3 h-3 text-muted-400" />
+                  <span className="font-body text-[9px] text-muted-400 font-medium leading-none">
+                    {reqLabel}
+                  </span>
+                </span>
+              )}
             </NavLink>
           )
         })}
